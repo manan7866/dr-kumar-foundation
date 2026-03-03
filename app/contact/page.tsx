@@ -361,7 +361,7 @@ export default function ContactPage() {
                   <h3 className="font-serif text-lg text-white">Foundation Office</h3>
                 </div>
               </div>
-              <div className="p-8 space-y-4">
+              <div className="">
                 {/* <div className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -372,7 +372,7 @@ export default function ContactPage() {
                     <p className="text-[#C9CCD6] leading-relaxed text-sm mt-1">Mailing Address (if applicable)</p>
                   </div>
                 </div> */}
-                <div className="p-8">
+                <div className="p-8 space-y-4">
                 <p className="text-[#C9CCD6] leading-relaxed mb-4">
                 For all general institutional correspondence:
                 </p>
@@ -415,13 +415,13 @@ info@dkf.sufisciencecenter.info
                   <h3 className="font-serif text-lg text-white">Administrative Matters</h3>
                 </div>
               </div>
-              <div className="p-8 my-6">
+              <div className="p-8 space-y-4">
                 <p className="text-[#C9CCD6] leading-relaxed mb-4">
                   For governance, compliance, or institutional documentation, please contact:
                 </p>
                 <a
                   href="admin@dkf.sufisciencecenter.info"
-                  className="inline-flex items-center text-[#C5A85C] hover:text-white transition-colors"
+                  className="inline-flex items-center sm:text-sm   text-[#C5A85C] hover:text-white transition-colors"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
