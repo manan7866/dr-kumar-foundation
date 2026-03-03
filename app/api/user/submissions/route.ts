@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
       orderBy: { created_at: 'desc' },
     });
 
-    const userRegistration = allRegistrations.find(reg => 
+    const userRegistration = allRegistrations.find((reg: { full_name: string }) => 
       reg.full_name.toLowerCase() === user.full_name.toLowerCase()
     );
 
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       orderBy: { created_at: 'desc' },
     });
 
-    const userMember = allMembers.find(member => 
+    const userMember = allMembers.find((member: { full_name: string }) =>
       member.full_name.toLowerCase() === user.full_name.toLowerCase()
     );
 
