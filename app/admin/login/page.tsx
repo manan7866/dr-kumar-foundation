@@ -100,11 +100,11 @@ export default function AdminLoginPage() {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-[#1C2340] border border-[#C5A85C]/10 rounded-lg">
+          {/* <div className="mt-6 p-4 bg-[#1C2340] border border-[#C5A85C]/10 rounded-lg">
             <p className="text-[#C5A85C] text-xs font-medium mb-2">Demo Credentials:</p>
             <p className="text-[#AAB3CF] text-xs">Email: <code className="text-white">admin@drkumarfoundation.org</code></p>
             <p className="text-[#AAB3CF] text-xs">Password: <code className="text-white">admin123</code></p>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}
