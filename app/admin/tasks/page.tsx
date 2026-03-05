@@ -12,6 +12,18 @@ interface UserProgram {
   program_type: string;
 }
 
+interface Task {
+  id: string;
+  title: string;
+  message: string;
+  user_name: string;
+  user_email: string;
+  program_type: string;
+  status: string;
+  created_at: string;
+  due_date?: string;
+}
+
 const programNames: Record<string, string> = {
   'healing-initiatives': 'Healing Initiatives',
   'environmental-programs': 'Environmental Programs',
@@ -31,6 +43,10 @@ export default function AdminTasksPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [tasksCreated, setTasksCreated] = useState(0);
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [taskFilter, setTaskFilter] = useState<'all' | 'pending' | 'completed'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [programFilter, setProgramFilter] = useState<string>('all');
 
   const [user] = useState(() => {
     if (typeof window !== "undefined") {
@@ -42,6 +58,7 @@ export default function AdminTasksPage() {
 
   useEffect(() => {
     fetchUserPrograms();
+    fetchAllTasks();
   }, []);
 
   const fetchUserPrograms = async () => {
@@ -51,7 +68,7 @@ export default function AdminTasksPage() {
       const response = await fetch('/api/user-programs', {
         headers: { 'Authorization': `Bearer ${token}` },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         console.log('[Admin Tasks] Received user programs:', data.length);
@@ -61,6 +78,22 @@ export default function AdminTasksPage() {
       }
     } catch (error) {
       console.error('[Admin Tasks] Failed to fetch user programs:', error);
+    }
+  };
+
+  const fetchAllTasks = async () => {
+    try {
+      const token = localStorage.getItem("admin_token");
+      const response = await fetch('/api/admin/tasks', {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAllTasks(data);
+      }
+    } catch (error) {
+      console.error('Failed to fetch tasks:', error);
     }
   };
 
@@ -354,6 +387,160 @@ export default function AdminTasksPage() {
             {new Set(userPrograms.map(p => p.user_id)).size}
           </div>
           <div className="text-[#AAB3CF] text-sm">Unique Contributors</div>
+        </div>
+      </motion.div>
+
+      {/* All Sent Tasks Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mt-8"
+      >
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-serif text-white">All Sent Tasks</h2>
+            <p className="text-[#AAB3CF] text-sm mt-1">View all tasks assigned to users</p>
+          </div>
+          <div className="flex gap-3">
+            {(['all', 'pending', 'completed'] as const).map((status) => (
+              <button
+                key={status}
+                onClick={() => setTaskFilter(status)}
+                className={`px-4 py-2 text-xs uppercase tracking-wider border transition-colors ${
+                  taskFilter === status
+                    ? 'bg-[#C5A85C] border-[#C5A85C] text-[#1C2340]'
+                    : 'border-white/20 text-[#C9CCD6] hover:border-[#C5A85C]'
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Search and Filters */}
+        <div className="flex gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search by user name or email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 bg-[#232B52] border border-white/20 text-white px-4 py-2 rounded-lg focus:outline-none focus:border-[#C5A85C]"
+          />
+          <select
+            value={programFilter}
+            onChange={(e) => setProgramFilter(e.target.value)}
+            className="bg-[#232B52] border border-white/20 text-white px-4 py-2 rounded-lg focus:outline-none focus:border-[#C5A85C]"
+          >
+            <option value="all">All Programs</option>
+            {Object.entries(programNames).map(([key, name]) => (
+              <option key={key} value={key}>{name}</option>
+            ))}
+          </select>
+          {(searchTerm || programFilter !== 'all' || taskFilter !== 'all') && (
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setProgramFilter('all');
+                setTaskFilter('all');
+              }}
+              className="px-4 py-2 bg-red-500/20 border border-red-500/40 text-red-400 rounded-lg hover:bg-red-500/30 transition-all text-sm font-medium"
+            >
+              Clear Filters
+            </button>
+          )}
+        </div>
+
+        {/* Tasks Stats */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-4">
+            <div className="text-3xl font-serif text-white mb-1">
+              {allTasks.filter(t => 
+                (taskFilter === 'all' || t.status === taskFilter) &&
+                (programFilter === 'all' || t.program_type === programFilter) &&
+                (t.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                 t.user_email.toLowerCase().includes(searchTerm.toLowerCase()))
+              ).length}
+            </div>
+            <div className="text-[#AAB3CF] text-sm">Filtered Tasks</div>
+          </div>
+          <div className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-4">
+            <div className="text-3xl font-serif text-amber-400 mb-1">
+              {allTasks.filter(t => t.status === 'pending').length}
+            </div>
+            <div className="text-[#AAB3CF] text-sm">Total Pending</div>
+          </div>
+          <div className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-4">
+            <div className="text-3xl font-serif text-green-400 mb-1">
+              {allTasks.filter(t => t.status === 'completed').length}
+            </div>
+            <div className="text-[#AAB3CF] text-sm">Total Completed</div>
+          </div>
+        </div>
+
+        {/* Tasks Table */}
+        <div className="bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-[#1C2340] border-b border-[#C5A85C]/20">
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">User</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Program</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Title</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Created</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Due Date</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#C5A85C]/10">
+              {allTasks.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-12 text-center text-[#AAB3CF]">
+                    No tasks sent yet
+                  </td>
+                </tr>
+              ) : (
+                allTasks
+                  .filter(t => 
+                    (taskFilter === 'all' || t.status === taskFilter) &&
+                    (programFilter === 'all' || t.program_type === programFilter) &&
+                    (t.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     t.user_email.toLowerCase().includes(searchTerm.toLowerCase()))
+                  )
+                  .map((task) => (
+                    <tr key={task.id} className="hover:bg-[#1C2340]/50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div>
+                          <div className="text-white font-medium">{task.user_name}</div>
+                          <div className="text-[#AAB3CF] text-sm">{task.user_email}</div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-[#AAB3CF] text-sm">
+                        {programNames[task.program_type]}
+                      </td>
+                      <td className="px-6 py-4 text-white text-sm">
+                        {task.title}
+                      </td>
+                      <td className="px-6 py-4 text-[#AAB3CF] text-sm">
+                        {new Date(task.created_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-[#AAB3CF] text-sm">
+                        {task.due_date ? new Date(task.due_date).toLocaleDateString() : 'Not set'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          task.status === 'pending' ? 'bg-amber-500/20 text-amber-400' :
+                          task.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                          'bg-gray-500/20 text-gray-400'
+                        }`}>
+                          {task.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+              )}
+            </tbody>
+          </table>
         </div>
       </motion.div>
     </AdminLayout>
