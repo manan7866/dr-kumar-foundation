@@ -147,8 +147,8 @@ export default function HisLifePage() {
             >
               <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
               
-              <div className="space-y-40">
-                {[1, 2, 3, 4].map((i) => (
+              <div className="space-y-64">
+                {[1, 2, 3, 4 ,5,].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
@@ -244,8 +244,8 @@ export default function HisLifePage() {
             >
               <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              <div className="space-y-40">
-                {[1, 2].map((i) => (
+              <div className="space-y-48">
+                {[1, 2 ,3,4].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
@@ -317,8 +317,8 @@ export default function HisLifePage() {
             >
               <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              <div className="space-y-40">
-                {[1, 2, 3, 4].map((i) => (
+              <div className="space-y-56">
+                {[1, 2, 3, 4,5,6].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
