@@ -38,6 +38,7 @@ const navItems: NavItem[] = [
       { label: "Self-Awareness", href: "/core-principles/self-awareness" },
       { label: "Inner Discipline", href: "/core-principles/inner-discipline" },
       { label: "Ethical Conduct", href: "/core-principles/ethical-conduct" },
+      { label: "Quotes", href: "/teachings/quotes" },
     ],
   },
   {
