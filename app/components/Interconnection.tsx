@@ -49,7 +49,7 @@ export default function Interconnection({ principles }: InterconnectionProps) {
                 href={principle.href}
                 className="group relative"
               >
-                <div className="bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-6 text-center hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(197,168,92,0.15)] hover:-translate-y-2">
+                <div className="bg-[#232B52] border px-2 border-[#C5A85C]/20 rounded-2xl p-6 text-center hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(197,168,92,0.15)] hover:-translate-y-2">
                   <div className="text-[#C5A85C] text-3xl font-serif mb-3">
                     {String(index + 1).padStart(2, '0')}
                   </div>

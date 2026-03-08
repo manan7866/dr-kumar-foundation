@@ -7,12 +7,7 @@ const regions = [
     countries: [
       "India",
       "Pakistan",
-      "Bangladesh",
-      "Sri Lanka",
-      "Nepal",
-      "Maldives",
-      "Afghanistan",
-      "Bhutan"
+      
     ]
   },
   {
@@ -25,10 +20,8 @@ const regions = [
       "Bahrain",
       "Oman",
       "Jordan",
-      "Lebanon",
       "Turkey",
-      "Iran",
-      "Iraq"
+      "Iran"
     ]
   },
   {
@@ -43,10 +36,7 @@ const regions = [
       "Belgium",
       "Sweden",
       "Norway",
-      "Denmark",
-      "Bosnia and Herzegovina",
-      "Albania",
-      "Kosovo"
+      "Denmark"
     ]
   },
   {
@@ -65,11 +55,6 @@ const regions = [
       "Tunisia",
       "Egypt",
       "Libya",
-      "Sudan",
-      "Ethiopia",
-      "Somalia",
-      "Kenya",
-      "Nigeria",
       "Mali",
       "Mauritania"
     ]
@@ -79,7 +64,7 @@ const regions = [
     countries: [
       "Indonesia",
       "Malaysia",
-      "Brunei",
+      "Brunei",     
       "Singapore",
       "Thailand",
       "Philippines"

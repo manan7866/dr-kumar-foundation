@@ -9,6 +9,7 @@ import ProjectHero from "../../components/ProjectHero";
 import FrameworkCard from "../../components/FrameworkCard";
 import ImpactDiagram from "../../components/ImpactDiagram";
 import ImpactMetric from "../../components/ImpactMetric";
+import PlatformPartnership from "../../components/PlatformPartnership";
 
 interface Video {
   id?: string;
@@ -204,6 +205,8 @@ export default function SufiMusicPage() {
           </div>
         </div>
       </section>
+
+      
 
       {/* Impact Model */}
       <section className="section-spacing bg-[#1C2340] relative">
@@ -449,6 +452,26 @@ export default function SufiMusicPage() {
           </div>
         </div>
       </section>
+
+      {/* Platform Partnership Section */}
+      <PlatformPartnership
+        platformTitle="SufiPulse Media Platform"
+        platformSubtitle="Creative media platform supporting the Sufi Music initiative."
+        description={[
+          "The Sufi Music initiative of the Dr. Kumar Foundation focuses on the preservation and thoughtful development of devotional musical traditions. To support the creative production and global distribution of this work, the foundation operates SufiPulse, a dedicated digital media platform for spiritual music, visual storytelling, and contemporary devotional expression.",
+          "While the foundation provides the institutional framework, research direction, and cultural stewardship for the program, SufiPulse functions as the specialized platform through which recordings, music videos, and spiritual media are produced and shared with global audiences.",
+          "This collaboration allows the foundation to maintain academic and cultural integrity while enabling modern digital production and worldwide accessibility.",
+        ]}
+        primaryButton={{
+          text: "Visit SufiPulse Platform",
+          href: "https://sufipulse.com",
+        }}
+        secondaryButton={{
+          text: "Explore SufiPulse Media Library",
+          href: "https://sufipulse.com",
+        }}
+        delay={0.2}
+      />
 
       {/* Call to Engage */}
       <section className="py-24 bg-[#151A30] relative">

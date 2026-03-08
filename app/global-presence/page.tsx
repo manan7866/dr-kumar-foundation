@@ -1,53 +1,65 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Accordion from "../components/Accordion"
 import MapPreview from "../components/MapPreview"
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
+import TeachingHero from "../components/TeachingHero";
+import GatheringsCard from "../components/GatheringsCard";
 
 export default function GlobalPresence() {
   return (
-    
+
     <main className="bg-[#1C2340] min-h-screen">
       <PremiumHeader/>
 
-      {/* HEADER */}
-      <section className="py-24 px-6 md:px-12 lg:px-24 bg-[#242B4A]">
-        <div className="max-w-[1200px] mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-serif text-white mb-6">
-            Global Presence
-          </h1>
-          <div className="w-24 h-[1px] bg-[#C5A85C] mx-auto mb-8" />
-          <p className="text-[#C9CCD6] text-lg leading-relaxed max-w-3xl mx-auto">
-            Participants are located across multiple regions through documented
-            meetings and structured engagement. Geographic continuity is preserved
-            through archival records.
-          </p>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <TeachingHero
+        title={
+          <>
+            Global
+            <br />
+            <span className="gradient-gold">Presence</span>
+          </>
+        }
+        subtitle="Participants are located across multiple regions through documented meetings and structured engagement. Geographic continuity is preserved through archival records."
+        ctaLink="#regions"
+        ctaText="Explore Regions"
+      />
 
       {/* OVERVIEW */}
-      <section id="overview" className="py-24 px-6 md:px-12 lg:px-24">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-serif text-white mb-4">Overview</h2>
-              <div className="w-16 h-[1px] bg-[#C5A85C] mb-6" />
-              <p className="text-[#C9CCD6] leading-relaxed">
-                Engagement is distributed. Individuals across regions have connected
-                through documented participation and coordinated discussion. This
-                section records geographic presence without hierarchy or scale emphasis.
-              </p>
-            </div>
-
-            
-          </div>
+      <section id="overview" className="section-spacing bg-[#151A30] relative">
+        <div className="container-premium">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">Overview</h2>
+            <div className="gold-divider long mx-auto mb-8" />
+            <p className="text-[#AAB3CF] leading-relaxed max-w-3xl mx-auto">
+              Engagement is distributed. Individuals across regions have connected
+              through documented participation and coordinated discussion. This
+              section records geographic presence without hierarchy or scale emphasis.
+            </p>
+          </motion.div>
         </div>
       </section>
 
       {/* REGIONS */}
-      <section id="regions" className="py-24 px-6 md:px-12 lg:px-24 bg-[#242B4A]">
-        <div className="max-w-[1200px] mx-auto">
-          <h2 className="text-3xl font-serif text-white mb-4">Regions</h2>
-          <div className="w-16 h-[1px] bg-[#C5A85C] mb-12" />
+      <section id="regions" className="section-spacing bg-[#1C2340] relative">
+        <div className="container-premium">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">Regions</h2>
+            <div className="gold-divider long mx-auto mb-12" />
+          </motion.div>
 
           <Accordion />
         </div>
@@ -68,216 +80,193 @@ export default function GlobalPresence() {
       </section> */}
 
       {/* GATHERINGS */}
-      {/* <section id="gatherings" className="py-24 px-6 md:px-12 lg:px-24 bg-[#242B4A]">
-        <div className="max-w-[1200px] mx-auto">
-          <h2 className="text-3xl font-serif text-white mb-4">Gatherings</h2>
-          <div className="w-16 h-[1px] bg-[#C5A85C] mb-12" />
+      <section id="gatherings" className="section-spacing bg-[#151A30] relative">
+        <div className="container-premium">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">Gatherings</h2>
+            <div className="gold-divider long mx-auto mb-12" />
+          </motion.div>
 
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-[#C5A85C] text-lg font-serif mb-1">2023</h3>
-              <p className="text-[#C9CCD6]">London, United Kingdom</p>
-              <p className="text-[#C9CCD6]/70 text-sm mt-1">
-                Documented regional dialogue session.
-              </p>
-            </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <GatheringsCard
+              region="United States"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "Washington D.C., United States",
+                  description: "Circle discussion on documenting contemporary spiritual reflections."
+                },
+                {
+                  year: "2023",
+                  location: "New York, United States",
+                  description: "Regional gathering of seekers exploring knowledge and ethics."
+                },
+                {
+                  year: "2022",
+                  location: "California, United States",
+                  description: "Small circle meeting on preserving teachings through structured archives."
+                }
+              ]}
+              delay={0.1}
+            />
 
-            <div>
-              <h3 className="text-[#C5A85C] text-lg font-serif mb-1">2022</h3>
-              <p className="text-[#C9CCD6]">Srinagar, India</p>
-              <p className="text-[#C9CCD6]/70 text-sm mt-1">
-                Archival review and structured meeting.
-              </p>
-            </div>
+            <GatheringsCard
+              region="India"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "Srinagar, India",
+                  description: "Reflection gathering with seekers reviewing archival work."
+                },
+                {
+                  year: "2023",
+                  location: "New Delhi, India",
+                  description: "Dialogue on knowledge, spirituality, and contemporary society."
+                },
+                {
+                  year: "2022",
+                  location: "Srinagar, India",
+                  description: "Structured meeting on documentation of teachings."
+                }
+              ]}
+              delay={0.2}
+            />
+
+            <GatheringsCard
+              region="Europe"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "Paris, France",
+                  description: "Regional dialogue on spiritual traditions and modern inquiry."
+                },
+                {
+                  year: "2023",
+                  location: "London, United Kingdom",
+                  description: "Documented regional dialogue session."
+                },
+                {
+                  year: "2022",
+                  location: "Berlin, Germany",
+                  description: "Gathering of seekers reflecting on knowledge and responsibility."
+                }
+              ]}
+              delay={0.3}
+            />
+
+            <GatheringsCard
+              region="Middle East"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "Dubai, United Arab Emirates",
+                  description: "Circle discussion on spiritual knowledge and global participation."
+                },
+                {
+                  year: "2023",
+                  location: "Doha, Qatar",
+                  description: "Regional meeting of seekers and contributors."
+                },
+                {
+                  year: "2022",
+                  location: "Istanbul, Türkiye",
+                  description: "Dialogue on Sufi tradition and intellectual heritage."
+                }
+              ]}
+              delay={0.4}
+            />
+
+            <GatheringsCard
+              region="Australia"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "Sydney, Australia",
+                  description: "Regional gathering of seekers documenting reflections."
+                },
+                {
+                  year: "2023",
+                  location: "Melbourne, Australia",
+                  description: "Discussion on preserving spiritual teachings across continents."
+                },
+                {
+                  year: "2022",
+                  location: "Brisbane, Australia",
+                  description: "Circle meeting on knowledge and community engagement."
+                }
+              ]}
+              delay={0.5}
+            />
+
+            <GatheringsCard
+              region="South America"
+              gatherings={[
+                {
+                  year: "2024",
+                  location: "São Paulo, Brazil",
+                  description: "Regional dialogue among seekers and scholars."
+                },
+                {
+                  year: "2023",
+                  location: "Buenos Aires, Argentina",
+                  description: "Gathering focused on cross-cultural spiritual dialogue."
+                },
+                {
+                  year: "2022",
+                  location: "Santiago, Chile",
+                  description: "Circle meeting discussing documentation of teachings."
+                }
+              ]}
+              delay={0.6}
+            />
           </div>
         </div>
-      </section> */}
-      <section id="gatherings" className="py-24 px-6 md:px-12 lg:px-24 ">
-  <div className="max-w-[1200px] mx-auto">
-    <h2 className="text-3xl font-serif text-white mb-4">Gatherings</h2>
-    <div className="w-16 h-[1px] bg-[#C5A85C] mb-12" />
+      </section>
 
-    <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Navigation CTA */}
+      <section className="py-16 bg-[#1C2340] border-t border-[#C5A85C]/10">
+        <div className="container-premium">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <a
+              href="/"
+              className="text-[#AAB3CF] hover:text-white transition-colors flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              <span>Back to Home</span>
+            </a>
 
-      {/* United States */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">United States</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">Washington D.C., United States</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Circle discussion on documenting contemporary spiritual reflections.
-          </p>
+            <a
+              href="/the-circle"
+              className="group inline-flex items-center px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
+            >
+              <span>View The Circle</span>
+              <svg
+                className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+      </section>
 
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">New York, United States</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Regional gathering of seekers exploring knowledge and ethics.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">California, United States</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Small circle meeting on preserving teachings through structured archives.
-          </p>
-        </div>
-      </div>
-
-      {/* India */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">India</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">Srinagar, India</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Reflection gathering with seekers reviewing archival work.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">New Delhi, India</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Dialogue on knowledge, spirituality, and contemporary society.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">Srinagar, India</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Structured meeting on documentation of teachings.
-          </p>
-        </div>
-      </div>
-
-      {/* Europe */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">Europe</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">Paris, France</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Regional dialogue on spiritual traditions and modern inquiry.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">London, United Kingdom</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Documented regional dialogue session.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">Berlin, Germany</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Gathering of seekers reflecting on knowledge and responsibility.
-          </p>
-        </div>
-      </div>
-
-      {/* Middle East */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">Middle East</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">Dubai, United Arab Emirates</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Circle discussion on spiritual knowledge and global participation.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">Doha, Qatar</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Regional meeting of seekers and contributors.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">Istanbul, Türkiye</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Dialogue on Sufi tradition and intellectual heritage.
-          </p>
-        </div>
-      </div>
-
-      {/* Australia */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">Australia</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">Sydney, Australia</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Regional gathering of seekers documenting reflections.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">Melbourne, Australia</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Discussion on preserving spiritual teachings across continents.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">Brisbane, Australia</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Circle meeting on knowledge and community engagement.
-          </p>
-        </div>
-      </div>
-
-      {/* South America */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-serif text-[#C5A85C]">South America</h3>
-
-        <div>
-          <p className="text-white font-medium">2024</p>
-          <p className="text-[#C9CCD6]">São Paulo, Brazil</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Regional dialogue among seekers and scholars.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2023</p>
-          <p className="text-[#C9CCD6]">Buenos Aires, Argentina</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Gathering focused on cross-cultural spiritual dialogue.
-          </p>
-        </div>
-
-        <div>
-          <p className="text-white font-medium">2022</p>
-          <p className="text-[#C9CCD6]">Santiago, Chile</p>
-          <p className="text-[#C9CCD6]/70 text-sm">
-            Circle meeting discussing documentation of teachings.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
       <PremiumFooter />
     </main>
-    
+
   )
 }

@@ -143,24 +143,26 @@ export default function HisLifePage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="hidden lg:block relative pt-8"
+              className="hidden lg:block relative"
             >
-              <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
-              
-              <div className="space-y-64">
-                {[1, 2, 3, 4 ,5,].map((i) => (
+              {/* Vertical Timeline Line - aligned with card dots */}
+              <div className="absolute left-[19px] top-[14.75rem] bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
+
+              {/* Timeline Dots - Aligned with each period card dot */}
+              <div className="space-y-[275px] pt-[13.75rem]">
+                {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
+                    className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center relative"
                   >
-                    <div className="w-2.5 h-2.5 bg-[#C5A85C]/40 rounded-full" />
+                    <div className="w-2.5 h-2.5 bg-[#C5A85C] rounded-full shadow-[0_0_15px_rgba(197,168,92,0.5)]" />
                   </div>
                 ))}
               </div>
             </motion.div>
 
             {/* Right: Milestone Cards */}
-            <div className="pt-8">
+            <div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -240,24 +242,26 @@ export default function HisLifePage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="hidden lg:block relative pt-8"
+              className="hidden lg:block relative"
             >
-              <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
+              {/* Vertical Timeline Line - aligned with card dots */}
+              <div className="absolute left-[19px] top-[14.75rem] bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              <div className="space-y-48">
-                {[1, 2 ,3,4].map((i) => (
+              {/* Timeline Dots - Aligned with each period card dot */}
+              <div className="space-y-[270px] pt-[13.75rem]">
+                {[1, 2 ].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
                   >
-                    <div className="w-2.5 h-2.5 bg-[#C5A85C]/40 rounded-full" />
+                    <div className="w-2.5 h-2.5 bg-[#C5A85C] rounded-full shadow-[0_0_15px_rgba(197,168,92,0.5)]" />
                   </div>
                 ))}
               </div>
             </motion.div>
 
             {/* Right: Milestone Cards */}
-            <div className="pt-8">
+            <div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -313,24 +317,26 @@ export default function HisLifePage() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="hidden lg:block relative pt-8"
+              className="hidden lg:block relative"
             >
-              <div className="absolute left-[19px] top-8 bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
+              {/* Vertical Timeline Line - aligned with card dots */}
+              <div className="absolute left-[19px] top-[17.75rem] bottom-0 w-[1px] bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              <div className="space-y-56">
-                {[1, 2, 3, 4,5,6].map((i) => (
+              {/* Timeline Dots - Aligned with each period card dot */}
+              <div className="space-y-[270px] pt-[16.75rem]">
+                {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
                     className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center"
                   >
-                    <div className="w-2.5 h-2.5 bg-[#C5A85C]/40 rounded-full" />
+                    <div className="w-2.5 h-2.5 bg-[#C5A85C] rounded-full shadow-[0_0_15px_rgba(197,168,92,0.5)]" />
                   </div>
                 ))}
               </div>
             </motion.div>
 
             {/* Right: Milestone Cards */}
-            <div className="pt-8">
+            <div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

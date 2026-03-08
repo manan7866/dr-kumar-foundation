@@ -62,6 +62,16 @@ export default function CorePrinciplesPage() {
       ),
       href: "/core-principles/shared-responsibility",
     },
+    {
+      title: "Compassionate ",
+      description: "Recognition of the shared human condition. Awareness expressed through empathy and respect.",
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      ),
+      href: "#",
+    },
   ];
 
   return (
@@ -99,7 +109,7 @@ export default function CorePrinciplesPage() {
             </h2>
             <div className="gold-divider long mx-auto mb-6" />
             <p className="text-[#AAB3CF] max-w-2xl mx-auto leading-relaxed">
-              Five principles form the foundation of this work. They are not
+              Six principles form the foundation of this work. They are not
               beliefs to adopt but qualities to be understood through direct
               observation and sustained practice.
             </p>
@@ -161,6 +171,10 @@ export default function CorePrinciplesPage() {
               {
                 title: "5. Shared Responsibility",
                 description: "Recognition of mutual accountability within community.",
+              },
+              {
+                title: "6. Compassionate Understanding",
+                description: "Awareness expressed through empathy and respect for the shared human condition.",
               },
             ].map((step, index, arr) => (
               <motion.div
@@ -226,8 +240,10 @@ export default function CorePrinciplesPage() {
                 <p>
                   Reflective silence emerges when the constant commentary of
                   the mind subsides. Ethical conduct flows naturally from
-                  this clarity. Shared responsibility extends the work beyond
-                  individual practice into community engagement.
+                  this clarity. Compassionate understanding extends awareness
+                  toward empathy for the shared human condition. Shared
+                  responsibility extends the work beyond individual practice
+                  into community engagement.
                 </p>
               </div>
             </motion.div>
@@ -251,6 +267,7 @@ export default function CorePrinciplesPage() {
                     "Principles are lived, not merely understood",
                     "Self-observation precedes all transformation",
                     "Discipline arises from understanding, not force",
+                    "Compassion emerges from recognizing shared humanity",
                     "Ethics emerge from clarity, not rules",
                     "Community supports but does not replace individual work",
                   ].map((item) => (
@@ -279,6 +296,7 @@ export default function CorePrinciplesPage() {
             href: "/core-principles/inner-discipline",
             description: "Consistency and refinement",
           },
+          
           {
             title: "Ethical Conduct",
             href: "/core-principles/ethical-conduct",

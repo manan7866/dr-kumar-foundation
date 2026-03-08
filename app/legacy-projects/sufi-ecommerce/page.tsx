@@ -8,6 +8,7 @@ import ProjectHero from "../../components/ProjectHero";
 import FrameworkCard from "../../components/FrameworkCard";
 import ImpactDiagram from "../../components/ImpactDiagram";
 import ImpactMetric from "../../components/ImpactMetric";
+import PlatformPartnership from "../../components/PlatformPartnership";
 
 export default function SufiEcommercePage() {
   const frameworkItems = [
@@ -172,6 +173,9 @@ export default function SufiEcommercePage() {
         </div>
       </section>
 
+      {/* Platform Partnership Section */}
+      
+
       {/* Impact Model */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
@@ -288,6 +292,25 @@ export default function SufiEcommercePage() {
           </div>
         </div>
       </section>
+
+      <PlatformPartnership
+        platformTitle="Purple Soul – DKC Collective"
+        platformSubtitle="Ethical commerce platform supporting the Sufi Ecommerce initiative."
+        description={[
+          "The Sufi Ecommerce initiative of the Dr. Kumar Foundation explores ethical and spiritually informed models of cultural commerce. To implement this work at scale, the foundation collaborates with Purple Soul – DKC Collective, a specialized digital platform designed to connect spiritual values with responsible global trade.",
+          "Through this platform, cultural products, artistic works, and ethically produced goods are presented within a framework that emphasizes authenticity, responsible sourcing, and cultural respect.",
+          "While the Dr. Kumar Foundation establishes the philosophical and ethical principles guiding this initiative, Purple Soul – DKC Collective provides the operational infrastructure that enables responsible digital commerce and global accessibility.",
+        ]}
+        primaryButton={{
+          text: "Visit Purple Soul Collective",
+          href: "https://purplesoul.com",
+        }}
+        secondaryButton={{
+          text: "Explore Ethical Commerce",
+          href: "https://purplesoul.com",
+        }}
+        delay={0.2}
+      />
 
       {/* Call to Engage */}
       <section className="py-24 bg-[#151A30] relative">

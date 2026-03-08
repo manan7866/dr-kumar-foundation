@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -25,7 +26,7 @@ function ProjectCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay }}
       whileHover={{ y: -8 }}
-      className="group relative overflow-hidden rounded-2xl aspect-[4/5] cursor-pointer"
+      className="group relative overflow-hidden rounded-2xl aspect-[4/5] cursor-pointer flex-shrink-0 w-full md:w-[calc(33.333%-1rem)]"
     >
       {/* Background Image Placeholder with Gradient */}
       <div className={`absolute inset-0 ${imageGradient} transition-transform duration-700 group-hover:scale-105`} />
@@ -91,6 +92,73 @@ function ProjectCard({
 }
 
 export default function LegacyProjects() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const projects = [
+    {
+      title: "Healing Initiatives",
+      description: "Supporting holistic wellness programs that integrate traditional wisdom with contemporary understanding of health and wellbeing.",
+      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#151A30]",
+      href: "/legacy-projects/healing",
+    },
+    {
+      title: "Environmental & Water Protection",
+      description: "Preserving natural resources through community-led conservation efforts and sustainable practices rooted in ethical responsibility.",
+      imageGradient: "bg-gradient-to-br from-[#1C2340] via-[#232B52] to-[#151A30]",
+      href: "/legacy-projects/environment",
+    },
+    {
+      title: "Youth & Cultural Engagement",
+      description: "Nurturing the next generation through educational programs that emphasize ethical development and cultural continuity.",
+      imageGradient: "bg-gradient-to-br from-[#151A30] via-[#1C2340] to-[#232B52]",
+      href: "/legacy-projects/youth",
+    },
+    {
+      title: "Sufi Music & Spiritual Media",
+      description: "Preservation and dissemination of devotional and philosophical musical traditions through responsible digital media production.",
+      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#151A30] to-[#1C2340]",
+      href: "/legacy-projects/sufi-music",
+    },
+    {
+      title: "Sufi Commerce & Ethical Craft",
+      description: "Structured economic pathways supporting heritage crafts through transparency, traceability, and digital integration.",
+      imageGradient: "bg-gradient-to-br from-[#1C2340] via-[#151A30] to-[#232B52]",
+      href: "/legacy-projects/sufi-ecommerce",
+    },
+    {
+      title: "Sufi Science & Consciousness Research",
+      description: "Interdisciplinary exploration connecting spiritual philosophy with structured inquiry and analytical documentation.",
+      imageGradient: "bg-gradient-to-br from-[#151A30] via-[#232B52] to-[#1C2340]",
+      href: "/legacy-projects/sufi-science",
+    },
+    {
+      title: "Interfaith Program",
+      description: "Fostering dialogue and understanding across religious traditions through shared spiritual principles and collaborative engagement.",
+      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#232B52]",
+      href: "/legacy-projects/interfaith-program",
+    },
+  ];
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth / 2;
+      const newPosition = Math.max(0, scrollPosition - scrollAmount);
+      scrollRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
+      setScrollPosition(newPosition);
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth / 2;
+      const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+      const newPosition = Math.min(maxScroll, scrollPosition + scrollAmount);
+      scrollRef.current.scrollTo({ left: newPosition, behavior: "smooth" });
+      setScrollPosition(newPosition);
+    }
+  };
+
   return (
     <section className="section-spacing bg-[#1C2340] relative">
       <div className="container-premium">
@@ -112,31 +180,45 @@ export default function LegacyProjects() {
           </p>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          <ProjectCard
-            title="Healing Initiatives"
-            description="Supporting holistic wellness programs that integrate traditional wisdom with contemporary understanding of health and wellbeing."
-            imageGradient="bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#151A30]"
-            href="/legacy-projects/healing"
-            delay={0.1}
-          />
+        {/* Navigation Arrows */}
+        <div className="flex items-center justify-end gap-4 mb-8">
+          <button
+            onClick={scrollLeft}
+            disabled={scrollPosition === 0}
+            className="w-12 h-12 rounded-full border border-[#C5A85C]/30 flex items-center justify-center text-[#C5A85C] hover:bg-[#C5A85C]/10 hover:border-[#C5A85C] transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+            aria-label="Scroll left"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={scrollRight}
+            className="w-12 h-12 rounded-full border border-[#C5A85C]/30 flex items-center justify-center text-[#C5A85C] hover:bg-[#C5A85C]/10 hover:border-[#C5A85C] transition-all duration-300"
+            aria-label="Scroll right"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
 
-          <ProjectCard
-            title="Environmental & Water Protection"
-            description="Preserving natural resources through community-led conservation efforts and sustainable practices rooted in ethical responsibility."
-            imageGradient="bg-gradient-to-br from-[#1C2340] via-[#232B52] to-[#151A30]"
-            href="/legacy-projects/environment"
-            delay={0.3}
-          />
-
-          <ProjectCard
-            title="Youth & Cultural Engagement"
-            description="Nurturing the next generation through educational programs that emphasize ethical development and cultural continuity."
-            imageGradient="bg-gradient-to-br from-[#151A30] via-[#1C2340] to-[#232B52]"
-            href="/legacy-projects/youth"
-            delay={0.5}
-          />
+        {/* Projects Scroll Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 mb-16"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.href}
+              title={project.title}
+              description={project.description}
+              imageGradient={project.imageGradient}
+              href={project.href}
+              delay={0.1 * (index + 1)}
+            />
+          ))}
         </div>
 
         {/* CTA Button */}
@@ -147,25 +229,7 @@ export default function LegacyProjects() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <Link
-            href="/legacy-projects"
-            className="group inline-flex items-center px-8 py-4 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
-          >
-            <span>View All Projects</span>
-            <svg
-              className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
+          
         </motion.div>
       </div>
     </section>

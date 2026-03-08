@@ -174,9 +174,29 @@ export default function PremiumFooter() {
                 </Link>
               ))}
             </div>
+            
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <p className="text-[#6B7299] text-xs">
+              Website designed, developed & maintained by{" "}
+              <a
+                href="https://primelogicsol.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#C5A85C]/60 hover:text-[#C5A85C] transition-colors inline-flex items-center gap-1"
+              >
+                <span>Prime Logic Solutions USA</span>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Development Credit */}
+      
     </footer>
   );
 }

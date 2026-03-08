@@ -8,6 +8,7 @@ import ProjectHero from "../../components/ProjectHero";
 import FrameworkCard from "../../components/FrameworkCard";
 import ImpactDiagram from "../../components/ImpactDiagram";
 import ImpactMetric from "../../components/ImpactMetric";
+import PlatformPartnership from "../../components/PlatformPartnership";
 
 export default function SufiSciencePage() {
   const frameworkItems = [
@@ -172,6 +173,8 @@ export default function SufiSciencePage() {
         </div>
       </section>
 
+      
+
       {/* Impact Model */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
@@ -288,6 +291,27 @@ export default function SufiSciencePage() {
           </div>
         </div>
       </section>
+
+
+      {/* Platform Partnership Section */}
+      <PlatformPartnership
+        platformTitle="Sufi Science Center"
+        platformSubtitle="Research and knowledge platform supporting the Sufi Science initiative."
+        description={[
+          "The Sufi Science initiative of the Dr. Kumar Foundation examines the relationship between spiritual insight, philosophical reflection, and contemporary knowledge systems. To support deeper research and interdisciplinary dialogue, the foundation collaborates with the Sufi Science Center, a specialized platform dedicated to scholarly exploration and intellectual engagement.",
+          "Through research publications, lectures, and interdisciplinary study, the center investigates the philosophical dimensions of spirituality in relation to science, ethics, and human understanding.",
+          "While the Dr. Kumar Foundation establishes the guiding vision for this initiative, the Sufi Science Center functions as the research platform where this work is documented, studied, and shared with global audiences.",
+        ]}
+        primaryButton={{
+          text: "Visit Sufi Science Center",
+          href: "https://sufiscience.org",
+        }}
+        secondaryButton={{
+          text: "Explore Research Programs",
+          href: "https://sufiscience.org",
+        }}
+        delay={0.2}
+      />
 
       {/* Call to Engage */}
       <section className="py-24 bg-[#151A30] relative">
