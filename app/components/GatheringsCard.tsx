@@ -3,23 +3,28 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface GatheringYear {
-  year: string;
-  location: string;
-  description: string;
+interface Gathering {
+  id: string;
+  year: number;
+  location_city: string;
+  location_country: string;
+  description?: string;
 }
 
 interface GatheringsCardProps {
   region: string;
-  gatherings: GatheringYear[];
+  gatherings: Gathering[];
   delay?: number;
 }
 
 export default function GatheringsCard({ region, gatherings, delay = 0 }: GatheringsCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const latestGathering = gatherings[0];
-  const remainingGatherings = gatherings.slice(1);
+  const sortedGatherings = [...gatherings].sort((a, b) => b.year - a.year);
+  const latestGathering = sortedGatherings[0];
+  const remainingGatherings = sortedGatherings.slice(1);
+
+  if (!latestGathering) return null;
 
   return (
     <motion.div
@@ -50,8 +55,10 @@ export default function GatheringsCard({ region, gatherings, delay = 0 }: Gather
               {latestGathering.year}
             </span>
           </div>
-          <p className="text-white font-medium mb-1">{latestGathering.location}</p>
-          <p className="text-[#AAB3CF] text-sm leading-relaxed">{latestGathering.description}</p>
+          <p className="text-white font-medium mb-1">{latestGathering.location_city}, {latestGathering.location_country}</p>
+          {latestGathering.description && (
+            <p className="text-[#AAB3CF] text-sm leading-relaxed">{latestGathering.description}</p>
+          )}
         </div>
       </div>
 
@@ -67,7 +74,7 @@ export default function GatheringsCard({ region, gatherings, delay = 0 }: Gather
           >
             {remainingGatherings.map((gathering, index) => (
               <motion.div
-                key={gathering.year}
+                key={gathering.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
@@ -78,8 +85,10 @@ export default function GatheringsCard({ region, gatherings, delay = 0 }: Gather
                     {gathering.year}
                   </span>
                 </div>
-                <p className="text-white font-medium mb-1">{gathering.location}</p>
-                <p className="text-[#AAB3CF] text-sm leading-relaxed">{gathering.description}</p>
+                <p className="text-white font-medium mb-1">{gathering.location_city}, {gathering.location_country}</p>
+                {gathering.description && (
+                  <p className="text-[#AAB3CF] text-sm leading-relaxed">{gathering.description}</p>
+                )}
               </motion.div>
             ))}
           </motion.div>

@@ -1,14 +1,42 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Accordion from "../components/Accordion"
-import MapPreview from "../components/MapPreview"
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
 import TeachingHero from "../components/TeachingHero";
 import GatheringsCard from "../components/GatheringsCard";
 
+interface Gathering {
+  id: string;
+  year: number;
+  location_city: string;
+  location_country: string;
+  region_name: string;
+  description: string;
+}
+
 export default function GlobalPresence() {
+  const [gatheringsByRegion, setGatheringsByRegion] = useState<Record<string, Gathering[]>>({});
+
+  useEffect(() => {
+    fetch('/api/admin/global-presence/gatherings')
+      .then(res => res.json())
+      .then(data => {
+        // Group gatherings by region
+        const grouped: Record<string, Gathering[]> = {};
+        data.forEach((g: Gathering) => {
+          if (!grouped[g.region_name]) {
+            grouped[g.region_name] = [];
+          }
+          grouped[g.region_name].push(g);
+        });
+        setGatheringsByRegion(grouped);
+      })
+      .catch(err => console.error('Failed to fetch gatherings:', err));
+  }, []);
+
   return (
 
     <main className="bg-[#1C2340] min-h-screen">
@@ -93,137 +121,14 @@ export default function GlobalPresence() {
           </motion.div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <GatheringsCard
-              region="United States"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "Washington D.C., United States",
-                  description: "Circle discussion on documenting contemporary spiritual reflections."
-                },
-                {
-                  year: "2023",
-                  location: "New York, United States",
-                  description: "Regional gathering of seekers exploring knowledge and ethics."
-                },
-                {
-                  year: "2022",
-                  location: "California, United States",
-                  description: "Small circle meeting on preserving teachings through structured archives."
-                }
-              ]}
-              delay={0.1}
-            />
-
-            <GatheringsCard
-              region="India"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "Srinagar, India",
-                  description: "Reflection gathering with seekers reviewing archival work."
-                },
-                {
-                  year: "2023",
-                  location: "New Delhi, India",
-                  description: "Dialogue on knowledge, spirituality, and contemporary society."
-                },
-                {
-                  year: "2022",
-                  location: "Srinagar, India",
-                  description: "Structured meeting on documentation of teachings."
-                }
-              ]}
-              delay={0.2}
-            />
-
-            <GatheringsCard
-              region="Europe"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "Paris, France",
-                  description: "Regional dialogue on spiritual traditions and modern inquiry."
-                },
-                {
-                  year: "2023",
-                  location: "London, United Kingdom",
-                  description: "Documented regional dialogue session."
-                },
-                {
-                  year: "2022",
-                  location: "Berlin, Germany",
-                  description: "Gathering of seekers reflecting on knowledge and responsibility."
-                }
-              ]}
-              delay={0.3}
-            />
-
-            <GatheringsCard
-              region="Middle East"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "Dubai, United Arab Emirates",
-                  description: "Circle discussion on spiritual knowledge and global participation."
-                },
-                {
-                  year: "2023",
-                  location: "Doha, Qatar",
-                  description: "Regional meeting of seekers and contributors."
-                },
-                {
-                  year: "2022",
-                  location: "Istanbul, Türkiye",
-                  description: "Dialogue on Sufi tradition and intellectual heritage."
-                }
-              ]}
-              delay={0.4}
-            />
-
-            <GatheringsCard
-              region="Australia"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "Sydney, Australia",
-                  description: "Regional gathering of seekers documenting reflections."
-                },
-                {
-                  year: "2023",
-                  location: "Melbourne, Australia",
-                  description: "Discussion on preserving spiritual teachings across continents."
-                },
-                {
-                  year: "2022",
-                  location: "Brisbane, Australia",
-                  description: "Circle meeting on knowledge and community engagement."
-                }
-              ]}
-              delay={0.5}
-            />
-
-            <GatheringsCard
-              region="South America"
-              gatherings={[
-                {
-                  year: "2024",
-                  location: "São Paulo, Brazil",
-                  description: "Regional dialogue among seekers and scholars."
-                },
-                {
-                  year: "2023",
-                  location: "Buenos Aires, Argentina",
-                  description: "Gathering focused on cross-cultural spiritual dialogue."
-                },
-                {
-                  year: "2022",
-                  location: "Santiago, Chile",
-                  description: "Circle meeting discussing documentation of teachings."
-                }
-              ]}
-              delay={0.6}
-            />
+            {Object.entries(gatheringsByRegion).map(([region, gatherings], index) => (
+              <GatheringsCard
+                key={region}
+                region={region}
+                gatherings={gatherings}
+                delay={0.1 * (index + 1)}
+              />
+            ))}
           </div>
         </div>
       </section>

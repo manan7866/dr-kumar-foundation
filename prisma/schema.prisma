@@ -39,7 +39,7 @@ model Member {
   visibility_status     VisibilityStatus @default(draft)
   created_at            DateTime         @default(now())
   updated_at            DateTime         @updatedAt
-  country_ref           Region           @relation(fields: [country], references: [country])
+  country_ref           Region           @relation(fields: [country], references: [name])
 
   @@index([approved])
   @@index([visibility_status])
@@ -62,7 +62,7 @@ model Registration {
   reviewed_by           String?
   reviewed_at           DateTime?
   created_at            DateTime         @default(now())
-  country_ref           Region           @relation(fields: [country], references: [country])
+  country_ref           Region           @relation(fields: [country], references: [name])
 
   @@index([review_status])
   @@index([created_at])
@@ -70,29 +70,30 @@ model Registration {
 
 model Region {
   id            String         @id @default(uuid())
-  continent     String
-  country       String         @unique
+  continent     String         @default("Unknown")
+  name          String         @unique @default("Unknown")
+  countries     String         @default("[]")
   created_at    DateTime       @default(now())
-  gatherings    Gathering[]
+  updated_at    DateTime       @default(now()) @updatedAt
   members       Member[]
   registrations Registration[]
 
   @@index([continent])
-  @@index([country])
+  @@index([name])
 }
 
 model Gathering {
   id               String   @id @default(uuid())
-  year             Int
-  location_city    String
-  location_country String
+  year             Int      @default(2024)
+  location_city    String   @default("Unknown")
+  location_country String   @default("Unknown")
+  region_name      String   @default("Unknown")
   description      String?
-  related_region   String?
   created_at       DateTime @default(now())
-  region           Region?  @relation(fields: [related_region], references: [country])
+  updated_at       DateTime @default(now()) @updatedAt
 
   @@index([year])
-  @@index([related_region])
+  @@index([region_name])
 }
 
 model PrinciplePage {

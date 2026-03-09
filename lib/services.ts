@@ -327,14 +327,14 @@ export const regionService = {
   // Get all regions
   async findAll() {
     return prisma.region.findMany({
-      orderBy: [{ continent: 'asc' }, { country: 'asc' }],
+      orderBy: [{ continent: 'asc' }, { name: 'asc' }],
     });
   },
 
-  // Get region by country
-  async findByCountry(country: string) {
+  // Get region by name
+  async findByName(name: string) {
     return prisma.region.findUnique({
-      where: { country },
+      where: { name },
     });
   },
 
@@ -342,27 +342,35 @@ export const regionService = {
   async findByContinent(continent: string) {
     return prisma.region.findMany({
       where: { continent },
-      orderBy: { country: 'asc' },
+      orderBy: { name: 'asc' },
     });
   },
 
   // Create region
-  async create(data: { continent: string; country: string }) {
-    return prisma.region.create({ data });
+  async create(data: { continent: string; name: string; countries?: string[] }) {
+    return prisma.region.create({ 
+      data: {
+        ...data,
+        countries: data.countries ? JSON.stringify(data.countries) : '[]',
+      },
+    });
   },
 
   // Update region
-  async update(country: string, data: { continent?: string; country?: string }) {
+  async update(name: string, data: { continent?: string; name?: string; countries?: string[] }) {
     return prisma.region.update({
-      where: { country },
-      data,
+      where: { name },
+      data: {
+        ...data,
+        countries: data.countries ? JSON.stringify(data.countries) : undefined,
+      },
     });
   },
 
   // Delete region
-  async delete(country: string) {
+  async delete(name: string) {
     return prisma.region.delete({
-      where: { country },
+      where: { name },
     });
   },
 };
@@ -373,12 +381,11 @@ export const regionService = {
 
 export const gatheringService = {
   // Get all gatherings
-  async findAll(filters?: { year?: number; related_region?: string }) {
+  async findAll(filters?: { year?: number; region_name?: string }) {
     const where = filters || {};
 
     return prisma.gathering.findMany({
       where,
-      include: { region: true },
       orderBy: { year: 'desc' },
     });
   },
@@ -387,16 +394,12 @@ export const gatheringService = {
   async findById(id: string) {
     return prisma.gathering.findUnique({
       where: { id },
-      include: { region: true },
     });
   },
 
   // Create gathering
   async create(data: any) {
-    return prisma.gathering.create({
-      data,
-      include: { region: true },
-    });
+    return prisma.gathering.create({ data });
   },
 
   // Update gathering
@@ -404,7 +407,6 @@ export const gatheringService = {
     return prisma.gathering.update({
       where: { id },
       data,
-      include: { region: true },
     });
   },
 

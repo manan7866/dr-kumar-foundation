@@ -5,11 +5,12 @@ export async function GET() {
   try {
     const regions = await prisma.region.findMany({
       select: {
-        country: true,
+        name: true,
         continent: true,
+        countries: true,
       },
       orderBy: {
-        country: 'asc',
+        name: 'asc',
       },
     });
 
