@@ -28,7 +28,20 @@ export default function AdminDashboard() {
         router.push("/admin/login");
         return;
       }
-      setUser(JSON.parse(session));
+      const userData = JSON.parse(session);
+      
+      // Only super_admin can access main dashboard
+      if (userData.role !== 'super_admin') {
+        // Redirect moderators to their allowed pages
+        if (userData.role === 'moderator') {
+          router.push("/admin/engagement");
+        } else {
+          router.push("/");
+        }
+        return;
+      }
+      
+      setUser(userData);
       setIsLoading(false);
     };
     checkSession();
@@ -37,15 +50,15 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const token = localStorage.getItem("admin_token");
+        // Use cookies for authentication (automatically sent by browser)
         const response = await fetch("/api/admin/stats", {
-          headers: { "Authorization": `Bearer ${token}` },
+          credentials: 'include',
         });
         if (response.ok) {
           const data = await response.json();
           // Fetch engagement count separately
           const engagementResponse = await fetch("/api/admin/engagement?status=pending", {
-            headers: { "Authorization": `Bearer ${token}` },
+            credentials: 'include',
           });
           if (engagementResponse.ok) {
             const engagements = await engagementResponse.json();

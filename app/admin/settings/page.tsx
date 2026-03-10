@@ -6,7 +6,7 @@ interface User {
   id: string;
   email: string;
   full_name: string;
-  role: 'super_admin' | 'editor' | 'moderator';
+  role: string;
   is_active: boolean;
 }
 
@@ -14,11 +14,13 @@ export default function SystemSettingsPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [showUserForm, setShowUserForm] = useState(false);
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     full_name: '',
-    role: 'moderator' as 'super_admin' | 'editor' | 'moderator',
+    role: 'contributor',
   });
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function SystemSettingsPage() {
       const token = localStorage.getItem("admin_token");
       const response = await fetch('/api/admin/settings/users', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
@@ -56,7 +58,7 @@ export default function SystemSettingsPage() {
       });
       if (response.ok) {
         setShowUserForm(false);
-        setFormData({ email: '', password: '', full_name: '', role: 'moderator' });
+        setFormData({ email: '', password: '', full_name: '', role: 'contributor' });
         fetchUsers();
       }
     } catch (error) {
@@ -64,12 +66,39 @@ export default function SystemSettingsPage() {
     }
   };
 
+  const handleUpdateRole = async (id: string, newRole: string) => {
+    try {
+      const token = localStorage.getItem("admin_token");
+      const response = await fetch(`/api/admin/settings/users/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ role: newRole }),
+      });
+      if (response.ok) {
+        fetchUsers();
+        setShowRoleModal(false);
+        setSelectedUser(null);
+      }
+    } catch (error) {
+      console.error('Failed to update user role:', error);
+    }
+  };
+
+  const openRoleModal = (user: User) => {
+    setSelectedUser(user);
+    setFormData({ ...formData, role: user.role });
+    setShowRoleModal(true);
+  };
+
   const handleToggleActive = async (id: string, isActive: boolean) => {
     try {
       const token = localStorage.getItem("admin_token");
       const response = await fetch(`/api/admin/settings/users/${id}`, {
         method: 'PATCH',
-        headers: { 
+        headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
@@ -82,7 +111,7 @@ export default function SystemSettingsPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-14">
       <div>
         <h2 className="text-white font-sans text-xl uppercase tracking-wider">System Settings</h2>
         <p className="text-[#C9CCD6] text-sm mt-1">Administrative configuration</p>
@@ -123,16 +152,28 @@ export default function SystemSettingsPage() {
                   <td className="p-4 text-white">{u.full_name}</td>
                   <td className="p-4 text-[#C9CCD6]">{u.email}</td>
                   <td className="p-4">
-                    <span className="px-2 py-1 text-xs uppercase bg-[#1C2340] text-[#C9CCD6]">
-                      {u.role.replace('_', ' ')}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 text-xs uppercase rounded-full ${
+                        u.role === 'super_admin' ? 'bg-red-500/20 text-red-400' :
+                        u.role === 'moderator' ? 'bg-[#C5A85C]/20 text-[#C5A85C]' :
+                        'bg-[#1C2340] text-[#C9CCD6]'
+                      }`}>
+                        {u.role.replace('_', ' ')}
+                      </span>
+                      <button
+                        onClick={() => openRoleModal(u)}
+                        className="px-3 py-1 text-xs border border-[#C5A85C]/40 text-[#C5A85C] hover:bg-[#C5A85C]/10 rounded transition-colors"
+                      >
+                        Edit
+                      </button>
+                    </div>
                   </td>
                   <td className="p-4">
                     <span className={`px-2 py-1 text-xs uppercase ${u.is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
                       {u.is_active ? 'Active' : 'Inactive'}
                     </span>
                   </td>
-                  <td className="p-4 flex justify-end">
+                  <td className="p-4 flex justify-end gap-2">
                     <button
                       onClick={() => handleToggleActive(u.id, u.is_active)}
                       className="px-3 py-1 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C]"
@@ -214,8 +255,8 @@ export default function SystemSettingsPage() {
                   onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
                   className="w-full bg-[#1C2340] border border-white/20 px-4 py-2 text-white text-sm focus:outline-none focus:border-[#C5A85C]"
                 >
+                  <option value="contributor">Contributor</option>
                   <option value="moderator">Moderator</option>
-                  <option value="editor">Editor</option>
                   <option value="super_admin">Super Admin</option>
                 </select>
               </div>
@@ -233,6 +274,53 @@ export default function SystemSettingsPage() {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* Role Edit Modal */}
+      {showRoleModal && selectedUser && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#242B4A] border border-[#C5A85C]/20 rounded-lg w-full max-w-md">
+            <div className="p-5 border-b border-[#C5A85C]/20">
+              <h3 className="text-white font-sans text-sm uppercase tracking-wider">Edit User Role</h3>
+              <p className="text-[#C9CCD6] text-xs mt-1">{selectedUser.full_name}</p>
+            </div>
+            <div className="p-5">
+              <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Select Role</label>
+              <select
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                className="w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg"
+              >
+                <option value="contributor">Contributor</option>
+                <option value="moderator">Moderator</option>
+                <option value="super_admin">Super Admin</option>
+              </select>
+              <div className="mt-4 space-y-2 text-xs text-[#C9CCD6]">
+                <p><strong className="text-white">Contributor:</strong> Can submit contributions and tasks</p>
+                <p><strong className="text-white">Moderator:</strong> Can review submissions and manage content</p>
+                <p><strong className="text-white">Super Admin:</strong> Full system access</p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 p-5 border-t border-[#C5A85C]/20">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowRoleModal(false);
+                  setSelectedUser(null);
+                }}
+                className="px-4 py-2 border border-white/20 text-[#C9CCD6] text-xs uppercase tracking-wider hover:border-[#C5A85C]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleUpdateRole(selectedUser.id, formData.role)}
+                className="px-4 py-2 bg-[#C5A85C] text-[#1C2340] text-xs uppercase tracking-wider hover:bg-[#C5A85C]/80"
+              >
+                Update Role
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -27,8 +27,11 @@ export default function AdminLoginPage() {
       const data = await response.json();
 
       if (response.ok) {
+        // Also store in localStorage for client-side access
         localStorage.setItem("admin_session", JSON.stringify(data.user));
-        router.push("/admin");
+        localStorage.setItem("user_session", JSON.stringify(data.user));
+        // Redirect to admin dashboard
+        window.location.href = "/admin";
       } else {
         setError(data.error || "Invalid credentials");
         setIsLoading(false);

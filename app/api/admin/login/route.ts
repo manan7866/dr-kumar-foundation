@@ -62,8 +62,8 @@ export async function POST(request: Request) {
       },
     });
 
-    // Return user data (in production, set httpOnly cookie)
-    return NextResponse.json({
+    // Create response with user data
+    const response = NextResponse.json({
       success: true,
       user: {
         id: user.id,
@@ -72,6 +72,30 @@ export async function POST(request: Request) {
         role: user.role,
       },
     });
+
+    // Set session cookies
+    response.cookies.set('user_session', JSON.stringify({
+      id: user.id,
+      email: user.email,
+      full_name: user.full_name,
+      role: user.role,
+    }), {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 8, // 8 hours
+      path: '/',
+    });
+
+    response.cookies.set('session_token', `session_${user.id}_${Date.now()}`, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 8,
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

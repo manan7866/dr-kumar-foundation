@@ -1,9 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { authenticateAdmin } from '@/lib/auth';
 
 // GET /api/admin/stats - Get dashboard statistics
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Authenticate and check for super_admin role
+    const { user, response } = await authenticateAdmin(request, ['super_admin']);
+    if (response) return response;
+
     const [
       totalMembers,
       pendingRegistrations,
