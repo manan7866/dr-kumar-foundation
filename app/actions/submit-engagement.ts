@@ -16,12 +16,24 @@ import {
   interfaithSupportSchema,
   interfaithInquirySchema,
 } from '@/lib/form-schemas';
+import { sendEngagementConfirmation } from '@/lib/email/send-engagement-confirmation';
 
 interface SubmitEngagementResult {
   success: boolean;
   message: string;
   error?: string;
 }
+
+// Map program types to readable names
+const programNames: Record<string, string> = {
+  'healing-initiatives': 'Healing Initiatives',
+  'environmental-programs': 'Environmental Programs',
+  'youth-engagement': 'Youth Engagement',
+  'sufi-music': 'Sufi Music',
+  'sufi-ecommerce': 'Sufi Ecommerce',
+  'sufi-science': 'Sufi Science',
+  'interfaith-program': 'Interfaith Program',
+};
 
 export async function submitEngagement(
   program: string,
@@ -111,7 +123,7 @@ export async function submitEngagement(
     );
 
     // Store in database
-    await prisma.engagementRequest.create({
+    const engagement = await prisma.engagementRequest.create({
       data: {
         program_type: program,
         form_type: formType,
@@ -120,9 +132,24 @@ export async function submitEngagement(
       },
     });
 
+    // Send confirmation email if user email is available
+    const userEmail = (cleanData as any).email;
+    const userName = (cleanData as any).fullName || (cleanData as any).name || 'Valued Contributor';
+    const programName = programNames[program] || program;
+
+    if (userEmail) {
+      try {
+        await sendEngagementConfirmation(userEmail, userName, formType, programName);
+        console.log('[Engagement] Confirmation email sent to:', userEmail);
+      } catch (emailError) {
+        console.error('[Engagement] Failed to send confirmation email:', emailError);
+        // Don't fail the submission if email fails
+      }
+    }
+
     return {
       success: true,
-      message: 'Your submission has been recorded and will undergo institutional review.',
+      message: 'Your submission has been recorded and will undergo institutional review. A confirmation email has been sent to your email address.',
     };
   } catch (error) {
     if (error instanceof z.ZodError) {

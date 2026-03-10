@@ -61,17 +61,18 @@ export default function OtpForm({ email, onSuccess, onResend }: OtpFormProps) {
     }
 
     try {
-      const response = await fetch("/api/auth/verify-otp", {
+      const response = await fetch("/api/auth/register/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp: otpCode }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         onSuccess();
       } else {
-        const data = await response.json();
-        setError(data.message || "Invalid verification code");
+        setError(data.error || "Invalid verification code");
       }
     } catch {
       setError("An error occurred. Please try again.");
@@ -82,19 +83,35 @@ export default function OtpForm({ email, onSuccess, onResend }: OtpFormProps) {
 
   const handleResend = async () => {
     if (resendCooldown > 0) return;
-    
-    await onResend();
-    setResendCooldown(30);
-    
-    const timer = setInterval(() => {
-      setResendCooldown((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
+
+    try {
+      const response = await fetch("/api/auth/register/resend-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
       });
-    }, 1000);
+
+      const data = await response.json();
+
+      if (response.ok) {
+        onResend();
+        setResendCooldown(30);
+
+        const timer = setInterval(() => {
+          setResendCooldown((prev) => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      } else {
+        setError(data.error || "Failed to resend code");
+      }
+    } catch {
+      setError("An error occurred. Please try again.");
+    }
   };
 
   return (

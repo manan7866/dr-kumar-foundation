@@ -7,6 +7,7 @@ import Link from "next/link";
 import PremiumHeader from "../../components/PremiumHeader";
 import PremiumFooter from "../../components/PremiumFooter";
 import AuthModal from "@/app/components/auth/AuthModal";
+import { sendCircleRegistrationEmail } from "@/app/actions/send-circle-email";
 
 interface FormData {
   fullName: string;
@@ -20,10 +21,19 @@ interface FormData {
   consent: boolean;
 }
 
-interface Region {
-  country: string;
-  continent: string;
-}
+// Hardcoded country list for Circle registration
+const countries = [
+  "Afghanistan", "Albania", "Algeria", "Argentina", "Australia", "Austria",
+  "Bangladesh", "Belgium", "Brazil", "Canada", "Chile", "China", "Colombia",
+  "Denmark", "Egypt", "Finland", "France", "Germany", "Greece", "India",
+  "Indonesia", "Iran", "Iraq", "Ireland", "Italy", "Japan", "Jordan",
+  "Kenya", "Kuwait", "Lebanon", "Malaysia", "Mexico", "Morocco", "Netherlands",
+  "New Zealand", "Nigeria", "Norway", "Pakistan", "Peru", "Philippines", "Poland",
+  "Portugal", "Qatar", "Russia", "Saudi Arabia", "Singapore", "South Africa",
+  "South Korea", "Spain", "Sri Lanka", "Sweden", "Switzerland", "Thailand",
+  "Tunisia", "Turkey", "United Arab Emirates", "United Kingdom", "United States",
+  "Vietnam", "Yemen"
+];
 
 interface User {
   id: string;
@@ -80,9 +90,7 @@ const professions = [
 export default function RegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [regions, setRegions] = useState<Region[]>([]);
-  const [isLoadingRegions, setIsLoadingRegions] = useState(true);
-  
+
   // Auth state
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,25 +102,7 @@ export default function RegistrationPage() {
     mode: 'onChange',
   });
 
-  // Fetch regions
-  useEffect(() => {
-    const fetchRegions = async () => {
-      try {
-        console.log('[Circle Registration] Fetching regions...');
-        const response = await fetch('/api/regions');
-        console.log('[Circle Registration] Regions response status:', response.status);
-        const data = await response.json();
-        console.log('[Circle Registration] Regions data:', data);
-        setRegions(data);
-      } catch (error) {
-        console.error('Error fetching regions:', error);
-      } finally {
-        setIsLoadingRegions(false);
-      }
-    };
-
-    fetchRegions();
-  }, []);
+  // No need to fetch regions - using hardcoded countries
 
   // Check authentication and submission status
   useEffect(() => {
@@ -280,6 +270,20 @@ export default function RegistrationPage() {
 
       if (response.ok) {
         setIsSuccess(true);
+        
+        // Send confirmation email using user's email from auth state
+        const userEmail = user?.email;
+        const userName = user?.full_name || data.fullName;
+        
+        if (userEmail) {
+          try {
+            await sendCircleRegistrationEmail(userEmail, userName);
+            console.log('[Circle] Confirmation email sent to:', userEmail);
+          } catch (emailError) {
+            console.error('[Circle] Failed to send confirmation email:', emailError);
+            // Don't fail the submission if email fails
+          }
+        }
       }
     } finally {
       setIsSubmitting(false);
@@ -519,15 +523,12 @@ export default function RegistrationPage() {
                       <div className="relative">
                         <select
                           {...register("country", { required: "Country is required" })}
-                          disabled={isLoadingRegions}
-                          className={`w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-[#C5A85C]/60 focus:ring-2 focus:ring-[#C5A85C]/20 rounded-lg transition-all appearance-none disabled:opacity-50 ${errors.country ? 'border-red-500/40' : ''}`}
+                          className={`w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-[#C5A85C]/60 focus:ring-2 focus:ring-[#C5A85C]/20 rounded-lg transition-all appearance-none ${errors.country ? 'border-red-500/40' : ''}`}
                         >
-                          <option value="">
-                            {isLoadingRegions ? 'Loading countries...' : 'Select your country'}
-                          </option>
-                          {regions.map((region) => (
-                            <option key={region.country} value={region.country}>
-                              {region.country} ({region.continent})
+                          <option value="">Select your country</option>
+                          {countries.map((country) => (
+                            <option key={country} value={country}>
+                              {country}
                             </option>
                           ))}
                         </select>

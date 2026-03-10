@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
+import { submitContactForm } from "@/app/actions/submit-contact";
 
 interface FormData {
   fullName: string;
@@ -23,10 +24,22 @@ export default function ContactPage() {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setIsSubmitting(true);
-    // Simulate API call - replace with actual API endpoint
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSuccess(true);
-    setIsSubmitting(false);
+    try {
+      const result = await submitContactForm(
+        data.fullName,
+        data.email,
+        data.subject,
+        data.message
+      );
+      
+      if (result.success) {
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.error('[Contact] Submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

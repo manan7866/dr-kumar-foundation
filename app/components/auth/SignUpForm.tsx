@@ -42,7 +42,8 @@ export default function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormPr
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/register", {
+      // Step 1: Request OTP (sends email with verification code)
+      const response = await fetch("/api/auth/register/request-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -52,11 +53,13 @@ export default function SignUpForm({ onSuccess, onSwitchToSignIn }: SignUpFormPr
         }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
+        // Pass email to OTP form
         onSuccess(formData.email);
       } else {
-        const data = await response.json();
-        setError(data.message || "Registration failed");
+        setError(data.error || "Registration failed");
       }
     } catch {
       setError("An error occurred. Please try again.");
