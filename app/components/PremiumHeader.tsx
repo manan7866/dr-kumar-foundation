@@ -226,23 +226,24 @@ export default function PremiumHeader() {
             </nav>
 
             {/* Right Side: User Auth & Avatar */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 lg:space-x-4">
               {/* User Auth Section */}
               {user ? (
                 <>
-                  {/* Notification Bell */}
+                  {/* Notification Bell - Hidden on small mobile, shown on md+ */}
                   {notifications > 0 && (
-                    <button className="relative p-2 text-[#F1F3F8] hover:text-[#C5A85C] transition-colors">
+                    <button className="relative p-2 text-[#F1F3F8] hover:text-[#C5A85C] transition-colors hidden md:block">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                       </svg>
-                      <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-[#C5A85C] rounded-full border-2 border-[#1C2340]" />
+                      <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {notifications > 9 ? '9+' : notifications}
+                      </span>
                     </button>
                   )}
 
-                  {/* User Info - Avatar + Name */}
-                  <div className="hidden md:flex items-center space-x-3">
-                    
+                  {/* User Info - Avatar + Name - Desktop */}
+                  <div className="hidden lg:flex items-center space-x-3">
                     <button
                       onClick={handleAvatarClick}
                       className="relative w-10 h-10 rounded-full border border-[#C5A85C]/40 hover:border-[#C5A85C] transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,168,92,0.3)] overflow-hidden bg-[#1C2340]"
@@ -264,10 +265,10 @@ export default function PremiumHeader() {
                     <span className="text-[#F1F3F8] text-sm font-medium">{user.full_name}</span>
                   </div>
 
-                  {/* Mobile Avatar Only */}
+                  {/* Mobile/Tablet Avatar Only */}
                   <button
                     onClick={handleAvatarClick}
-                    className="md:hidden relative w-10 h-10 rounded-full border border-[#C5A85C]/40 hover:border-[#C5A85C] transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,168,92,0.3)] overflow-hidden bg-[#1C2340]"
+                    className="lg:hidden relative w-10 h-10 rounded-full border border-[#C5A85C]/40 hover:border-[#C5A85C] transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,168,92,0.3)] overflow-hidden bg-[#1C2340] flex-shrink-0"
                   >
                     {user?.avatar_url ? (
                       <img
@@ -284,17 +285,30 @@ export default function PremiumHeader() {
                     )}
                   </button>
 
+                  {/* Mobile Notification Badge on Avatar */}
+                  {notifications > 0 && (
+                    <span className="lg:hidden absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center flex-shrink-0">
+                      {notifications > 9 ? '9+' : notifications}
+                    </span>
+                  )}
+
                   {/* User Dropdown Menu */}
                   <AnimatePresence>
                     {isUserMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full  mt-2 pt-2 z-50"
-                      >
-                        <div className="bg-[#1C2340]/98 backdrop-blur-md border border-[#C5A85C]/20 rounded-lg shadow-xl min-w-[200px] overflow-hidden">
+                      <>
+                        {/* Backdrop for mobile */}
+                        <div 
+                          className="fixed inset-0 z-[999] lg:hidden"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute  top-full mt-2 pt-2 lg:z-[1001] z-[1000]"
+                        >
+                          <div className="bg-[#1C2340]/98 backdrop-blur-md border border-[#C5A85C]/20 rounded-lg shadow-xl min-w-[200px] overflow-hidden">
                           {/* User Info */}
                           <div className="px-4 py-3 border-b border-[#C5A85C]/10">
                             <p className="text-white font-medium text-sm">{user?.full_name}</p>
@@ -354,7 +368,8 @@ export default function PremiumHeader() {
                             </button>
                           </div>
                         </div>
-                      </motion.div>
+                        </motion.div>
+                      </>
                     )}
                   </AnimatePresence>
                 </>

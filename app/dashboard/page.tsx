@@ -86,16 +86,18 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="bg-[#1C2340] min-h-screen">
-      <div className="flex items-center justify-between px-8 py-4 bg-[#1C2340] border-b border-[#C5A85C]/20">
-        <div>
-          {/* <h1 className="text-2xl font-serif text-white">My Dashboard</h1>
-          <p className="text-[#AAB3CF] text-sm">Welcome back, {user?.full_name}</p> */}
+    <div className="bg-[#1C2340]  min-h-screen">
+      <div className="flex items-center  justify-between px-4 lg:px-8 py-3 lg:py-4 bg-[#1C2340] border-b border-[#C5A85C]/20">
+        <div className="flex-1">
           
         </div>
-        <div className="flex items-center gap-4">
-          {hasProgram && user && <NotificationBell userId={user.id} />}
-          <Link href="/" className="text-[#AAB3CF] hover:text-white text-sm">
+        <div className="flex items-center absolute top-16 right-8 gap-2 lg:gap-4">
+          {hasProgram && user && (
+            <div className="relative">
+              <NotificationBell userId={user.id} />
+            </div>
+          )}
+          {/* <Link href="/" className="hidden sm:block text-[#AAB3CF] hover:text-white text-sm whitespace-nowrap">
             View Site →
           </Link>
           <button
@@ -104,10 +106,10 @@ export default function DashboardPage() {
               localStorage.removeItem("user_session");
               router.push("/");
             }}
-            className="text-[#AAB3CF] hover:text-red-400 text-sm"
+            className="text-[#AAB3CF] hover:text-red-400 text-sm whitespace-nowrap"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
       <PremiumHeader />
