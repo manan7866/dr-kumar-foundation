@@ -1,8 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # Docker Compose for Dr. Kumar Foundation Website
+# Optimized for slow network
 # ─────────────────────────────────────────────────────────────────────────────
-
-version: '3.8'
 
 services:
   # ──────────────────────────────────────────────────────────────────────────
@@ -13,6 +12,9 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runner
+      args:
+        - DATABASE_URL=${DATABASE_URL:-postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public}
+        - NPM_REGISTRY=https://registry.npmjs.org/
     container_name: dr-kumar-app
     restart: unless-stopped
     ports:
@@ -25,6 +27,9 @@ services:
       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - CLOUDINARY_UPLOAD_FOLDER=${CLOUDINARY_UPLOAD_FOLDER:-dr-kumar-profiles}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM}
     depends_on:
       db:
         condition: service_healthy
@@ -88,7 +93,7 @@ services:
       - dev
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Development Service (Hot Reload)
+  # Development Service (Hot Reload) - Uses local node_modules
   # ──────────────────────────────────────────────────────────────────────────
   app-dev:
     build:
@@ -107,6 +112,9 @@ services:
       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - CLOUDINARY_UPLOAD_FOLDER=${CLOUDINARY_UPLOAD_FOLDER:-dr-kumar-profiles}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM}
       # Watchpack polling for Windows/Docker compatibility
       - WATCHPACK_POLLING=true
     volumes:

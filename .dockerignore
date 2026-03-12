@@ -1,8 +1,9 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # .dockerignore for Dr. Kumar Foundation Website
+# Optimized for faster builds
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Dependencies
+# Dependencies (will be installed fresh)
 node_modules
 npm-debug.log
 yarn-error.log
@@ -39,27 +40,11 @@ dist
 # Testing
 coverage
 .nyc_output
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-__tests__
-test
-tests
 
-# Documentation
+# Documentation (keep essential ones, exclude others)
 *.md
-README.md
-read.md
-docs
-CONTRIBUTING.md
-DEPLOYMENT_CHECKLIST.md
-DATABASE_SETUP.md
-DATABASE.md
-CLOUDINARY_SETUP.md
-CONTRIBUTION_SYSTEM_FINAL.md
-CONTRIBUTION_SYSTEM_PHASE2.md
-LEGAL_PAGES_COMPLETE.md
+!package.json
+!package-lock.json
 
 # Docker (don't include Docker files in the image)
 Dockerfile
@@ -68,14 +53,15 @@ docker-compose*.yml
 .dockerignore
 docker/
 
-# Prisma
+# Prisma (keep schema and migrations, exclude dev files)
 prisma/*.db
 prisma/*.db-journal
-prisma/migrations
+# DON'T exclude migrations - they're needed for database setup
 
 # Logs
 logs
 *.log
+npm-debug.log*
 
 # Temporary files
 tmp
@@ -87,23 +73,15 @@ temp
 .cache
 .parcel-cache
 .turbo
-
-# Prisma config (will be copied separately if needed)
-prisma.config.ts
-
-# Admin setup scripts (not needed in production)
-prisma/seed.ts
-prisma/seed-*.ts
-
-# Development scripts
-scripts/
-dev-scripts/
-
-# Backup files
-*.bak
-*.backup
+.npm-cache
 
 # OS files
 Thumbs.db
 .Spotlight-V100
 .Trashes
+
+# Export files
+dump.json
+dump.sql
+export-db.js
+export-db.ts

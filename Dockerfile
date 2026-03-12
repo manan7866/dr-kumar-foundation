@@ -8,15 +8,29 @@
 # Install all dependencies (both dev and production)
 # ─────────────────────────────────────────────────────────────────────────────
 FROM node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache libc6-compat openssl curl
 
 WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install all dependencies
-RUN npm ci
+# Copy prisma schema (needed for prisma generate in postinstall)
+COPY prisma ./prisma
+
+# Try multiple npm registry mirrors for better reliability
+ARG NPM_REGISTRY=https://registry.npmjs.org/
+RUN npm config set fetch-retries 10 && \
+    npm config set fetch-retry-mintimeout 30000 && \
+    npm config set fetch-retry-maxtimeout 180000 && \
+    npm config set fetch-timeout 180000 && \
+    npm config set registry ${NPM_REGISTRY} && \
+    npm config set maxsockets 1
+
+# Install dependencies - use npm install with offline preference
+RUN npm install --prefer-offline --no-audit --no-fund || \
+    npm install --no-audit --no-fund || \
+    (echo "Retrying with clean cache..." && npm cache clean --force && npm install --no-audit --no-fund)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 2: Builder
@@ -33,6 +47,31 @@ COPY . .
 
 # Disable telemetry during build
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# Set all required environment variables for build
+ARG DATABASE_URL="postgresql://dkf_user:dkf123987%;@localhost:5432/dkf_db"
+
+ARG NEXTAUTH_URL="http://localhost:3000"
+ARG NEXTAUTH_SECRET="4f9c2a7e6d1b8c5f3e9a2d7c6b1f8e4a9c3d6e7b2f1a8c5d"
+ARG CLOUDINARY_CLOUD_NAME="dypdtkbzc"
+ARG CLOUDINARY_API_KEY="532891418414274"
+ARG CLOUDINARY_API_SECRET="_tI0HsvFvOcm39dqwwyxs2tsg3Y"
+ARG RESEND_API_KEY="re_erB6mRvH_3Q8T6DbGF3zVkKMH2rMSUSxs"
+ARG EMAIL_FROM="Dr. Kumar Foundation <info@sufisciencecenter.info>"
+
+ENV DATABASE_URL=${DATABASE_URL}
+ENV NEXTAUTH_URL=${NEXTAUTH_URL}
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ENV CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+ENV CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+ENV CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+ENV RESEND_API_KEY=${RESEND_API_KEY}
+ENV EMAIL_FROM=${EMAIL_FROM}
+
+# Configure npm for reliability
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000
 
 # Build the application
 RUN npm run build
