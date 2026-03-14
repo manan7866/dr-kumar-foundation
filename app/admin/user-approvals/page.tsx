@@ -11,6 +11,7 @@ interface User {
   role: string;
   is_active: boolean;
   approval_status?: string;
+  created_at?: string;
 }
 
 export default function AdminUserApprovalsPage() {
@@ -201,11 +202,11 @@ export default function AdminUserApprovalsPage() {
                     <span className="text-[#AAB3CF] text-sm capitalize">{u.role?.replace("_", " ") || "moderator"}</span>
                   </td>
                   <td className="px-6 py-4 text-[#AAB3CF] text-sm">
-                    {new Date(u.created_at).toLocaleDateString()}
+                    {u.created_at ? new Date(u.created_at).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs px-3 py-1 rounded-full ${statusColors[u.approval_status] || statusColors.pending}`}>
-                      {u.approval_status?.charAt(0).toUpperCase() + u.approval_status?.slice(1) || "Pending"}
+                    <span className={`text-xs px-3 py-1 rounded-full ${statusColors[u.approval_status || 'pending']}`}>
+                      {(u.approval_status || 'pending').charAt(0).toUpperCase() + (u.approval_status || 'pending').slice(1)}
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -276,11 +277,11 @@ export default function AdminUserApprovalsPage() {
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span className="text-[#AAB3CF] text-xs capitalize">{u.role?.replace("_", " ") || "moderator"}</span>
                     <span className="text-[#AAB3CF] text-xs">•</span>
-                    <span className="text-[#AAB3CF] text-xs">{new Date(u.created_at).toLocaleDateString()}</span>
+                    <span className="text-[#AAB3CF] text-xs">{u.created_at ? new Date(u.created_at).toLocaleDateString() : 'N/A'}</span>
                   </div>
                 </div>
-                <span className={`text-xs px-2.5 py-1 rounded-full ${statusColors[u.approval_status] || statusColors.pending}`}>
-                  {u.approval_status?.charAt(0).toUpperCase() + u.approval_status?.slice(1) || "Pending"}
+                <span className={`text-xs px-2.5 py-1 rounded-full ${statusColors[u.approval_status || 'pending']}`}>
+                  {(u.approval_status || 'pending').charAt(0).toUpperCase() + (u.approval_status || 'pending').slice(1)}
                 </span>
               </div>
               {filter === "pending" ? (

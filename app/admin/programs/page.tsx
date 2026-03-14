@@ -51,13 +51,13 @@ export default function AdminProgramsPage() {
       if (response.ok) {
         const contributions = await response.json();
         const programMap: ProgramMap = {
-          'healing-initiatives': { id: '1', name: 'Healing Initiatives', description: 'Structured pathways for healing and counseling programs.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'environmental-programs': { id: '2', name: 'Environmental Programs', description: 'Research and field partnership for environmental conservation.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'youth-engagement': { id: '3', name: 'Youth Engagement', description: 'Nurturing the next generation through educational programs.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'sufi-music': { id: '4', name: 'Sufi Music', description: 'Preservation and dissemination of devotional musical traditions.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'sufi-ecommerce': { id: '5', name: 'Sufi Ecommerce', description: 'Ethical commerce supporting heritage artisans and crafts.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'sufi-science': { id: '6', name: 'Sufi Science', description: 'Interdisciplinary exploration of spiritual philosophy.', is_active: true, engagement_count: 0, approved_contributions: 0 },
-          'interfaith-program': { id: '7', name: 'Interfaith Program', description: 'Dialogue and civilizational engagement infrastructure.', is_active: true, engagement_count: 0, approved_contributions: 0 },
+          'healing-initiatives': { id: '1', name: 'Healing Initiatives', description: 'Structured pathways for healing and counseling programs.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'environmental-programs': { id: '2', name: 'Environmental Programs', description: 'Research and field partnership for environmental conservation.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'youth-engagement': { id: '3', name: 'Youth Engagement', description: 'Nurturing the next generation through educational programs.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'sufi-music': { id: '4', name: 'Sufi Music', description: 'Preservation and dissemination of devotional musical traditions.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'sufi-ecommerce': { id: '5', name: 'Sufi Ecommerce', description: 'Ethical commerce supporting heritage artisans and crafts.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'sufi-science': { id: '6', name: 'Sufi Science', description: 'Interdisciplinary exploration of spiritual philosophy.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
+          'interfaith-program': { id: '7', name: 'Interfaith Program', description: 'Dialogue and civilizational engagement infrastructure.', is_active: true, engagement_count: 0, approved_contributions: 0, last_updated: new Date().toISOString() },
         };
         contributions.forEach((contrib: { program_type: string; submitted_at: string }) => {
           const programType = contrib.program_type;
