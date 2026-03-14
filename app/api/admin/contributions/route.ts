@@ -9,7 +9,10 @@ export async function GET(request: NextRequest) {
     const programType = searchParams.get('program_type');
     const role = searchParams.get('role');
 
-    const where: any = {};
+    const where: {
+      status?: string;
+      program_type?: string;
+    } = {};
     if (status !== 'all') {
       where.status = status;
     }

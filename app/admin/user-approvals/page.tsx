@@ -4,9 +4,18 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AdminLayout from "../components/AdminLayout";
 
+interface User {
+  id: string;
+  email: string;
+  full_name: string;
+  role: string;
+  is_active: boolean;
+  approval_status?: string;
+}
+
 export default function AdminUserApprovalsPage() {
   const [filter, setFilter] = useState("pending");
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 

@@ -225,7 +225,7 @@ export default function AdminTasksPage() {
       <div className="flex flex-wrap gap-3 mb-4 lg:mb-6">
         <select
           value={taskFilter}
-          onChange={(e) => setTaskFilter(e.target.value as any)}
+          onChange={(e) => setTaskFilter(e.target.value as 'all' | 'pending' | 'completed')}
           className="bg-[#232B52] border border-[#C5A85C]/20 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:border-[#C5A85C] text-sm"
         >
           <option value="all">All Status</option>

@@ -70,7 +70,7 @@ export async function POST(
     await prisma.user.update({
       where: { id: user.id },
       data: {
-        role: (newRole || 'contributor') as any,
+        role: (newRole || 'contributor') as 'contributor' | 'healing_contributor' | 'environmental_contributor' | 'youth_contributor' | 'music_contributor' | 'ecommerce_contributor' | 'science_contributor' | 'interfaith_contributor',
       },
     });
 

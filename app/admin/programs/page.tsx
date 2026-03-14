@@ -14,8 +14,22 @@ interface Program {
   last_updated: string;
 }
 
+interface Program {
+  id: string;
+  name: string;
+  description: string;
+  is_active: boolean;
+  engagement_count: number;
+  approved_contributions: number;
+  last_updated: string;
+}
+
+interface ProgramMap {
+  [key: string]: Program;
+}
+
 export default function AdminProgramsPage() {
-  const [selectedProgram, setSelectedProgram] = useState<any | null>(null);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [programs, setPrograms] = useState<Program[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,7 +50,7 @@ export default function AdminProgramsPage() {
       const response = await fetch('/api/admin/contributions?status=approved');
       if (response.ok) {
         const contributions = await response.json();
-        const programMap: Record<string, any> = {
+        const programMap: ProgramMap = {
           'healing-initiatives': { id: '1', name: 'Healing Initiatives', description: 'Structured pathways for healing and counseling programs.', is_active: true, engagement_count: 0, approved_contributions: 0 },
           'environmental-programs': { id: '2', name: 'Environmental Programs', description: 'Research and field partnership for environmental conservation.', is_active: true, engagement_count: 0, approved_contributions: 0 },
           'youth-engagement': { id: '3', name: 'Youth Engagement', description: 'Nurturing the next generation through educational programs.', is_active: true, engagement_count: 0, approved_contributions: 0 },
@@ -45,7 +59,7 @@ export default function AdminProgramsPage() {
           'sufi-science': { id: '6', name: 'Sufi Science', description: 'Interdisciplinary exploration of spiritual philosophy.', is_active: true, engagement_count: 0, approved_contributions: 0 },
           'interfaith-program': { id: '7', name: 'Interfaith Program', description: 'Dialogue and civilizational engagement infrastructure.', is_active: true, engagement_count: 0, approved_contributions: 0 },
         };
-        contributions.forEach((contrib: any) => {
+        contributions.forEach((contrib: { program_type: string; submitted_at: string }) => {
           const programType = contrib.program_type;
           if (programMap[programType]) {
             programMap[programType].approved_contributions += 1;
@@ -53,7 +67,7 @@ export default function AdminProgramsPage() {
             programMap[programType].last_updated = contrib.submitted_at;
           }
         });
-        const programList = Object.values(programMap).map((p: any) => ({ ...p, last_updated: p.last_updated || new Date().toISOString() }));
+        const programList = Object.values(programMap).map((p: Program) => ({ ...p, last_updated: p.last_updated || new Date().toISOString() }));
         setPrograms(programList);
       }
     } catch (error) { console.error('Failed to fetch programs:', error); }

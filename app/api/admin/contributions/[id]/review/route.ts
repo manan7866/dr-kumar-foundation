@@ -42,7 +42,7 @@ export async function POST(
       if (newRole) {
         await prisma.user.update({
           where: { id: contribution.user_id },
-          data: { role: newRole as any },
+          data: { role: newRole as 'contributor' | 'healing_contributor' | 'environmental_contributor' },
         });
       }
 

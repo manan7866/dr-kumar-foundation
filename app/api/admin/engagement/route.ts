@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
     const programType = searchParams.get('program_type');
     const formType = searchParams.get('form_type');
 
-    const where: any = {};
+    const where: {
+      status?: string;
+      program_type?: string;
+      form_type?: string;
+    } = {};
 
     if (status !== 'all') {
       where.status = status;
