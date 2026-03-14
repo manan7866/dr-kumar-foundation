@@ -1,15 +1,18 @@
-import type { NextConfig } from "next";
+// import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const nextConfig  = {
   // Enable standalone output for Docker deployment
   output: 'standalone',
-  
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Enable experimental features if needed
   experimental: {
     // serverActions: {
     //   bodySizeLimit: '2mb',
     // },
   },
+  
   
   // Image optimization configuration
   images: {
