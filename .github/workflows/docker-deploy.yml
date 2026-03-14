@@ -116,33 +116,51 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
             set -e
             echo "🚀 Starting deployment..."
+            echo "📂 Working directory: /var/www/dr-kumar-foundation"
             
             # Navigate to application directory
-            cd /path/to/dr-kumar-foundation
+            cd /var/www/dr-kumar-foundation
             
-            # Pull latest changes (if using git)
-            # git pull origin main
+            # Login to GitHub Container Registry
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             # Pull new Docker image
+            echo "📦 Pulling latest Docker image..."
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
-            # Stop old containers
+            # Stop old containers (keep volumes)
+            echo "🛑 Stopping old containers..."
             docker-compose down
             
             # Start new containers
+            echo "▶️  Starting new containers..."
             docker-compose up -d
             
-            # Clean up old images
-            docker image prune -f
+            # Wait for application to be ready
+            echo "⏳ Waiting for application to start..."
+            sleep 30
             
-            # Show status
+            # Check container status
+            echo "📊 Container status:"
             docker-compose ps
             
-            echo "✅ Deployment completed!"
-          EOF
+            # Show logs
+            echo "📋 Recent logs:"
+            docker-compose logs --tail=20 app
+            
+            # Clean up old images
+            echo "🧹 Cleaning up old images..."
+            docker image prune -f
+            
+            # Logout from registry
+            docker logout ghcr.io
+            
+            echo "✅ Deployment completed successfully!"
+            echo "🌐 Application URL: http://${{ secrets.VPS_HOST }}:3000"
+          ENDSSH
 
       - name: Verify deployment
         run: |
