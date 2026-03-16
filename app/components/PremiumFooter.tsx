@@ -78,7 +78,7 @@ export default function PremiumFooter() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <a href="mailto:info@drkumarfoundation.org" className="hover:text-[#C5A85C] transition-colors">
-                  info@drkumarfoundation.org
+                info@dkf.sufisciencecenter.info
                 </a>
               </div>
               <div className="flex items-center gap-3 text-[#AAB3CF]">
