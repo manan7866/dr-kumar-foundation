@@ -1,0 +1,336 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model FoundationGovernance {
+  id            String    @id @default(uuid())
+  full_name     String
+  role_title    String
+  bio_summary   String?
+  term_start    DateTime?
+  term_end      DateTime?
+  display_order Int       @default(0)
+  is_active     Boolean   @default(true)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  @@index([is_active])
+  @@index([display_order])
+}
+
+model Member {
+  id                    String           @id @default(uuid())
+  full_name             String
+  country               String
+  city                  String?
+  profession            String
+  year_connected        Int
+  first_encounter       String
+  resonated_quality     ResonatedQuality
+  life_changes          String
+  continuing_engagement String
+  photo_url             String?
+  media_url             String?
+  approved              Boolean          @default(false)
+  visibility_status     VisibilityStatus @default(draft)
+  created_at            DateTime         @default(now())
+  updated_at            DateTime         @updatedAt
+  country_ref           Region           @relation(fields: [country], references: [name])
+
+  @@index([approved])
+  @@index([visibility_status])
+  @@index([country])
+  @@index([year_connected])
+}
+
+model Registration {
+  id                    String           @id @default(uuid())
+  full_name             String
+  country               String
+  profession            String
+  year_connected        Int
+  first_encounter       String
+  resonated_quality     ResonatedQuality
+  life_changes          String
+  continuing_engagement String
+  consent_accepted      Boolean          @default(false)
+  review_status         ReviewStatus     @default(pending)
+  reviewed_by           String?
+  reviewed_at           DateTime?
+  created_at            DateTime         @default(now())
+  country_ref           Region           @relation(fields: [country], references: [name])
+
+  @@index([review_status])
+  @@index([created_at])
+}
+
+model Region {
+  id            String         @id @default(uuid())
+  continent     String
+  name          String         @unique
+  countries     String         @default("[]")
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  members       Member[]
+  registrations Registration[]
+
+  @@index([continent])
+  @@index([name])
+}
+
+model Gathering {
+  id               String   @id @default(uuid())
+  year             Int
+  location_city    String
+  location_country String
+  region_name      String
+  description      String?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@index([year])
+  @@index([region_name])
+}
+
+model PrinciplePage {
+  id                    String   @id @default(uuid())
+  title                 String   @unique
+  definition            String
+  context               String?
+  practical_implication String?
+  selected_words        String?
+  display_order         Int      @default(0)
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  @@index([display_order])
+}
+
+model FoundationSection {
+  id            String   @id @default(uuid())
+  section_name  String   @unique
+  content       String
+  display_order Int      @default(0)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([display_order])
+}
+
+model User {
+  id                String        @id @default(uuid())
+  email             String        @unique
+  password_hash     String
+  full_name         String
+  avatar_url        String?
+  role              UserRole      @default(contributor)
+  is_active         Boolean       @default(false)
+  approval_status   String        @default("pending")
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+  assigned_programs String[]
+  audit_logs        AuditLog[]
+  userPrograms      UserProgram[]
+
+  @@index([email])
+  @@index([role])
+  @@index([approval_status])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String
+  entity_type String
+  entity_id   String
+  user_id     String
+  user_email  String
+  user_role   String
+  changes     String?
+  ip_address  String?
+  created_at  DateTime @default(now())
+  user        User     @relation(fields: [user_id], references: [id])
+
+  @@index([entity_type])
+  @@index([entity_id])
+  @@index([user_id])
+  @@index([created_at])
+  @@index([action])
+}
+
+model MemberVersion {
+  id                    String           @id @default(uuid())
+  member_id             String
+  full_name             String
+  country               String
+  city                  String?
+  profession            String
+  year_connected        Int
+  first_encounter       String
+  resonated_quality     ResonatedQuality
+  life_changes          String
+  continuing_engagement String
+  photo_url             String?
+  media_url             String?
+  version_number        Int
+  created_at            DateTime         @default(now())
+  created_by            String
+
+  @@index([member_id])
+  @@index([version_number])
+}
+
+model EngagementRequest {
+  id           String    @id @default(uuid())
+  program_type String
+  form_type    String
+  payload      String
+  status       String    @default("pending")
+  created_at   DateTime  @default(now())
+  reviewed_at  DateTime?
+  reviewed_by  String?
+
+  @@index([program_type])
+  @@index([form_type])
+  @@index([status])
+  @@index([created_at])
+}
+
+enum ResonatedQuality {
+  Stillness
+  Clarity
+  Discipline
+  Accountability
+  Compassion
+  Presence
+  Ethical_Firmness
+  Self_Awareness
+  Inner_Discipline
+  Reflective_Silence
+  Ethical_Conduct
+  Shared_Responsibility
+}
+
+enum VisibilityStatus {
+  draft
+  published
+  archived
+}
+
+enum ReviewStatus {
+  pending
+  approved
+  rejected
+}
+
+enum UserRole {
+  super_admin
+  program_director
+  moderator
+  contributor
+  healing_contributor
+  environmental_contributor
+  youth_contributor
+  music_contributor
+  ecommerce_contributor
+  science_contributor
+  interfaith_contributor
+}
+
+model UserProgram {
+  id           String   @id @default(uuid())
+  user_id      String
+  program_type String
+  joined_at    DateTime @default(now())
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  user         User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  contributions Contribution[]
+  tasks        Task[]
+
+  @@unique([user_id, program_type])
+  @@index([user_id])
+  @@index([program_type])
+}
+
+model Contribution {
+  id                 String   @id @default(uuid())
+  user_program_id    String
+  user_id            String
+  user_name          String
+  user_email         String
+  program_type       String
+  title              String
+  activity_date      DateTime
+  venue_city         String
+  venue_country      String
+  participant_count  Int
+  participant_phones String
+  task_conducted     String
+  results            String
+  status             String   @default("pending")
+  admin_comment      String?
+  submitted_at       DateTime @default(now())
+  reviewed_at        DateTime?
+  reviewed_by        String?
+  user_program       UserProgram @relation(fields: [user_program_id], references: [id])
+
+  @@index([user_id])
+  @@index([program_type])
+  @@index([status])
+  @@index([submitted_at])
+}
+
+model Task {
+  id            String   @id @default(uuid())
+  user_program_id String
+  user_id       String
+  user_name     String
+  user_email    String
+  program_type  String
+  title         String
+  message       String
+  status        String   @default("pending")
+  created_at    DateTime @default(now())
+  due_date      DateTime?
+  completed_at  DateTime?
+  user_program  UserProgram @relation(fields: [user_program_id], references: [id])
+
+  @@index([user_id])
+  @@index([program_type])
+  @@index([status])
+}
+
+model Notification {
+  id         String   @id @default(uuid())
+  user_id    String
+  title      String
+  message    String
+  type       String
+  is_read    Boolean  @default(false)
+  link       String?
+  created_at DateTime @default(now())
+
+  @@index([user_id])
+  @@index([is_read])
+}
+
+model Quote {
+  id           String   @id @default(uuid())
+  text         String
+  category     String
+  is_featured  Boolean  @default(false)
+  display_order Int     @default(0)
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([category])
+  @@index([is_active])
+  @@index([is_featured])
+  @@index([display_order])
+}

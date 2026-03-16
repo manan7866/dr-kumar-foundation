@@ -29,7 +29,7 @@ const nextConfig : NextConfig  = {
   // Environment variables
   env: {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || "http://localhost:3000",
-    DATABASE_URL: process.env.DATABASE_URL || "postgresql://dkf_user:dfk123987%pls:5432/dfk_db?schema=public",
+    DATABASE_URL: process.env.DATABASE_URL || "postgresql://dkf_user:dfk123987pls:5432/dfk_db?schema=public",
   },
 };
 
