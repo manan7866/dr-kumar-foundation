@@ -23,7 +23,7 @@ function Milestone({ period, title, description, delay }: MilestoneProps) {
       <div className="absolute left-0 top-2 w-3 h-3 bg-[#C5A85C] rounded-full shadow-[0_0_20px_rgba(197,168,92,0.5)]" />
       
       {/* Period Label */}
-      <div className="text-[#C5A85C] text-sm uppercase tracking-widest mb-2">
+      <div className="text-[#C5A85C] text-sm  tracking-widest mb-2">
         {period}
       </div>
       
