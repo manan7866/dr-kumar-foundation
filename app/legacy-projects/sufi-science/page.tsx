@@ -531,18 +531,18 @@ export default function SufiSciencePage() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="mb-16"
           >
-            <div className="max-w-4xl mx-auto">
+            <div className="w-full  ">
               <h3 className="font-serif text-xl text-white mb-2 text-center">
                 Watch the Pre-Launch Video
               </h3>
               <p className="text-[#AAB3CF] text-sm leading-relaxed mb-6 text-center">
                 An early introduction to the vision, spirit, and future direction of Sufi Science Center USA.
               </p>
-              <div className="relative">
+              <div className="relative  w-full">
                 {/* Video Container - 16:9 Aspect Ratio */}
-                <div className="relative w-full pb-[56.25%] bg-[#232B52] rounded-xl overflow-hidden border border-[#C5A85C]/15">
+                <div className="relative w-full pb-[65%] bg-[#232B52] rounded-xl overflow-hidden border border-[#C5A85C]/15">
                   <iframe
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0  w-full h-full"
                     src="https://www.youtube.com/embed/kX2g8o2uEGw"
                     title="Sufi Science Center USA Pre-Launch Video"
                     frameBorder="0"
@@ -561,7 +561,7 @@ export default function SufiSciencePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="max-w-5xl mx-auto">
+            <div className="w-full">
               <h3 className="font-serif text-xl text-white mb-4 text-center">
                 What Sufi Science Center USA Is Being Built To Do
               </h3>

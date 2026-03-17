@@ -489,6 +489,135 @@ export default function SufiEcommercePage() {
           </div>
         </div>
       </section>
+      {/* Pre-Launch Introduction Section */}
+      <section className="section-spacing bg-[#1C2340] relative">
+        <div className="container-premium">
+          {/* Gold Divider Above Section */}
+          <motion.div
+            initial={{ opacity: 0, width: 0 }}
+            whileInView={{ opacity: 1, width: "12rem" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="gold-divider long mx-auto mb-12"
+          />
+
+          {/* Section Intro */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <p className="text-[#C5A85C] text-xs uppercase tracking-widest mb-3">
+              Pre-Launch Introduction
+            </p>
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
+              Introducing Sufi Science Center USA
+            </h2>
+            <p className="text-[#AAB3CF] max-w-3xl mx-auto leading-relaxed">
+              Sufi Science Center USA is an upcoming platform initiative within the wider Sufi Science vision of Dr. Kumar Foundation USA. This pre-launch introduction offers an early look at its direction, purpose, and evolving role.
+            </p>
+          </motion.div>
+
+          {/* Subsection 1: Pre-Launch Video */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="mb-16"
+          >
+            <div className="w-full  ">
+              <h3 className="font-serif text-xl text-white mb-2 text-center">
+                Watch the Pre-Launch Video
+              </h3>
+              <p className="text-[#AAB3CF] text-sm leading-relaxed mb-6 text-center">
+                An early introduction to the vision, spirit, and future direction of Sufi Science Center USA.
+              </p>
+              <div className="relative  w-full">
+                {/* Video Container - 16:9 Aspect Ratio */}
+                <div className="relative w-full pb-[65%] bg-[#232B52] rounded-xl overflow-hidden border border-[#C5A85C]/15">
+                  <iframe
+                    className="absolute inset-0  w-full h-full"
+                    src="https://www.youtube.com/embed/kX2g8o2uEGw"
+                    title="Sufi Science Center USA Pre-Launch Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Subsection 2: Website Objective */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="w-full">
+              <h3 className="font-serif text-xl text-white mb-4 text-center">
+                What Sufi Science Center USA Is Being Built To Do
+              </h3>
+              <p className="text-[#AAB3CF] leading-relaxed mb-3 text-center max-w-4xl mx-auto">
+                Sufi Science Center USA is being developed as a future-facing platform for consciousness research, contemplative knowledge systems, inner development, scholarly dialogue, and meaningful public engagement. Rooted in the wider vision of Dr. Kumar Foundation USA, it represents an upgraded and expanded phase of inquiry designed to deepen engagement with spiritual wisdom, knowledge systems, interdisciplinary reflection, and human transformation in a serious and contemporary way.
+              </p>
+              <p className="text-[#C5A85C]! text-sm italic leading-relaxed mb-10 text-center">
+                This emerging platform marks a more advanced and structured level of inquiry within the wider Sufi Science vision.
+              </p>
+
+              {/* Objective Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                  {
+                    title: "Consciousness Inquiry",
+                    description: "Exploring awareness, inner experience, and transformative understanding through a disciplined and reflective lens.",
+                  },
+                  {
+                    title: "Knowledge Heritage",
+                    description: "Organizing teachings, lineages, epistemic frameworks, and contemplative traditions into meaningful pathways of study.",
+                  },
+                  {
+                    title: "Inner Assessment",
+                    description: "Providing structured tools for self-reflection, developmental understanding, and personalized learning pathways.",
+                  },
+                  {
+                    title: "Research Dialogues",
+                    description: "Advancing conversation, scholarship, interdisciplinary exchange, and deeper public engagement around Sufi Science.",
+                  },
+                  {
+                    title: "Creative Participation",
+                    description: "Creating space for creative expression, partnership, contribution, and thoughtful collective involvement.",
+                  },
+                  {
+                    title: "Learning Pathways",
+                    description: "Developing curated materials, guided curricula, and accessible learning resources for diverse audiences seeking deeper understanding.",
+                  },
+                ].map((item, index) => (
+                  <motion.div
+                    key={item.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 + index * 0.05 }}
+                    className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-6"
+                  >
+                    <h4 className="font-serif text-[#C5A85C] text-base mb-3">
+                      {item.title}
+                    </h4>
+                    <p className="text-[#AAB3CF] text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       <PremiumFooter />
     </div>
