@@ -64,6 +64,8 @@ export default function MembersDirectoryPage() {
   const [selectedProfession, setSelectedProfession] = useState("All");
   const [selectedYear, setSelectedYear] = useState<number | "All">("All");
   const [regions, setRegions] = useState<Region[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const membersPerSlide = 8;
 
   // Fetch members from database
   useEffect(() => {
@@ -113,6 +115,26 @@ export default function MembersDirectoryPage() {
     const matchesYear = selectedYear === "All" || member.year_connected === selectedYear;
     return matchesSearch && matchesCountry && matchesProfession && matchesYear;
   });
+
+  // Slider navigation
+  const totalSlides = Math.ceil(filteredMembers.length / membersPerSlide);
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  const getCurrentMembers = () => {
+    const start = currentSlide * membersPerSlide;
+    return filteredMembers.slice(start, start + membersPerSlide);
+  };
 
   // Get unique countries from members
   const memberCountries = Array.from(new Set(members.map(m => m.country))).sort();
@@ -221,27 +243,77 @@ export default function MembersDirectoryPage() {
         </div>
       </section>
 
-      {/* Members Grid */}
+      {/* Members Slider */}
       <section className="section-spacing bg-[#1C2340]">
-        <div className="container-premium">
+        <div className="container-premium ">
           {isLoading ? (
             <div className="text-center py-24">
               <div className="w-16 h-16 border-4 border-[#C5A85C]/20 border-t-[#C5A85C] rounded-full animate-spin mx-auto mb-4" />
               <p className="text-[#AAB3CF]">Loading members...</p>
             </div>
           ) : filteredMembers.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredMembers.map((member, index) => (
-                <MemberCard
-                  key={member.id}
-                  id={member.id.toString()}
-                  name={member.full_name}
-                  country={member.country}
-                  profession={member.profession}
-                  yearConnected={member.year_connected}
-                  delay={0.05 * index}
-                />
-              ))}
+            <div className="relative ">
+              {/* Previous Arrow */}
+              <button
+                onClick={prevSlide}
+                className="absolute -left-4 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-8 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                aria-label="Previous slide"
+              >
+                <svg className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              {/* Members Grid Slide */}
+              <div className="overflow-hidden ">
+                <div
+                  className="grid sm:grid-cols-2 -z-30 my-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-transform duration-500"
+                >
+                  {getCurrentMembers().map((member, index) => (
+                    <MemberCard 
+                      key={member.id}
+                      id={member.id.toString()}
+                      name={member.full_name}
+                      country={member.country}
+                      profession={member.profession}
+                      yearConnected={member.year_connected}
+                      delay={0.05 * index}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Next Arrow */}
+              <button
+                onClick={nextSlide}
+                className="absolute -right-4 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-8 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                aria-label="Next slide"
+              >
+                <svg className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Dots Indicator */}
+              <div className="flex justify-center gap-2 mt-8">
+                {Array.from({ length: totalSlides }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentSlide === index
+                        ? 'bg-[#C5A85C] w-8'
+                        : 'bg-[#C5A85C]/30 hover:bg-[#C5A85C]/50'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Slide Counter */}
+              <div className="text-center mt-4 text-[#AAB3CF] text-sm">
+                Slide {currentSlide + 1} of {totalSlides} ({filteredMembers.length} members)
+              </div>
             </div>
           ) : (
             <div className="text-center py-24">

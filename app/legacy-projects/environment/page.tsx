@@ -309,7 +309,7 @@ export default function EnvironmentalProgramsPage() {
       </section>
 
       {/* Top Contributions */}
-      {/* <section className="section-spacing bg-[#151A30] relative">
+      <section className="section-spacing bg-[#151A30] relative">
         <div className="container-premium">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -339,7 +339,7 @@ export default function EnvironmentalProgramsPage() {
             />
           )}
         </div>
-      </section> */}
+      </section>
 
       {/* Impact Metrics */}
       <section className="section-spacing bg-[#1C2340] relative">

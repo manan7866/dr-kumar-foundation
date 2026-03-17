@@ -14,7 +14,7 @@ interface MemberCardProps {
 
 export default function MemberCard({ id, name, country, profession, yearConnected, delay }: MemberCardProps) {
   return (
-    <motion.div
+    <motion.div className=""
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -23,7 +23,7 @@ export default function MemberCard({ id, name, country, profession, yearConnecte
     >
       <Link
         href={`/the-circle/members-directory/${id}`}
-        className="group block bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-6 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)]"
+        className="group block bg-[#232B52] border  border-[#C5A85C]/15 rounded-2xl p-6 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)]"
       >
         {/* Name */}
         <h3 className="font-serif text-xl text-white mb-3 group-hover:text-[#C5A85C] transition-colors duration-300">

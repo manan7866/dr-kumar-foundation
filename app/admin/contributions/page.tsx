@@ -52,6 +52,7 @@ export default function AdminContributionsPage() {
   const [selectedContribution, setSelectedContribution] = useState<Contribution | null>(null);
   const [adminComment, setAdminComment] = useState('');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const [user] = useState(() => {
@@ -159,6 +160,33 @@ export default function AdminContributionsPage() {
       console.error('Failed to review contribution:', error);
     } finally {
       setActionLoading(null);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this contribution? This action cannot be undone.')) return;
+    
+    setIsDeleting(true);
+    try {
+      const token = localStorage.getItem("admin_token");
+      const response = await fetch(`/api/admin/contributions/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        fetchContributions();
+        setSelectedContribution(null);
+      } else {
+        alert('Failed to delete contribution');
+      }
+    } catch (error) {
+      console.error('Failed to delete contribution:', error);
+      alert('Error deleting contribution');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -460,6 +488,22 @@ export default function AdminContributionsPage() {
                     </button>
                   </div>
                 )}
+                
+                {selectedContribution.status === 'approved' && (
+                  <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+                    <button
+                      onClick={() => handleDelete(selectedContribution.id)}
+                      disabled={isDeleting}
+                      className="px-4 sm:px-6 py-2.5 sm:py-3 border border-red-500/40 text-red-400 rounded-lg hover:bg-red-500/10 transition-all disabled:opacity-50 text-sm sm:text-base flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      {isDeleting ? 'Deleting...' : 'Delete Contribution'}
+                    </button>
+                  </div>
+                )}
+                
                 <button
                   onClick={() => {
                     setSelectedContribution(null);

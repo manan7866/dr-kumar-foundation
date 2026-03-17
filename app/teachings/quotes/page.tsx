@@ -30,6 +30,8 @@ export default function QuotesPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const quotesPerSlide = 6;
 
   useEffect(() => {
     const fetchQuotes = async () => {
@@ -52,12 +54,32 @@ export default function QuotesPage() {
   const filteredQuotes = useMemo(() => {
     return quotes.filter((quote) => {
       const matchesCategory = selectedCategory === "All" || quote.category === selectedCategory;
-      const matchesSearch = searchQuery === "" || 
+      const matchesSearch = searchQuery === "" ||
         quote.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
         quote.category.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery, quotes]);
+
+  // Slider navigation
+  const totalSlides = Math.ceil(filteredQuotes.length / quotesPerSlide);
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  const getCurrentQuotes = () => {
+    const start = currentSlide * quotesPerSlide;
+    return filteredQuotes.slice(start, start + quotesPerSlide);
+  };
 
   const featuredQuote = quotes.find((q) => q.is_featured) || quotes[0];
 
@@ -176,7 +198,7 @@ export default function QuotesPage() {
         </div>
       </section>
 
-      {/* Quotes Grid Section */}
+      {/* Quotes Slider Section */}
       <section id="quotes" className="section-spacing bg-[#151A30] relative overflow-hidden">
         <div className="absolute inset-0 pattern-subtle opacity-20" />
 
@@ -187,44 +209,95 @@ export default function QuotesPage() {
             </div>
           ) : (
             <>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
-              Collection of Wisdom
-            </h2>
-            <div className="gold-divider long mx-auto mb-6" />
-            <p className="text-[#AAB3CF] max-w-2xl mx-auto leading-relaxed">
-              {filteredQuotes.length} {filteredQuotes.length === 1 ? "teaching" : "teachings"} available for reflection
-            </p>
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="text-center mb-12"
+              >
+                <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
+                  Collection of Wisdom
+                </h2>
+                <div className="gold-divider long mx-auto mb-6" />
+                <p className="text-[#AAB3CF] max-w-2xl mx-auto leading-relaxed">
+                  {filteredQuotes.length} {filteredQuotes.length === 1 ? "teaching" : "teachings"} available for reflection
+                </p>
+              </motion.div>
 
-          {filteredQuotes.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredQuotes.map((quote, index) => (
-                <QuoteCard
-                  key={quote.id}
-                  quote={quote.text}
-                  category={quote.category}
-                  delay={index * 0.05}
-                />
-              ))}
-            </div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-20"
-            >
-              <p className="text-[#AAB3CF] text-lg">
-                No teachings found matching your search. Try a different category or keyword.
-              </p>
-            </motion.div>
-          )}
+              {filteredQuotes.length > 0 ? (
+                <div className="relative">
+                  {/* Quotes Grid Slide */}
+                  <div className="overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {getCurrentQuotes().map((quote, index) => (
+                        <QuoteCard
+                          key={quote.id}
+                          quote={quote.text}
+                          category={quote.category}
+                          delay={index * 0.05}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Navigation Arrows - Right Side */}
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
+                    {/* Previous Arrow */}
+                    <button
+                      onClick={prevSlide}
+                      className="w-12 h-12 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                      aria-label="Previous slide"
+                    >
+                      <svg className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </button>
+
+                    {/* Next Arrow */}
+                    <button
+                      onClick={nextSlide}
+                      className="w-12 h-12 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                      aria-label="Next slide"
+                    >
+                      <svg className="w-6 h-6 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Dots Indicator */}
+                  <div className="flex justify-center gap-2 mt-8">
+                    {Array.from({ length: totalSlides }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => goToSlide(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          currentSlide === index
+                            ? 'bg-[#C5A85C] w-8'
+                            : 'bg-[#C5A85C]/30 hover:bg-[#C5A85C]/50'
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Slide Counter */}
+                  <div className="text-center mt-4 text-[#AAB3CF] text-sm">
+                    Slide {currentSlide + 1} of {totalSlides} ({filteredQuotes.length} quotes)
+                  </div>
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-20"
+                >
+                  <p className="text-[#AAB3CF] text-lg">
+                    No teachings found matching your search. Try a different category or keyword.
+                  </p>
+                </motion.div>
+              )}
             </>
           )}
         </div>
