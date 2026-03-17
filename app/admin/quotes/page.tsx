@@ -29,6 +29,10 @@ export default function AdminQuotesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [isToggling, setIsToggling] = useState<string | null>(null);
+  const [isBulkUploadOpen, setIsBulkUploadOpen] = useState(false);
+  const [bulkUploadFile, setBulkUploadFile] = useState<File | null>(null);
+  const [isBulkUploading, setIsBulkUploading] = useState(false);
+  const [bulkUploadResult, setBulkUploadResult] = useState<{ success: number; failed: number } | null>(null);
 
   const [formData, setFormData] = useState({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true });
 
@@ -113,6 +117,38 @@ export default function AdminQuotesPage() {
     finally { setIsToggling(null); }
   };
 
+  const handleBulkUpload = async () => {
+    if (!bulkUploadFile) return;
+    setIsBulkUploading(true);
+    setBulkUploadResult(null);
+    try {
+      const fileText = await bulkUploadFile.text();
+      const quotes = JSON.parse(fileText);
+      const response = await fetch("/api/admin/quotes/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quotes }),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        setBulkUploadResult(result);
+        fetchQuotes();
+      }
+    } catch (error) {
+      console.error("Bulk upload failed:", error);
+      setBulkUploadResult({ success: 0, failed: quotes?.length || 0 });
+    }
+    finally { setIsBulkUploading(false); }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type === "application/json") {
+      setBulkUploadFile(file);
+      setBulkUploadResult(null);
+    }
+  };
+
   const filteredQuotes = quotes.filter((quote) => {
     const matchesSearch = quote.text.toLowerCase().includes(searchQuery.toLowerCase()) || quote.category.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "All" || quote.category === selectedCategory;
@@ -129,10 +165,19 @@ export default function AdminQuotesPage() {
           <h2 className="text-xl sm:text-2xl font-serif text-white mb-2">Quotes Management</h2>
           <p className="text-[#AAB3CF] text-sm sm:text-base">Curate inspirational quotes</p>
         </div>
-        <button onClick={() => { setEditingQuote(null); setFormData({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true }); setIsModalOpen(true); }}
-          className="px-4 py-2.5 bg-[#C5A85C] text-[#1C2340] text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-[#C5A85C]/80 transition-colors rounded-lg whitespace-nowrap">
-          Add Quote
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <button onClick={() => { setIsBulkUploadOpen(true); setBulkUploadFile(null); setBulkUploadResult(null); }}
+            className="px-4 py-2.5 bg-[#232B52] border border-[#C5A85C]/40 text-[#C5A85C] text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-[#C5A85C]/10 transition-colors rounded-lg whitespace-nowrap flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            Bulk Upload
+          </button>
+          <button onClick={() => { setEditingQuote(null); setFormData({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true }); setIsModalOpen(true); }}
+            className="px-4 py-2.5 bg-[#C5A85C] text-[#1C2340] text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-[#C5A85C]/80 transition-colors rounded-lg whitespace-nowrap">
+            Add Quote
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -267,6 +312,128 @@ export default function AdminQuotesPage() {
               <div className="flex gap-3">
                 <button onClick={() => setDeleteConfirmId(null)} className="flex-1 px-4 py-2.5 border border-white/20 text-[#C9CCD6] text-sm rounded-lg hover:border-[#C5A85C] transition-colors">Cancel</button>
                 <button onClick={() => handleDelete(deleteConfirmId)} disabled={isDeleting === deleteConfirmId} className="flex-1 px-4 py-2.5 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50">{isDeleting === deleteConfirmId ? 'Deleting...' : 'Delete'}</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Bulk Upload Modal */}
+      <AnimatePresence>
+        {isBulkUploadOpen && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto" onClick={() => setIsBulkUploadOpen(false)}>
+            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-[#232B52] border border-[#C5A85C]/20 p-4 sm:p-6 w-full max-w-2xl my-8 max-h-[85vh] overflow-y-auto rounded-xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-white font-serif text-lg sm:text-xl">Bulk Upload Quotes</h3>
+                <button onClick={() => setIsBulkUploadOpen(false)} className="text-[#AAB3CF] hover:text-white p-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Example Section */}
+              <div className="mb-6">
+                <label className="block text-[#C9CCD6] text-xs uppercase mb-2">JSON Format Example:</label>
+                <div className="bg-[#1C2340] border border-[#C5A85C]/20 rounded-lg p-4 overflow-x-auto">
+                  <pre className="text-[#AAB3CF] text-xs sm:text-sm whitespace-pre-wrap">
+{`[
+  {
+    "text": "Your quote text here",
+    "category": "Compassion",
+    "is_featured": false,
+    "display_order": 0,
+    "is_active": true
+  },
+  {
+    "text": "Another quote",
+    "category": "Self Awareness",
+    "is_featured": true,
+    "display_order": 1,
+    "is_active": true
+  }
+]`}
+                  </pre>
+                </div>
+                <p className="text-[#AAB3CF] text-xs mt-2">
+                  <strong>Categories:</strong> Compassion, Self Awareness, Inner Discipline, Ethical Conduct, Human Unity, Peace and Reflection
+                </p>
+              </div>
+
+              {/* File Upload */}
+              <div className="mb-6">
+                <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Upload JSON File:</label>
+                <div className="border-2 border-dashed border-[#C5A85C]/20 rounded-lg p-6 text-center hover:border-[#C5A85C]/40 transition-colors">
+                  <input
+                    type="file"
+                    accept=".json,application/json"
+                    onChange={handleFileChange}
+                    className="hidden"
+                    id="file-upload"
+                  />
+                  <label htmlFor="file-upload" className="cursor-pointer">
+                    <svg className="w-12 h-12 text-[#C5A85C]/40 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    {bulkUploadFile ? (
+                      <div>
+                        <p className="text-white text-sm font-medium">{bulkUploadFile.name}</p>
+                        <p className="text-[#AAB3CF] text-xs">{(bulkUploadFile.size / 1024).toFixed(2)} KB</p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-[#C9CCD6] text-sm mb-2">Drag and drop your JSON file here, or click to browse</p>
+                        <p className="text-[#AAB3CF] text-xs">Only .json files are accepted</p>
+                      </div>
+                    )}
+                  </label>
+                </div>
+              </div>
+
+              {/* Result Display */}
+              {bulkUploadResult && (
+                <div className="mb-6 p-4 rounded-lg border">
+                  {bulkUploadResult.success > 0 ? (
+                    <div className="flex items-center gap-3 text-green-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-sm">Successfully uploaded {bulkUploadResult.success} quote{bulkUploadResult.success !== 1 ? 's' : ''}!</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3 text-red-400">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-sm">Upload failed. Please check your JSON format.</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4 border-t border-[#C5A85C]/20">
+                <button type="button" onClick={() => setIsBulkUploadOpen(false)} disabled={isBulkUploading} className="flex-1 px-4 py-2.5 border border-white/20 text-[#C9CCD6] text-xs sm:text-sm uppercase tracking-wider hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">
+                  Close
+                </button>
+                <button type="button" onClick={handleBulkUpload} disabled={!bulkUploadFile || isBulkUploading} className="flex-1 px-4 py-2.5 bg-[#C5A85C] text-[#1C2340] text-xs sm:text-sm uppercase tracking-wider hover:bg-[#D4BE90] rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                  {isBulkUploading ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      Upload Quotes
+                    </>
+                  )}
+                </button>
               </div>
             </motion.div>
           </motion.div>

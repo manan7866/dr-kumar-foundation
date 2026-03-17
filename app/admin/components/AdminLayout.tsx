@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface NavItem {
   label: string;
@@ -231,8 +232,8 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
         {/* Logo Section */}
         <div className="h-16 lg:h-20 flex items-center justify-between px-4 lg:px-6 border-b border-[#C5A85C]/20">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 border border-[#C5A85C]/40 rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="text-[#C5A85C] font-serif text-lg lg:text-xl font-bold">D</span>
+            <div className=" rounded-lg flex items-center justify-center flex-shrink-0">
+            <Image alt="LOGO" height={50} width={50} src="/dkf_logo_21.png" className="pt-2" />
             </div>
             {(!isCollapsed || isMobile) && (
               <span className="text-[#C5A85C] font-serif text-base lg:text-lg font-bold truncate">

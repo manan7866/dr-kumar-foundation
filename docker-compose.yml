@@ -1,142 +1,61 @@
-# # ─────────────────────────────────────────────────────────────────────────────
-# # Docker Compose for Dr. Kumar Foundation Website
-# # ─────────────────────────────────────────────────────────────────────────────
-
-# services:
-#   # ──────────────────────────────────────────────────────────────────────────
-#   # PostgreSQL Database
-#   # ──────────────────────────────────────────────────────────────────────────
-#   db:
-#     image: postgres:15-alpine
-#     container_name: dr-kumar-db
-#     restart: unless-stopped
-#     environment:
-#       - POSTGRES_USER=${POSTGRES_USER}
-#       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#       - POSTGRES_DB=${POSTGRES_DB}
-#     volumes:
-#       - postgres-data:/var/lib/postgresql/data
-#       - ./backup_data_only.sql:/docker-entrypoint-initdb.d/backup_data_only.sql
-#     networks:
-#       - dr-kumar-network
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-#       start_period: 10s
-
-#   # ──────────────────────────────────────────────────────────────────────────
-#   # Next.js Application
-#   # ──────────────────────────────────────────────────────────────────────────
-#   app:
-#     image: ${DOCKERHUB_USERNAME}/dkf-app:latest
-#     container_name: dr-kumar-app
-#     restart: unless-stopped
-#     ports:
-#       - "3000:3000"
-#     environment:
-#       - NODE_ENV=production
-#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-#       - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-#       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-#       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-#       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-#       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-#       - CLOUDINARY_UPLOAD_FOLDER=${CLOUDINARY_UPLOAD_FOLDER:-dr-kumar-profiles}
-#       - RESEND_API_KEY=${RESEND_API_KEY}
-#       - EMAIL_FROM=${EMAIL_FROM}
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#     networks:
-#       - dr-kumar-network
-#     volumes:
-#       - app-logs:/app/logs
-#     healthcheck:
-#       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-#       interval: 30s
-#       timeout: 10s
-#       retries: 3
-#       start_period: 40s
-
-#   # ──────────────────────────────────────────────────────────────────────────
-#   # Database Migration Service (Runs once on deployment)
-#   # ──────────────────────────────────────────────────────────────────────────
-#   migrate:
-#     image: ${DOCKERHUB_USERNAME}/dkf-app:latest
-#     container_name: dr-kumar-migrate
-#     restart: "no"
-#     environment:
-#       - HOSTNAME=0.0.0.0
-#       - PORT=3000
-#       - "3000:3000"
-#       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-#       - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-#       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-#       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-#       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-#       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-#       - RESEND_API_KEY=${RESEND_API_KEY}
-#       - EMAIL_FROM=${EMAIL_FROM}
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#     networks:
-#       - dr-kumar-network
-#     command: >
-#       sh -c "
-#         echo 'Waiting for database to be ready...' &&
-#         sleep 5 &&
-#         echo 'Running Prisma migrations...' &&
-#         npx prisma migrate deploy &&
-#         echo 'Migrations completed!' &&
-#         echo 'Seeding database (if needed)...' &&
-#         npx prisma db seed || true &&
-#         echo 'Database setup complete!'
-#       "
-
-# # ──────────────────────────────────────────────────────────────────────────
-# # Volumes
-# # ──────────────────────────────────────────────────────────────────────────
-# volumes:
-#   postgres-data:
-#     driver: local
-#   app-logs:
-#     driver: local
-
-# # ──────────────────────────────────────────────────────────────────────────
-# # Networks
-# # ──────────────────────────────────────────────────────────────────────────
-# networks:
-#   dr-kumar-network:
-#     driver: bridge
 # ─────────────────────────────────────────────────────────────────────────────
-# Docker Compose for Dr. Kumar Foundation Website
+# Docker Compose for Dr. Kumar Foundation Website - Production
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Database Migration Service (Runs BEFORE app starts)
+  # ──────────────────────────────────────────────────────────────────────────
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: dr-kumar-migrate
+    restart: "no"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - dr-kumar-network
+    command: >
+      sh -c "
+        echo '⏳ Waiting for database to be ready...' &&
+        sleep 5 &&
+        echo '📋 Running Prisma migrations...' &&
+        npx prisma migrate deploy &&
+        echo '✅ Migrations completed!' &&
+        echo '🌱 Seeding database (if needed)...' &&
+        npx prisma db seed || echo '⚠️ No seed data or seed failed' &&
+        echo '🎉 Database setup complete!'
+      "
 
-  # ──────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────────────────
   # PostgreSQL Database
-  # ──────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────────────────
   db:
     image: postgres:15-alpine
     container_name: dr-kumar-db
     restart: unless-stopped
-
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./backup_data_only.sql:/docker-entrypoint-initdb.d/backup_data_only.sql
-
     networks:
       - dr-kumar-network
-
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -144,42 +63,38 @@ services:
       retries: 5
       start_period: 10s
 
-
-  # ──────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────────────────
   # Next.js Application
-  # ──────────────────────────────────────────────────────────
+  # ──────────────────────────────────────────────────────────────────────────
   app:
-    image: ${DOCKERHUB_USERNAME}/dkf-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
     container_name: dr-kumar-app
     restart: unless-stopped
-
     ports:
       - "3000:3000"
-
     environment:
-      HOSTNAME: 0.0.0.0
-      PORT: 3000
-      NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
-      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
-      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
-      CLOUDINARY_UPLOAD_FOLDER: ${CLOUDINARY_UPLOAD_FOLDER:-dr-kumar-profiles}
-      RESEND_API_KEY: ${RESEND_API_KEY}
-      EMAIL_FROM: ${EMAIL_FROM}
-
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+      - CLOUDINARY_UPLOAD_FOLDER=${CLOUDINARY_UPLOAD_FOLDER:-dr-kumar-profiles}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - EMAIL_FROM=${EMAIL_FROM}
     depends_on:
+      migrate:
+        condition: service_completed_successfully
       db:
         condition: service_healthy
-
     networks:
       - dr-kumar-network
-
     volumes:
       - app-logs:/app/logs
-
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
@@ -187,60 +102,18 @@ services:
       retries: 3
       start_period: 40s
 
-
-  # ──────────────────────────────────────────────────────────
-  # Database Migration Service (Runs once on deployment)
-  # ──────────────────────────────────────────────────────────
-  migrate:
-    image: ${DOCKERHUB_USERNAME}/dkf-app:latest
-    container_name: dr-kumar-migrate
-    restart: "no"
-
-    environment:
-      NODE_ENV: production
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
-      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
-      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
-      RESEND_API_KEY: ${RESEND_API_KEY}
-      EMAIL_FROM: ${EMAIL_FROM}
-
-    depends_on:
-      db:
-        condition: service_healthy
-
-    networks:
-      - dr-kumar-network
-
-    command: >
-      sh -c "
-        echo 'Waiting for database to be ready...' &&
-        sleep 5 &&
-        echo 'Running Prisma migrations...' &&
-        npx prisma migrate deploy &&
-        echo 'Migrations completed!' &&
-        echo 'Seeding database (if needed)...' &&
-        npx prisma db seed || true &&
-        echo 'Database setup complete!'
-      "
-
-
-# ──────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────
 # Volumes
-# ──────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────
 volumes:
   postgres-data:
     driver: local
-
   app-logs:
     driver: local
 
-
-# ──────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────
 # Networks
-# ──────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────────
 networks:
   dr-kumar-network:
     driver: bridge

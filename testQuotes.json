@@ -1,0 +1,23 @@
+[
+    {
+      "text": "Small acts of kindness can create big waves of compassion.",
+      "category": "Compassion",
+      "is_featured": false,
+      "display_order": 0,
+      "is_active": true
+    },
+    {
+      "text": "Knowing yourself is the beginning of all wisdom.",
+      "category": "Self Awareness",
+      "is_featured": true,
+      "display_order": 1,
+      "is_active": true
+    },
+    {
+      "text": "Growth begins where comfort ends.",
+      "category": "Personal Growth",
+      "is_featured": false,
+      "display_order": 2,
+      "is_active": true
+    }
+  ]

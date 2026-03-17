@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -45,12 +46,13 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-6 sm:mb-8">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 border border-[#C5A85C]/40 rounded-xl flex items-center justify-center mx-auto mb-4">
-            <span className="text-[#C5A85C] font-serif text-2xl sm:text-3xl font-bold">D</span>
+          <div className="   rounded-xl flex items-center justify-center mx-auto mb-4">
+          <Image alt="LOGO" height={50} width={50} src="/dkf_logo_21.png" className="pt-2" />
           </div>
+          
           <h1 className="font-serif text-2xl sm:text-3xl text-white mb-2">Admin Dashboard</h1>
           <p className="text-[#AAB3CF] text-sm sm:text-base">
-            Dr. Ghulam Mohammad Kumar Foundation
+            Dr.Kumar Foundation
           </p>
         </div>
 
