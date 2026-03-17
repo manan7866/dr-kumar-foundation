@@ -97,11 +97,11 @@ export default function PremiumFooter() {
           </div>
 
           {/* Column 2 - Foundation */}
-          <div>
-            <h4 className="text-white font-serif text-sm uppercase tracking-wider mb-6">
+          <div >
+            <h4 className="text-white font-serif  text-sm uppercase tracking-wider mb-6">
               Foundation
             </h4>
-            <nav className="space-y-3">
+            <nav className="space-y-3 w-max">
               {foundationLinks.map((link) => (
                 <Link
                   key={link.label}
@@ -116,11 +116,11 @@ export default function PremiumFooter() {
           </div>
 
           {/* Column 3 - Programs */}
-          <div>
+          <div >
             <h4 className="text-white font-serif text-sm uppercase tracking-wider mb-6">
               Programs
             </h4>
-            <nav className="space-y-3">
+            <nav className="space-y-3 w-max">
               {programsLinks.map((link) => (
                 <Link
                   key={link.label}
@@ -139,7 +139,7 @@ export default function PremiumFooter() {
             <h4 className="text-white font-serif text-sm uppercase tracking-wider mb-6">
               Research
             </h4>
-            <nav className="space-y-3">
+            <nav className="space-y-3 w-max">
               {researchLinks.map((link) => (
                 <Link
                   key={link.label}
