@@ -178,4 +178,4 @@ After adding secrets, verify your setup:
 
 ---
 
-**Need help?** Contact your DevOps team or check the workflow logs for detailed error messages.xyz error
+**Need help?** Contact your DevOps team or check the workflow logs for detailed error messages.xyz errors
