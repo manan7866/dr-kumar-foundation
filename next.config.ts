@@ -27,10 +27,7 @@ const nextConfig : NextConfig  = {
   },
   
   // Environment variables
-  env: {
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL || "http://localhost:3000",
-    DATABASE_URL: process.env.DATABASE_URL || "postgresql://neondb_owner:npg_I1PRwfzQUvN4@ep-dry-king-aiqupucl-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require",
-  },
+  
 };
 
 export default nextConfig;
