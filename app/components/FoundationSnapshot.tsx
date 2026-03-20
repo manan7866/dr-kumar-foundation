@@ -98,9 +98,7 @@ export default function FoundationSnapshot() {
           </h2>
           <div className="gold-divider long mx-auto mb-6" />
           <p className="text-[#AAB3CF] max-w-2xl mx-auto leading-relaxed">
-            A structured institutional framework dedicated to preserving and 
-            disseminating spiritual wisdom through disciplined documentation 
-            and ethical stewardship.
+          Dr. Kumar is a living spiritual guide, and the Foundation is the institutional expression of his continuing mission in knowledge, service, and ethical stewardship.
           </p>
         </motion.div>
 

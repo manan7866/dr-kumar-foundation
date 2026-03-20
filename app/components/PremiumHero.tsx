@@ -86,9 +86,9 @@ export default function PremiumHero() {
               transition={{ duration: 1, delay: 0.5 }}
               className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white leading-tight mb-6"
             >
-              Enter the Living Legacy of Dr. Kumar
+              Dr. Kumar Foundation
               <br />
-              {/* <span className="gradient-gold">Through Structured Knowledge</span> */}
+              <span className="gradient-gold">A Living Spiritual and Institutional Mission</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -98,7 +98,7 @@ export default function PremiumHero() {
               transition={{ duration: 1, delay: 0.8 }}
               className="text-[#AAB3CF] text-base md:text-lg lg:text-xl leading-relaxed mb-8"
             >
-              Step into the world of Dr. Kumar through teachings, reflections, life moments, and a growing circle committed to spiritual depth, service, and human unity.
+              Advancing the teachings, service, knowledge, and sacred responsibility inspired and guided by Dr. Kumar.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -112,7 +112,7 @@ export default function PremiumHero() {
                 href="/foundation"
                 className="group relative px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1 w-full sm:w-auto"
               >
-                <span className="relative z-10">Explore the Foundation</span>
+                <span className="relative z-10">Explore the Mission</span>
                 <div className="absolute inset-0 bg-gradient-to-r from-[#C5A85C] via-[#D4BE90] to-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-600" />
               </Link>
 

@@ -5,7 +5,6 @@ import InstitutionalPillars from "./components/InstitutionalPillars";
 import TimelinePreview from "./components/TimelinePreview";
 import FeaturedTeaching from "./components/FeaturedTeaching";
 import LegacyProjects from "./components/LegacyProjects";
-import ResearchDocumentation from "./components/ResearchDocumentation";
 import EcosystemConnection from "./components/EcosystemConnection";
 import PremiumCTA from "./components/PremiumCTA";
 import PremiumFooter from "./components/PremiumFooter";
@@ -22,7 +21,7 @@ export default function Home() {
         <TimelinePreview />
         <FeaturedTeaching />
         <LegacyProjects />
-        <ResearchDocumentation />
+        {/* <ResearchDocumentation /> */}
         <EcosystemConnection />
         <PremiumCTA />
       </main>

@@ -83,7 +83,7 @@ export default function TimelinePreview() {
               className="mb-12"
             >
               <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
-                A Life of Spiritual Journey
+               Dr. Kumar-A Life of Spiritual Journey
               </h2>
               <div className="gold-divider mb-6" />
               <p className="text-[#AAB3CF] leading-relaxed">

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function EcosystemConnection() {
   return (
-    <section className="section-spacing bg-[#1C2340] relative overflow-hidden">
+    <section className="section-spacing bg-[#151A30] relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340]/95 to-[#151A30]" />
 
