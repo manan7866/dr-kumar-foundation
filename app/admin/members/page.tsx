@@ -8,6 +8,8 @@ interface Member {
   id: string;
   full_name: string;
   country: string;
+  city?: string;
+  gender?: string;
   profession: string;
   year_connected: number;
   visibility_status: "draft" | "published" | "archived";
@@ -201,7 +203,7 @@ export default function AdminMembersPage() {
             <thead>
               <tr className="bg-[#1C2340] border-b border-[#C5A85C]/20">
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Member</th>
-                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Country</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Country/City</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Profession</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Year</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Status</th>
@@ -214,7 +216,7 @@ export default function AdminMembersPage() {
                   <td className="px-6 py-4">
                     <div className="text-white font-medium">{member.full_name}</div>
                   </td>
-                  <td className="px-6 py-4 text-[#AAB3CF] text-sm">{member.country}</td>
+                  <td className="px-6 py-4 text-[#AAB3CF] text-sm">{member.country}{member.city ? " / " + member.city : ""}</td>
                   <td className="px-6 py-4 text-[#AAB3CF] text-sm">{member.profession}</td>
                   <td className="px-6 py-4 text-[#AAB3CF] text-sm">{member.year_connected}</td>
                   <td className="px-6 py-4">
@@ -269,7 +271,7 @@ export default function AdminMembersPage() {
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0">
                   <div className="text-white font-medium truncate">{member.full_name}</div>
-                  <div className="text-[#AAB3CF] text-sm truncate">{member.profession} • {member.country}</div>
+                  <div className="text-[#AAB3CF] text-sm truncate">{member.profession} • {member.country}{member.city ? " / " + member.city : ""}</div>
                 </div>
                 <span className={`text-xs px-2.5 py-1 rounded-full ${statusColors[member.visibility_status]}`}>
                   {member.visibility_status}
@@ -402,7 +404,7 @@ export default function AdminMembersPage() {
                       </div>
                       <div>
                         <label className="text-[#AAB3CF] text-xs uppercase">Country</label>
-                        <p className="text-white mt-1">{selectedMember.country}</p>
+                        <p className="text-white mt-1">{selectedMember.country}{selectedMember.city ? " / " + selectedMember.city : ""}</p>
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -77,7 +77,7 @@ export default function PremiumCTA() {
                 href="mailto:info@drkumarfoundation.org"
                 className="text-[#C5A85C] hover:underline"
               >
-                info@drkumarfoundation.org
+                info@dkf.sufisciencecenter.info
               </a>
             </p>
           </motion.div>

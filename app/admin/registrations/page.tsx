@@ -8,6 +8,8 @@ interface Registration {
   id: string;
   full_name: string;
   country: string;
+  city? : string;
+  gender?: string;
   profession: string;
   year_connected: number;
   resonated_quality: string;
@@ -189,7 +191,7 @@ export default function RegistrationsPage() {
             <thead>
               <tr className="bg-[#1C2340] border-b border-[#C5A85C]/20">
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Name</th>
-                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Country</th>
+                <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Country/city</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Profession</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Year</th>
                 <th className="text-left text-[#C5A85C] text-xs uppercase tracking-wider font-semibold px-6 py-4">Submitted</th>
@@ -228,7 +230,7 @@ export default function RegistrationsPage() {
                         <div className="text-white font-medium">{reg.full_name}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-[#AAB3CF] text-sm">{reg.country}</td>
+                    <td className="px-6 py-4 text-[#AAB3CF] text-sm">{reg.country}{reg.city ? " / " + reg.city : ""}</td>
                     <td className="px-6 py-4 text-[#AAB3CF] text-sm">{reg.profession}</td>
                     <td className="px-6 py-4 text-[#AAB3CF] text-sm">{reg.year_connected}</td>
                     <td className="px-6 py-4 text-[#AAB3CF] text-sm">{formatDate(reg.created_at)}</td>
@@ -294,7 +296,7 @@ export default function RegistrationsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-white font-medium truncate">{reg.full_name}</div>
-                  <div className="text-[#AAB3CF] text-sm">{reg.profession} • {reg.country}</div>
+                  <div className="text-[#AAB3CF] text-sm">{reg.profession} • {reg.country}{reg.city ? " / " + reg.city : ""}</div>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(reg.review_status)}`}>
                   {reg.review_status}
@@ -346,7 +348,7 @@ export default function RegistrationsPage() {
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-white font-serif text-base sm:text-lg truncate">{selectedRegistration.full_name}</h3>
-                  <p className="text-[#AAB3CF] text-xs sm:text-sm truncate">{selectedRegistration.profession} • {selectedRegistration.country}</p>
+                  <p className="text-[#AAB3CF] text-xs sm:text-sm truncate">{selectedRegistration.profession} • {selectedRegistration.country}{selectedRegistration.city ? " / " + selectedRegistration.city : ""}</p>
                 </div>
               </div>
               <button

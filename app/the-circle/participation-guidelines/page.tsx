@@ -8,7 +8,7 @@ export default function ParticipationGuidelinesPage() {
       
       {/* Page Header */}
       <section className="py-24 px-6 md:px-12 lg:px-24 bg-[#242B4A]">
-        <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1200px] ">
           <Link href="/the-circle" className="text-[#C9CCD6] hover:text-white transition-colors text-sm mb-6 inline-block">
             ← Back to The Circle
           </Link>
@@ -21,7 +21,7 @@ export default function ParticipationGuidelinesPage() {
 
       {/* Guidelines Content */}
       <section className="py-24 px-6 md:px-12 lg:px-24">
-        <div className="max-w-[900px] mx-auto">
+        <div className="max-w-[900px] ">
           <p className="text-[#C9CCD6] text-lg leading-relaxed mb-12">
             The following guidelines ensure that all documentation within The Circle 
             maintains clarity, responsibility, and alignment with the Foundation's purpose.

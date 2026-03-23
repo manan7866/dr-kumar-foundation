@@ -7,34 +7,29 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
-    const isActive = searchParams.get('is_active');
 
-    const whereClause: any = {};
+    const whereClause: any = { isActive: true };
 
     // Search filter
     if (search) {
       whereClause.OR = [
         { text: { contains: search, mode: 'insensitive' } },
-        { category: { contains: search, mode: 'insensitive' } },
+        { title: { contains: search, mode: 'insensitive' } },
+        { primaryCategory: { contains: search, mode: 'insensitive' } },
       ];
     }
 
     // Category filter
-    if (category) {
-      whereClause.category = category;
-    }
-
-    // Active status filter
-    if (isActive !== null && isActive !== undefined) {
-      whereClause.is_active = isActive === 'true';
+    if (category && category !== 'All') {
+      whereClause.primaryCategory = category;
     }
 
     const quotes = await prisma.quote.findMany({
       where: whereClause,
-      orderBy: [
-        { display_order: 'asc' },
-        { created_at: 'desc' },
-      ],
+      orderBy: [{ displayOrder: 'asc' }, { createdAt: 'desc' }],
+      include: {
+        categories: { include: { category: true } },
+      },
     });
 
     return NextResponse.json(quotes);
@@ -51,24 +46,39 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { text, category, is_featured = false, display_order = 0, is_active = true } = body;
+    const { title, text, excerpt, primaryCategory, isFeatured = false, displayOrder = 0, isActive = true } = body;
 
-    if (!text || !category) {
-      return NextResponse.json(
-        { error: 'Text and category are required' },
-        { status: 400 }
-      );
+    if (!text) {
+      return NextResponse.json({ error: 'Text is required' }, { status: 400 });
     }
+
+    // Generate slug from title or text
+    const slugBase = (title || text).split(' ').slice(0, 5).join('-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const slug = `${slugBase}-${Date.now()}`;
 
     const quote = await prisma.quote.create({
       data: {
+        slug,
+        title: title || null,
         text,
-        category,
-        is_featured,
-        display_order,
-        is_active,
+        excerpt: excerpt || (text.length > 150 ? text.slice(0, 150) + '...' : null),
+        primaryCategory,
+        isFeatured,
+        displayOrder,
+        isActive,
+        author: 'Dr. Kumar',
       },
     });
+
+    // Create category mapping if category provided
+    if (primaryCategory) {
+      const category = await prisma.quoteCategory.findFirst({ where: { name: primaryCategory } });
+      if (category) {
+        await prisma.quoteCategoryMap.create({
+          data: { quoteId: quote.id, categoryId: category.id },
+        });
+      }
+    }
 
     return NextResponse.json(quote, { status: 201 });
   } catch (error) {

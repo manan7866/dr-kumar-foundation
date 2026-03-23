@@ -18,20 +18,21 @@ const foundationLinks: FooterLink[] = [
   { label: "Governance", href: "/foundation#governance" },
   { label: "Mission", href: "/foundation#mission" },
   { label: "Objectives", href: "/foundation#objectives" },
+  
 ];
 
 const programsLinks: FooterLink[] = [
   { label: "Healing Initiatives", href: "/legacy-projects/healing" },
   { label: "Environmental", href: "/legacy-projects/environment" },
   { label: "Youth Engagement", href: "/legacy-projects/youth" },
-  { label: "Research", href: "/research" },
+  { label: "Interfaith", href: "/legacy-projects/interfaith-program" },
 ];
 
-const researchLinks: FooterLink[] = [
-  { label: "Publications", href: "/research" },
-  { label: "Archives", href: "/archives" },
+const teachingsLinks: FooterLink[] = [
   { label: "Core Principles", href: "/core-principles" },
-  { label: "The Circle", href: "/the-circle" },
+  { label: "Self-Awareness", href: "/core-principles/self-awareness" },
+  { label: "Inner Discipline", href: "/core-principles/inner-discipline" },
+  { label: "Ethical Conduct", href: "/core-principles/ethical-conduct" },
 ];
 
 const legalLinks: FooterLink[] = [
@@ -113,6 +114,7 @@ export default function PremiumFooter() {
                 </Link>
               ))}
             </nav>
+            
           </div>
 
           {/* Column 3 - Programs */}
@@ -132,15 +134,16 @@ export default function PremiumFooter() {
                 </Link>
               ))}
             </nav>
+            
           </div>
 
           {/* Column 4 - Research */}
           <div>
             <h4 className="text-white font-serif text-sm uppercase tracking-wider mb-6">
-              Research
+              Teachings
             </h4>
             <nav className="space-y-3 w-max">
-              {researchLinks.map((link) => (
+              {teachingsLinks.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -151,6 +154,91 @@ export default function PremiumFooter() {
                 </Link>
               ))}
             </nav>
+            
+          </div>
+        </div>
+      </div>
+
+      {/* Associates Platforms Section */}
+      <div className="border-t border-[#C5A85C]/10">
+        <div className="container-premium py-12">
+          <div className="text-center mb-8">
+            <h4 className="text-white font-serif text-xl mb-2">Associate Platforms</h4>
+            <p className="text-[#AAB3CF] text-sm">
+              Visit external websites connected to the Dr. Kumar Foundation ecosystem
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Sufi Science Center USA */}
+            <a
+              href="https://sufisciencecenter.info"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
+                Sufi Science Center USA 
+              </h5>
+                
+              </div>
+              
+              <p className="text-[#AAB3CF] text-sm">
+                Research and documentation of Sufi philosophy, consciousness studies, and spiritual ecology.
+              </p>
+            </a>
+
+            {/* SufiPulse */}
+            <a
+              href="https://sufipulse.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                  </svg>
+                </div>
+                <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
+                SufiPulse 
+              </h5>
+              </div>
+              
+              <p className="text-[#AAB3CF] text-sm">
+                Digital media platform preserving and sharing Sufi music, devotional content, and spiritual teachings.
+              </p>
+            </a>
+
+            {/* Purple Soul Collective */}
+            <a
+              href="https://purplesoul.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
+                Purple Soul Collective 
+              </h5>
+              </div>
+              
+              <p className="text-[#AAB3CF] text-sm">
+                Ethical commerce platform supporting artisans, heritage crafts, and sustainable economic practices.
+              </p>
+            </a>
           </div>
         </div>
       </div>

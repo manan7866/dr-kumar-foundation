@@ -8,10 +8,13 @@ import PremiumHeader from "../../components/PremiumHeader";
 import PremiumFooter from "../../components/PremiumFooter";
 import AuthModal from "@/app/components/auth/AuthModal";
 import { sendCircleRegistrationEmail } from "@/app/actions/send-circle-email";
+import {citiesByCountry} from "../../../dumpdata/cities";
 
 interface FormData {
   fullName: string;
   country: string;
+  city: string;
+  gender: string;
   profession: string;
   yearConnected: string;
   firstEncounter: string;
@@ -33,6 +36,14 @@ const countries = [
   "South Korea", "Spain", "Sri Lanka", "Sweden", "Switzerland", "Thailand",
   "Tunisia", "Turkey", "United Arab Emirates", "United Kingdom", "United States",
   "Vietnam", "Yemen"
+];
+
+
+
+// Gender options
+const genders = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
 ];
 
 interface User {
@@ -90,6 +101,7 @@ const professions = [
 export default function RegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
 
   // Auth state
   const [user, setUser] = useState<User | null>(null);
@@ -258,6 +270,8 @@ export default function RegistrationPage() {
         body: JSON.stringify({
           full_name: data.fullName,
           country: data.country,
+          city: data.city,
+          gender: data.gender,
           profession: data.profession,
           year_connected: parseInt(data.yearConnected),
           first_encounter: data.firstEncounter,
@@ -270,11 +284,11 @@ export default function RegistrationPage() {
 
       if (response.ok) {
         setIsSuccess(true);
-        
+
         // Send confirmation email using user's email from auth state
         const userEmail = user?.email;
         const userName = user?.full_name || data.fullName;
-        
+
         if (userEmail) {
           try {
             await sendCircleRegistrationEmail(userEmail, userName);
@@ -523,6 +537,10 @@ export default function RegistrationPage() {
                       <div className="relative">
                         <select
                           {...register("country", { required: "Country is required" })}
+                          onChange={(e) => {
+                            setSelectedCountry(e.target.value);
+                            setValue("city", ""); // Reset city when country changes
+                          }}
                           className={`w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-[#C5A85C]/60 focus:ring-2 focus:ring-[#C5A85C]/20 rounded-lg transition-all appearance-none ${errors.country ? 'border-red-500/40' : ''}`}
                         >
                           <option value="">Select your country</option>
@@ -544,6 +562,87 @@ export default function RegistrationPage() {
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                           </svg>
                           {errors.country.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* City */}
+                    <div className="space-y-2">
+                      <label className="flex items-center gap-2 text-[#C9CCD6] text-sm font-medium">
+                        <span className="text-[#C5A85C]">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                          </svg>
+                        </span>
+                        City
+                      </label>
+                      <div className="relative">
+                        <select
+                          {...register("city", { required: "City is required" })}
+                          disabled={!selectedCountry}
+                          className={`w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-[#C5A85C]/60 focus:ring-2 focus:ring-[#C5A85C]/20 rounded-lg transition-all appearance-none ${!selectedCountry ? 'opacity-50 cursor-not-allowed' : ''} ${errors.city ? 'border-red-500/40' : ''}`}
+                        >
+                          <option value="">Select your city</option>
+                          {selectedCountry && citiesByCountry[selectedCountry]?.map((city) => (
+                            <option key={city} value={city}>
+                              {city}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#C5A85C]">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+                      {!selectedCountry && (
+                        <p className="text-[#C5A85C] text-xs">Please select a country first</p>
+                      )}
+                      {errors.city && (
+                        <p className="text-red-400 text-xs flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {errors.city.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Gender */}
+                    <div className="space-y-2">
+                      <label className="flex items-center gap-2 text-[#C9CCD6] text-sm font-medium">
+                        <span className="text-[#C5A85C]">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                        </span>
+                        Gender
+                      </label>
+                      <div className="relative">
+                        <select
+                          {...register("gender", { required: "Gender is required" })}
+                          className={`w-full bg-[#1C2340] border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-[#C5A85C]/60 focus:ring-2 focus:ring-[#C5A85C]/20 rounded-lg transition-all appearance-none ${errors.gender ? 'border-red-500/40' : ''}`}
+                        >
+                          <option value="">Select gender</option>
+                          {genders.map((gender) => (
+                            <option key={gender.value} value={gender.value}>
+                              {gender.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#C5A85C]">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+                      {errors.gender && (
+                        <p className="text-red-400 text-xs flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {errors.gender.message}
                         </p>
                       )}
                     </div>

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
+import Image from "next/image";
 
 interface MilestoneCardProps {
   period: string;
@@ -70,16 +71,17 @@ export default function HisLifePage() {
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#C5A85C]/10 rounded-full blur-[140px]"
         />
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="relative z-10 max-w-5xl mx-auto px-6 lg:text-left text-center">
           {/* Animated Gold Line */}
+          
           <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: "8rem" }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent mx-auto mb-8"
-          />
+              initial={{ width: 0 }}
+              animate={{ width: "6rem" }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent mx-auto lg:mx-0 mb-8"
+            />
           
           {/* Headline */}
           <motion.h1
@@ -131,6 +133,41 @@ export default function HisLifePage() {
             </Link>
           </motion.div>
         </div>
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="relative w-full max-w-md lg:max-w-full mx-auto lg:mx-0"
+          >
+            {/* Video Container with Responsive Aspect Ratio */}
+            <div className="relative w-full aspect-video  rounded-2xl overflow-hidden shadow-2xl shadow-[#C5A85C]/20 border border-[#C5A85C]/20">
+              {/* Video with optimized attributes */}
+              <Image
+                src="/dr_kumar_image.png"
+                width={700}
+                height={450}
+                
+                alt="Dr kumar image"
+                className="absolute inset-0 w-full  h-full object-cover"
+                
+              
+              />
+
+              {/* Overlay Gradient for Better Text Contrast (if needed) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340]/20 via-transparent to-transparent pointer-events-none" />
+
+              {/* Gold Border Glow Effect */}
+              <div className="absolute inset-0 rounded-2xl border-2 border-[#C5A85C]/30 pointer-events-none" />
+            </div>
+
+            {/* Decorative Elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-[#C5A85C]/30 rounded-tr-3xl" />
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-[#C5A85C]/30 rounded-bl-3xl" />
+          </motion.div>
+        </div>
+        </div>
+        {/* Content */}
+        
       </section>
 
       {/* SECTION 1: EARLY FORMATION */}

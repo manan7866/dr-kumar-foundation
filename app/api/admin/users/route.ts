@@ -15,6 +15,7 @@ export async function GET(request: Request) {
         email: true,
         full_name: true,
         role: true,
+        avatar_url : true,
         approval_status: true,
         is_active: true,
         created_at: true,

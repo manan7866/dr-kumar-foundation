@@ -8,6 +8,7 @@ import PremiumFooter from "../components/PremiumFooter";
 import CircleHero from "../components/CircleHero";
 import MemberCard from "../components/MemberCard";
 import MemberMetricCard from "../components/MemberMetricCard";
+import { dummyMembersFour } from "../../dumpdata/circle-members";
 
 interface Member {
   id: string;
@@ -29,6 +30,8 @@ interface MembersResponse {
   };
 }
 
+
+
 export default function TheCirclePage() {
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -40,11 +43,24 @@ export default function TheCirclePage() {
         const response = await fetch('/api/members?page=1&limit=4&status=published');
         if (response.ok) {
           const data: MembersResponse = await response.json();
-          setMembers(data.data);
-          setTotalCount(data.pagination.total);
+          // Use real members if available, otherwise use dummy data
+          if (data.data && data.data.length > 0) {
+            setMembers(data.data);
+            setTotalCount(data.pagination.total);
+          } else {
+            setMembers(dummyMembersFour);
+            setTotalCount(dummyMembersFour.length);
+          }
+        } else {
+          // Use dummy data if API fails
+          setMembers(dummyMembersFour);
+          setTotalCount(dummyMembersFour.length);
         }
       } catch (error) {
         console.error('Failed to fetch members:', error);
+        // Use dummy data on error
+        setMembers(dummyMembersFour);
+        setTotalCount(dummyMembersFour.length);
       } finally {
         setIsLoading(false);
       }
@@ -207,6 +223,7 @@ export default function TheCirclePage() {
                   id={member.id}
                   name={member.full_name}
                   country={member.country}
+                  city={member.city}
                   profession={member.profession}
                   yearConnected={member.year_connected}
                   delay={0.1 * (index + 1)}
@@ -235,14 +252,14 @@ export default function TheCirclePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto"
+            className="max-w-3xl "
           >
-            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4 text-center">
+            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4 ">
               Participation Guidelines
             </h2>
-            <div className="gold-divider long mx-auto mb-8" />
+            <div className="gold-divider long  mb-8" />
 
-            <ul className="space-y-4 pl-[20%]  text-[#AAB3CF]">
+            <ul className="space-y-4   text-[#AAB3CF]">
               {[
                 "Maintain clarity of language in all documentation",
                 "Avoid exaggeration or mystical claims",
@@ -264,7 +281,7 @@ export default function TheCirclePage() {
               ))}
             </ul>
 
-            <div className="mt-10 text-center">
+            <div className="mt-10 ">
               <Link
                 href="/the-circle/participation-guidelines"
                 className="text-[#C5A85C] font-medium inline-flex items-center group"

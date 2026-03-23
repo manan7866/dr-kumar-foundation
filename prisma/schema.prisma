@@ -51,6 +51,8 @@ model Registration {
   id                    String           @id @default(uuid())
   full_name             String
   country               String
+  city                  String?
+  gender                String?
   profession            String
   year_connected        Int
   first_encounter       String
@@ -62,7 +64,6 @@ model Registration {
   reviewed_by           String?
   reviewed_at           DateTime?
   created_at            DateTime         @default(now())
-  country_ref           Region           @relation(fields: [country], references: [name])
 
   @@index([review_status])
   @@index([created_at])
@@ -76,7 +77,6 @@ model Region {
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
   members       Member[]
-  registrations Registration[]
 
   @@index([continent])
   @@index([name])
@@ -320,17 +320,83 @@ model Notification {
 }
 
 model Quote {
-  id           String   @id @default(uuid())
-  text         String
-  category     String
-  is_featured  Boolean  @default(false)
-  display_order Int     @default(0)
-  is_active    Boolean  @default(true)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  title           String?
+  text            String
+  excerpt         String?
+  reflection      String?
+  author          String   @default("Dr. Kumar")
+  primaryCategory String?
+  source          String?
+  isFeatured      Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  displayOrder    Int      @default(0)
+  viewCount       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  @@index([category])
-  @@index([is_active])
-  @@index([is_featured])
-  @@index([display_order])
+  categories      QuoteCategoryMap[]
+  tags            QuoteTagMap[]
+  relatedFrom     RelatedQuote[] @relation("QuoteToRelated")
+  relatedTo       RelatedQuote[] @relation("RelatedToQuote")
+
+  @@index([slug])
+  @@index([primaryCategory])
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([displayOrder])
+}
+
+model QuoteCategory {
+  id          String             @id @default(uuid())
+  name        String             @unique
+  slug        String             @unique
+  description String?
+  quotes      QuoteCategoryMap[]
+}
+
+model QuoteCategoryMap {
+  id         String        @id @default(uuid())
+  quoteId    String
+  categoryId String
+  quote      Quote         @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  category   QuoteCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([quoteId, categoryId])
+  @@index([quoteId])
+  @@index([categoryId])
+}
+
+model QuoteTag {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  slug        String        @unique
+  quotes      QuoteTagMap[]
+}
+
+model QuoteTagMap {
+  id      String   @id @default(uuid())
+  quoteId String
+  tagId   String
+  quote   Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  tag     QuoteTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([quoteId, tagId])
+  @@index([quoteId])
+  @@index([tagId])
+}
+
+model RelatedQuote {
+  id             String  @id @default(uuid())
+  quoteId        String
+  relatedQuoteId String
+  weight         Int     @default(0)
+
+  quote          Quote   @relation("QuoteToRelated", fields: [quoteId], references: [id], onDelete: Cascade)
+  relatedQuote   Quote   @relation("RelatedToQuote", fields: [relatedQuoteId], references: [id], onDelete: Cascade)
+
+  @@unique([quoteId, relatedQuoteId])
+  @@index([quoteId])
+  @@index([relatedQuoteId])
 }

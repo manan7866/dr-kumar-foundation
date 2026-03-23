@@ -7,15 +7,27 @@ import AdminLayout from "../components/AdminLayout";
 
 interface Quote {
   id: string;
+  slug: string;
+  title?: string;
   text: string;
-  category: string;
-  is_featured: boolean;
-  display_order: number;
-  is_active: boolean;
-  created_at: string;
+  excerpt?: string;
+  primaryCategory?: string;
+  isFeatured: boolean;
+  isActive: boolean;
+  displayOrder: number;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const CATEGORIES = ["Compassion", "Self Awareness", "Inner Discipline", "Ethical Conduct", "Human Unity", "Peace and Reflection"];
+const CATEGORIES = [
+  "Self Awareness",
+  "Compassion",
+  "Inner Discipline",
+  "Ethical Conduct",
+  "Human Unity",
+  "Peace and Reflection",
+];
 
 export default function AdminQuotesPage() {
   const router = useRouter();
@@ -34,7 +46,14 @@ export default function AdminQuotesPage() {
   const [isBulkUploading, setIsBulkUploading] = useState(false);
   const [bulkUploadResult, setBulkUploadResult] = useState<{ success: number; failed: number } | null>(null);
 
-  const [formData, setFormData] = useState({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true });
+  const [formData, setFormData] = useState({
+    title: "",
+    text: "",
+    primaryCategory: "Self Awareness",
+    isFeatured: false,
+    displayOrder: 0,
+    isActive: true,
+  });
 
   const [user, setUser] = useState<{ id: string; email: string; full_name: string; role: string } | null>(null);
 
@@ -43,42 +62,80 @@ export default function AdminQuotesPage() {
     if (!session) { router.push("/admin/login"); return; }
     setUser(JSON.parse(session));
     fetchQuotes();
-  }, [searchQuery, selectedCategory]);
+  }, [router]);
 
   const fetchQuotes = async () => {
     try {
       const params = new URLSearchParams();
       if (searchQuery) params.append("search", searchQuery);
       if (selectedCategory !== "All") params.append("category", selectedCategory);
-      const response = await fetch(`/api/admin/quotes?${params.toString()}`);
-      if (response.ok) { setQuotes(await response.json()); }
-    } catch (error) { console.error("Failed to fetch quotes:", error); }
-    finally { setIsLoading(false); }
+      const response = await fetch(`/api/quotes?${params.toString()}`);
+      if (response.ok) {
+        const data = await response.json();
+        setQuotes(data.quotes || data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch quotes:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const url = editingQuote ? `/api/admin/quotes/${editingQuote.id}` : "/api/admin/quotes";
+      // Use admin API for create/update
+      const url = editingQuote 
+        ? `/api/admin/quotes/${editingQuote.id}` 
+        : "/api/admin/quotes";
+      
+      const payload = {
+        title: formData.title || null,
+        text: formData.text,
+        excerpt: formData.text.slice(0, 150) + (formData.text.length > 150 ? "..." : ""),
+        primaryCategory: formData.primaryCategory,
+        isFeatured: formData.isFeatured,
+        displayOrder: formData.displayOrder,
+        isActive: formData.isActive,
+      };
+
       const response = await fetch(url, {
         method: editingQuote ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
+
       if (response.ok) {
         setIsModalOpen(false);
         setEditingQuote(null);
-        setFormData({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true });
+        setFormData({
+          title: "",
+          text: "",
+          primaryCategory: "Self Awareness",
+          isFeatured: false,
+          displayOrder: 0,
+          isActive: true,
+        });
         fetchQuotes();
       }
-    } catch (error) { console.error("Failed to save quote:", error); }
-    finally { setIsSubmitting(false); }
+    } catch (error) {
+      console.error("Failed to save quote:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleEdit = (quote: Quote) => {
     setEditingQuote(quote);
-    setFormData({ text: quote.text, category: quote.category, is_featured: quote.is_featured, display_order: quote.display_order, is_active: quote.is_active });
+    setFormData({
+      title: quote.title || "",
+      text: quote.text,
+      primaryCategory: quote.primaryCategory || "Self Awareness",
+      isFeatured: quote.isFeatured,
+      displayOrder: quote.displayOrder,
+      isActive: quote.isActive,
+    });
     setIsModalOpen(true);
   };
 
@@ -97,7 +154,7 @@ export default function AdminQuotesPage() {
       const response = await fetch(`/api/admin/quotes/${quote.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ is_featured: !quote.is_featured }),
+        body: JSON.stringify({ isFeatured: !quote.isFeatured }),
       });
       if (response.ok) fetchQuotes();
     } catch (error) { console.error("Failed to toggle featured:", error); }
@@ -110,7 +167,7 @@ export default function AdminQuotesPage() {
       const response = await fetch(`/api/admin/quotes/${quote.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ is_active: !quote.is_active }),
+        body: JSON.stringify({ isActive: !quote.isActive }),
       });
       if (response.ok) fetchQuotes();
     } catch (error) { console.error("Failed to toggle active:", error); }
@@ -123,12 +180,25 @@ export default function AdminQuotesPage() {
     setBulkUploadResult(null);
     try {
       const fileText = await bulkUploadFile.text();
-      const quotes = JSON.parse(fileText);
+      const quotesData = JSON.parse(fileText);
+      
+      // Transform old format to new format if needed
+      const transformedQuotes = quotesData.map((q: any) => ({
+        title: q.title || null,
+        text: q.text,
+        excerpt: q.excerpt || q.text.slice(0, 150) + (q.text.length > 150 ? "..." : ""),
+        primaryCategory: q.category || q.primaryCategory,
+        isFeatured: q.is_featured || q.isFeatured || false,
+        displayOrder: q.display_order ?? q.displayOrder ?? 0,
+        isActive: q.is_active ?? q.isActive ?? true,
+      }));
+
       const response = await fetch("/api/admin/quotes/bulk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quotes }),
+        body: JSON.stringify({ quotes: transformedQuotes }),
       });
+      
       if (response.ok) {
         const result = await response.json();
         setBulkUploadResult(result);
@@ -136,9 +206,10 @@ export default function AdminQuotesPage() {
       }
     } catch (error) {
       console.error("Bulk upload failed:", error);
-      setBulkUploadResult({ success: 0, failed: quotes?.length || 0 });
+      setBulkUploadResult({ success: 0, failed: quotesData?.length || 0 });
+    } finally {
+      setIsBulkUploading(false);
     }
-    finally { setIsBulkUploading(false); }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,8 +221,9 @@ export default function AdminQuotesPage() {
   };
 
   const filteredQuotes = quotes.filter((quote) => {
-    const matchesSearch = quote.text.toLowerCase().includes(searchQuery.toLowerCase()) || quote.category.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || quote.category === selectedCategory;
+    const matchesSearch = quote.text.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          (quote.primaryCategory && quote.primaryCategory.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory === "All" || quote.primaryCategory === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -212,18 +284,19 @@ export default function AdminQuotesPage() {
                 <tr key={quote.id} className="hover:bg-[#1C2340]/50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="text-white text-sm line-clamp-2">{quote.text}</div>
+                    {quote.title && <div className="text-[#C5A85C] text-xs mt-1">{quote.title}</div>}
                   </td>
-                  <td className="px-6 py-4 text-[#AAB3CF] text-sm">{quote.category}</td>
+                  <td className="px-6 py-4 text-[#AAB3CF] text-sm">{quote.primaryCategory || 'Uncategorized'}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
-                      <span className={`text-xs px-3 py-1 rounded-full ${quote.is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>{quote.is_active ? 'Active' : 'Inactive'}</span>
-                      {quote.is_featured && <span className="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-400">Featured</span>}
+                      <span className={`text-xs px-3 py-1 rounded-full ${quote.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>{quote.isActive ? 'Active' : 'Inactive'}</span>
+                      {quote.isFeatured && <span className="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-400">Featured</span>}
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => toggleFeatured(quote)} disabled={isToggling === quote.id} className="px-3 py-1.5 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.is_featured ? 'Unfeature' : 'Feature'}</button>
-                      <button onClick={() => toggleActive(quote)} disabled={isToggling === quote.id} className="px-3 py-1.5 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.is_active ? 'Deactivate' : 'Activate'}</button>
+                      <button onClick={() => toggleFeatured(quote)} disabled={isToggling === quote.id} className="px-3 py-1.5 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.isFeatured ? 'Unfeature' : 'Feature'}</button>
+                      <button onClick={() => toggleActive(quote)} disabled={isToggling === quote.id} className="px-3 py-1.5 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.isActive ? 'Deactivate' : 'Activate'}</button>
                       <button onClick={() => handleEdit(quote)} className="px-3 py-1.5 text-xs text-[#C5A85C] hover:text-white transition-colors">Edit</button>
                       <button onClick={() => setDeleteConfirmId(quote.id)} className="px-3 py-1.5 text-xs text-red-400 hover:text-red-300 transition-colors">Delete</button>
                     </div>
@@ -246,17 +319,18 @@ export default function AdminQuotesPage() {
             <div key={quote.id} className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-4">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1 min-w-0">
+                  {quote.title && <div className="text-[#C5A85C] text-xs mb-1">{quote.title}</div>}
                   <div className="text-white text-sm line-clamp-3 mb-2">{quote.text}</div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="text-[#AAB3CF] text-xs">{quote.category}</span>
-                    {quote.is_featured && <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400">Featured</span>}
+                    <span className="text-[#AAB3CF] text-xs">{quote.primaryCategory || 'Uncategorized'}</span>
+                    {quote.isFeatured && <span className="text-xs px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400">Featured</span>}
                   </div>
                 </div>
-                <span className={`text-xs px-2.5 py-1 rounded-full ${quote.is_active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>{quote.is_active ? 'Active' : 'Inactive'}</span>
+                <span className={`text-xs px-2.5 py-1 rounded-full ${quote.isActive ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>{quote.isActive ? 'Active' : 'Inactive'}</span>
               </div>
               <div className="flex flex-wrap gap-2 pt-3 border-t border-[#C5A85C]/10">
-                <button onClick={() => toggleFeatured(quote)} disabled={isToggling === quote.id} className="flex-1 py-2 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.is_featured ? 'Unfeature' : 'Feature'}</button>
-                <button onClick={() => toggleActive(quote)} disabled={isToggling === quote.id} className="flex-1 py-2 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.is_active ? 'Deactivate' : 'Activate'}</button>
+                <button onClick={() => toggleFeatured(quote)} disabled={isToggling === quote.id} className="flex-1 py-2 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.isFeatured ? 'Unfeature' : 'Feature'}</button>
+                <button onClick={() => toggleActive(quote)} disabled={isToggling === quote.id} className="flex-1 py-2 text-xs border border-white/20 text-[#C9CCD6] hover:border-[#C5A85C] rounded-lg transition-colors disabled:opacity-50">{quote.isActive ? 'Deactivate' : 'Activate'}</button>
                 <button onClick={() => handleEdit(quote)} className="flex-1 py-2 text-xs text-[#C5A85C] hover:text-white rounded-lg transition-colors">Edit</button>
                 <button onClick={() => setDeleteConfirmId(quote.id)} className="flex-1 py-2 text-xs text-red-400 hover:text-red-300 rounded-lg transition-colors">Delete</button>
               </div>
@@ -273,24 +347,32 @@ export default function AdminQuotesPage() {
               <h3 className="text-white font-serif text-lg sm:text-xl mb-6">{editingQuote ? 'Edit Quote' : 'Add Quote'}</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
+                  <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Title (Optional)</label>
+                  <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} className="w-full bg-[#1C2340] border border-white/20 px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg" placeholder="e.g., On Self-Awareness" />
+                </div>
+                <div>
                   <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Quote Text</label>
                   <textarea value={formData.text} onChange={(e) => setFormData({ ...formData, text: e.target.value })} className="w-full bg-[#1C2340] border border-white/20 px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg" rows={4} required />
                 </div>
                 <div>
                   <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Category</label>
-                  <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} className="w-full bg-[#1C2340] border border-white/20 px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg">
+                  <select value={formData.primaryCategory} onChange={(e) => setFormData({ ...formData, primaryCategory: e.target.value })} className="w-full bg-[#1C2340] border border-white/20 px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg">
                     {CATEGORIES.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
                   </select>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={formData.is_featured} onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })} className="w-4 h-4 rounded bg-[#1C2340] border-white/20 text-[#C5A85C] focus:ring-[#C5A85C]" />
+                    <input type="checkbox" checked={formData.isFeatured} onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })} className="w-4 h-4 rounded bg-[#1C2340] border-white/20 text-[#C5A85C] focus:ring-[#C5A85C]" />
                     <span className="text-[#C9CCD6] text-xs sm:text-sm">Featured</span>
                   </label>
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={formData.is_active} onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })} className="w-4 h-4 rounded bg-[#1C2340] border-white/20 text-[#C5A85C] focus:ring-[#C5A85C]" />
+                    <input type="checkbox" checked={formData.isActive} onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })} className="w-4 h-4 rounded bg-[#1C2340] border-white/20 text-[#C5A85C] focus:ring-[#C5A85C]" />
                     <span className="text-[#C9CCD6] text-xs sm:text-sm">Active</span>
                   </label>
+                </div>
+                <div>
+                  <label className="block text-[#C9CCD6] text-xs uppercase mb-2">Display Order</label>
+                  <input type="number" value={formData.displayOrder} onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })} className="w-full bg-[#1C2340] border border-white/20 px-4 py-2.5 text-white text-sm focus:outline-none focus:border-[#C5A85C] rounded-lg" />
                 </div>
                 <div className="flex gap-3 pt-4">
                   <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 px-4 py-2.5 border border-white/20 text-[#C9CCD6] text-xs sm:text-sm uppercase tracking-wider hover:border-[#C5A85C] rounded-lg transition-colors">Cancel</button>
@@ -339,15 +421,17 @@ export default function AdminQuotesPage() {
                   <pre className="text-[#AAB3CF] text-xs sm:text-sm whitespace-pre-wrap">
 {`[
   {
+    "title": "On Self-Awareness",
     "text": "Your quote text here",
-    "category": "Compassion",
+    "category": "Self Awareness",
     "is_featured": false,
     "display_order": 0,
     "is_active": true
   },
   {
+    "title": "On Compassion",
     "text": "Another quote",
-    "category": "Self Awareness",
+    "category": "Compassion",
     "is_featured": true,
     "display_order": 1,
     "is_active": true
@@ -356,7 +440,7 @@ export default function AdminQuotesPage() {
                   </pre>
                 </div>
                 <p className="text-[#AAB3CF] text-xs mt-2">
-                  <strong>Categories:</strong> Compassion, Self Awareness, Inner Discipline, Ethical Conduct, Human Unity, Peace and Reflection
+                  <strong>Categories:</strong> Self Awareness, Compassion, Inner Discipline, Ethical Conduct, Human Unity, Peace and Reflection
                 </p>
               </div>
 

@@ -1,8 +1,8 @@
 "use client";
-
+import { useRouter } from 'next/navigation';
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+
 
 interface ProjectCardProps {
   title: string;
@@ -19,8 +19,10 @@ function ProjectCard({
   href,
   delay,
 }: ProjectCardProps) {
+  const router = useRouter();
   return (
-    <motion.div
+    <motion.div tabIndex={1} onClick={() => router.push(href)}
+    style={{ cursor: 'pointer' }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -67,8 +69,10 @@ function ProjectCard({
         </p>
 
         {/* Link */}
-        <div className="flex items-center text-[#C5A85C] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-          <span>Learn More</span>
+        
+        <div 
+         className="flex items-center text-[#C5A85C] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+        <span>Learn More</span>
           <svg
             className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2"
             fill="none"
@@ -83,6 +87,7 @@ function ProjectCard({
             />
           </svg>
         </div>
+        
       </div>
 
       {/* Border Glow on Hover */}

@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AdminLayout from "../components/AdminLayout";
+import Image from "next/image";
 
 interface User {
   id: string;
   email: string;
+  avatar_url : string | null;
   full_name: string;
   role: string;
   is_active: boolean;
@@ -187,11 +189,14 @@ export default function AdminUserApprovalsPage() {
                 <tr key={u.id} className="hover:bg-[#1C2340]/50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#C5A85C]/20 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-[#C5A85C] font-serif text-xs sm:text-sm font-bold">
-                          {u.full_name?.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "U"}
-                        </span>
-                      </div>
+                      {u.avatar_url ? (<Image src={u.avatar_url} alt={u.full_name || "User Avatar"} width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0" />) : (
+                       <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#C5A85C]/20 rounded-full flex items-center justify-center flex-shrink-0">
+                       <span className="text-[#C5A85C] font-serif text-xs sm:text-sm font-bold">
+                         {u.full_name?.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2) || "U"}
+                       </span>
+                     </div>
+                      )}
+                      
                       <div className="min-w-0">
                         <div className="text-white font-medium truncate">{u.full_name || "Unknown"}</div>
                         <div className="text-[#AAB3CF] text-sm truncate">{u.email}</div>

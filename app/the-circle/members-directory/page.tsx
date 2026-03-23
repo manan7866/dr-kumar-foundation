@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import PremiumHeader from "../../components/PremiumHeader";
 import PremiumFooter from "../../components/PremiumFooter";
 import MemberCard from "../../components/MemberCard";
+import {dummyMembers} from "../../../dumpdata/circle-members";
 
 interface Member {
   id: string;
@@ -17,6 +18,8 @@ interface Member {
   resonated_quality: string;
   life_changes: string;
   continuing_engagement: string;
+  city?: string;
+  gender?: "Male" | "Female";
 }
 
 interface Region {
@@ -65,8 +68,11 @@ export default function MembersDirectoryPage() {
   const [selectedYear, setSelectedYear] = useState<number | "All">("All");
   const [regions, setRegions] = useState<Region[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const membersPerSlide = 8;
-
+  const [membersPerSlide, setMembersPerSlide] = useState(9);
+  
+  
+  
+  
   // Fetch members from database
   useEffect(() => {
     const fetchMembers = async () => {
@@ -74,21 +80,38 @@ export default function MembersDirectoryPage() {
         console.log('[Members Directory] Fetching members...');
         const response = await fetch('/api/members?limit=100');
         console.log('[Members Directory] Response status:', response.status);
-        
+
         if (response.ok) {
           const result = await response.json();
           console.log('[Members Directory] Received data:', result);
           // API returns { data: Member[], pagination: {...} }
-          setMembers(result.data || result || []);
+          const fetchedMembers = result.data || result || [];
+          // Use dummy data if no members from database
+          setMembers(fetchedMembers.length > 0 ? fetchedMembers : dummyMembers);
+        } else {
+          // Use dummy data if API fails
+          setMembers(dummyMembers);
         }
       } catch (error) {
         console.error('Error fetching members:', error);
+        // Use dummy data on error
+        setMembers(dummyMembers);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMembers();
+    const width = window.innerWidth;
+    if (width < 640) {
+      setMembersPerSlide(4);
+    }else if (width < 1024) {
+      setMembersPerSlide(4); // sm
+    } else if (width < 1280) {
+      setMembersPerSlide(6); // md
+    } else {
+      setMembersPerSlide(8); // lg
+    }
   }, []);
 
   // Fetch regions for country filter
@@ -248,26 +271,40 @@ export default function MembersDirectoryPage() {
         <div className="container-premium ">
           {isLoading ? (
             <div className="text-center py-24">
-              <div className="w-16 h-16 border-4 border-[#C5A85C]/20 border-t-[#C5A85C] rounded-full animate-spin mx-auto mb-4" />
+              <div className="w-16 h-16 border-4 border-[#C5A85C]/20 border-t-[#C5A85C] rounded-full animate-spin mx-auto mb-2" />
               <p className="text-[#AAB3CF]">Loading members...</p>
             </div>
           ) : filteredMembers.length > 0 ? (
-            <div className="relative ">
+            <div className=" ">
               {/* Previous Arrow */}
+              <div className="flex justify-between gap-2">
               <button
                 onClick={prevSlide}
-                className="absolute -left-4 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-8 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                className=" -translate-y-1/2   z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/70 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
                 aria-label="Previous slide"
               >
                 <svg className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
+              {/* Next Arrow */}
+              <button
+                onClick={nextSlide}
+                className=" -translate-y-1/2   z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/70 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
+                aria-label="Next slide"
+              >
+                <svg className="w-6 h-6  group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+              </div>
+              
 
               {/* Members Grid Slide */}
               <div className="overflow-hidden ">
+                
                 <div
-                  className="grid sm:grid-cols-2 -z-30 my-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-transform duration-500"
+                  className="grid sm:grid-cols-2  -z-30 my-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-transform duration-500"
                 >
                   {getCurrentMembers().map((member, index) => (
                     <MemberCard 
@@ -275,6 +312,7 @@ export default function MembersDirectoryPage() {
                       id={member.id.toString()}
                       name={member.full_name}
                       country={member.country}
+                      city={member.city}
                       profession={member.profession}
                       yearConnected={member.year_connected}
                       delay={0.05 * index}
@@ -283,16 +321,7 @@ export default function MembersDirectoryPage() {
                 </div>
               </div>
 
-              {/* Next Arrow */}
-              <button
-                onClick={nextSlide}
-                className="absolute -right-4 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-8 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-[#C5A85C]/90 hover:bg-[#C5A85C] text-[#1C2340] rounded-full flex items-center justify-center shadow-lg hover:shadow-[#C5A85C]/30 transition-all duration-300 group"
-                aria-label="Next slide"
-              >
-                <svg className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+              
 
               {/* Dots Indicator */}
               <div className="flex justify-center gap-2 mt-8">

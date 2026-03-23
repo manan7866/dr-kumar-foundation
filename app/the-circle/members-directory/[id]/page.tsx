@@ -6,6 +6,7 @@ import Link from "next/link";
 import { use } from "react";
 import PremiumHeader from "../../../components/PremiumHeader";
 import PremiumFooter from "../../../components/PremiumFooter";
+import {dummyMembers} from "../../../../dumpdata/circle-members";
 
 interface Member {
   id: string;
@@ -19,7 +20,10 @@ interface Member {
   continuing_engagement: string;
   photo_url?: string;
   media_url?: string;
+  gender?: "Male" | "Female";
 }
+
+
 
 export default function MemberProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -30,12 +34,33 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
     const fetchMember = async () => {
       try {
         const response = await fetch(`/api/members/${resolvedParams.id}`);
+        
+        // If API returns successfully with data
         if (response.ok) {
           const data = await response.json();
-          setMember(data);
+          if (data) {
+            setMember(data);
+            setIsLoading(false);
+            return;
+          }
+        }
+        
+        // If API fails or returns no data, try dummy data
+        const foundMember = dummyMembers.find(m => m.id === resolvedParams.id);
+        if (foundMember) {
+          setMember(foundMember);
+        } else {
+          setMember(null);
         }
       } catch (error) {
         console.error('Error fetching member:', error);
+        // On error, try dummy data
+        const foundMember = dummyMembers.find(m => m.id === resolvedParams.id);
+        if (foundMember) {
+          setMember(foundMember);
+        } else {
+          setMember(null);
+        }
       } finally {
         setIsLoading(false);
       }

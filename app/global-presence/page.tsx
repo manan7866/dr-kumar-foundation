@@ -65,7 +65,7 @@ export default function GlobalPresence() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">Overview</h2>
+            <h2 className="font-serif text-3xl text-center md:text-4xl text-white mb-4">Overview</h2>
             <div className="gold-divider long mx-auto mb-8" />
             <p className="text-[#AAB3CF] leading-relaxed max-w-3xl mx-auto">
               Engagement is distributed. Individuals across regions have connected
@@ -77,7 +77,7 @@ export default function GlobalPresence() {
       </section>
 
       {/* REGIONS */}
-      <section id="regions" className="section-spacing bg-[#1C2340] relative">
+      {/* <section id="regions" className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -91,7 +91,7 @@ export default function GlobalPresence() {
 
           <Accordion />
         </div>
-      </section>
+      </section> */}
 
       {/* GLOBAL MAP PLACEHOLDER */}
       {/* <section id="global-map" className="py-24 px-6 md:px-12 lg:px-24">
@@ -116,7 +116,7 @@ export default function GlobalPresence() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">Gatherings</h2>
+            <h2 className="font-serif text-3xl md:text-4xl text-center text-white mb-4">Gatherings</h2>
             <div className="gold-divider long mx-auto mb-12" />
           </motion.div>
 

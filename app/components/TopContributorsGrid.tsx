@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface User {
   id: string;
@@ -44,6 +45,88 @@ interface TopContributorsGridProps {
 }
 
 export default function TopContributorsGrid({ contributors, programName, isLoading }: TopContributorsGridProps) {
+  // Helper to create contributor
+  const createContributor = (name: string, exp: string, location: string, spec: string, bg: string, contribution: string, title: string, date: string, city: string, country: string, participants: number, task: string, results: string, count: number): TopContributor => ({
+    user: { id: `dummy-${name}`, email: `${name.toLowerCase().replace(' ', '.')}@example.com`, full_name: name, avatar_url: undefined },
+    contribution_count: count,
+    latest_contribution: { id: `c-${name}`, title, activity_date: date, venue_city: city, venue_country: country, participant_count: participants, task_conducted: task, results, user_name: name, submitted_at: date },
+    collaboration_info: { fullName: name, professionalBackground: bg, specialization: spec, yearsExperience: exp, country, email: `${name.toLowerCase().replace(' ', '.')}@example.com`, proposedContribution: contribution },
+  });
+
+  // Dummy data for each program
+  const getDummyContributors = (): TopContributor[] => {
+    const pn = programName.toLowerCase();
+    
+    // 1. Healing Initiatives
+    if (pn.includes('healing')) {
+      return [
+        createContributor('Safiya Bhat', '10', 'Srinagar, Kashmir', 'Spiritual Care & Community Healing', 'Community care facilitator with 10 years of experience in spiritual dialogue, grief support spaces, and compassionate community engagement.', 'Strengthening spiritually grounded healing spaces through reflective dialogue, ethical facilitation, and compassionate support.', 'Community Reflection and Spiritual Healing Circle', '2024-03-18', 'Srinagar', 'Kashmir', 46, 'Facilitated a guided healing circle focused on grief reflection, spiritual grounding, attentive listening, and compassionate community support.', 'Created a trusted space for collective reflection, strengthened peer support, and encouraged continued healing-centered participation.', 9),
+        createContributor('Dr. Maryam Qadri', '11', 'Anantnag, Kashmir', 'Psychological Resilience & Healing Support', 'Psychological resilience educator with 11 years of experience in community wellbeing, emotional support frameworks, and culturally rooted healing engagement.', 'Developing community-centered resilience pathways that integrate emotional literacy, reflective healing, and ethically grounded support systems.', 'Resilience and Inner Stability Workshop', '2024-02-27', 'Anantnag', 'Kashmir', 34, 'Led a structured workshop on emotional regulation, resilience-building, reflective coping practices, and faith-sensitive approaches to wellbeing.', 'Improved participant confidence in managing stress, deepened awareness of healthy coping practices, and supported stronger community-based resilience.', 8),
+        createContributor('Ahmad Mir', '8', 'Baramulla, Kashmir', 'Community Counseling & Ethical Support', 'Dedicated community support practitioner with over 8 years of experience in counseling facilitation, reflective dialogue, and grassroots care engagement.', 'Extending community counseling models that combine ethical guidance, mutual support, and healing-centered participation rooted in responsibility.', 'Ethical Support and Counseling Session', '2024-01-21', 'Baramulla', 'Kashmir', 29, 'Coordinated a small-group counseling session focused on self-awareness, ethical support, interpersonal care, and responsible community dialogue.', 'Expanded access to safe support spaces and reinforced the role of ethical care in healing engagement.', 7),
+      ];
+    }
+    
+    // 2. Environmental Programs
+    if (pn.includes('environment') || pn.includes('water')) {
+      return [
+        createContributor('Dr. Insha Qadri', '10', 'Srinagar, Kashmir', 'Water Protection & Watershed Stewardship', 'Environmental researcher with 10 years of experience in watershed restoration, mountain ecosystems, and community-based water resilience planning.', 'Advancing community-led watershed protection models that strengthen spring revival, improve local water security, and support climate adaptation.', 'Spring Source Protection ', '2024-03-14', 'Srinagar', 'Kashmir', 44, 'Led a field-based workshop on spring-source protection, watershed stewardship, and household-level water conservation.', 'Strengthened awareness of water stress and supported practical action toward long-term watershed resilience.', 10),
+        createContributor('Adil Wani', '8', 'Bandipora, Kashmir', 'Community Conservation Initiative', 'Experienced community environmental mobilizer with over 8 years of proven experience in ecological campaigns, citizen participation, and local conservation action.', 'Strengthening neighborhood-level environmental action through clean-up drives, awareness campaigns, and community-led stewardship.', 'Riverbank Clean-Up Drive', '2024-02-24', 'Bandipora', 'Kashmir', 51, 'Coordinated a riverbank clean-up initiative combined with a public awareness session on plastic reduction and aquatic ecosystem care.', 'Mobilized local participation in environmental care and encouraged more responsible stewardship practices.', 8),
+        createContributor('Farah Shah', '7', 'Pulwama, Kashmir', 'Ecological Awareness & Water Responsibility', 'Community sustainability facilitator with 7 years of experience in grassroots environmental participation, household resource awareness, and local engagement.', 'Promoting water conservation through inclusive local awareness programs that connect household practice, community participation, and long-term environmental responsibility.', 'Household Water Responsibility Dialogue', '2024-01-29', 'Pulwama', 'Kashmir', 36, 'Facilitated a community dialogue on household water conservation, sustainable resource use, and practical environmental responsibility.', 'Expanded awareness of daily water-saving practices and supported sustainable household behavior.', 7),
+      ];
+    }
+    
+    // 3. Youth Programs
+    if (pn.includes('youth')) {
+      return [
+        createContributor('Aaliya Bhat', '8', 'Srinagar, Kashmir', 'Cultural Reconnection & Youth Leadership', 'Youth engagement facilitator with 8 years of experience in cultural education, reflective leadership spaces, and community-based youth development.', 'Building youth-centered spaces that reconnect emerging generations with cultural identity, ethical purpose, and responsible community leadership.', 'Youth Cultural Identity and Leadership Circle', '2024-03-16', 'Srinagar', 'Kashmir', 43, 'Facilitated a youth circle focused on cultural belonging, ethical reflection, community responsibility, and confidence-building through guided dialogue.', 'Strengthened cultural awareness and encouraged values-based youth leadership.', 9),
+        createContributor('Zoya Nazir', '7', 'Budgam, Kashmir', 'Ethical Formation & Mentorship', 'Community mentor with 7 years of experience in youth guidance, ethical development, and leadership cultivation through structured engagement.', 'Equipping young people with ethical grounding, reflective mentorship, and practical pathways to become responsible contributors within their communities.', 'Youth Mentorship and Ethical Formation Forum', '2024-02-21', 'Budgam', 'Kashmir', 38, 'Led a youth forum centered on ethical decision-making, discipline, reflective growth, and service-oriented participation.', 'Supported stronger youth confidence and integrity-based leadership.', 8),
+        createContributor('Irfan Lone', '6', 'Kupwara, Kashmir', 'Service Projects & Leadership Development', 'Youth development coordinator with 6 years of experience in volunteer mobilization, leadership training, and community-centered service pathways.', 'Developing structured youth service models that cultivate responsibility, teamwork, and long-term leadership through meaningful community participation.', 'Youth  Community Participation Initiative', '2024-02-11', 'Kupwara', 'Kashmir', 31, 'Coordinated a youth service initiative combining volunteer action, teamwork, mentorship, and community participation.', 'Increased youth involvement in service activity and strengthened collaborative leadership skills.', 6),
+      ];
+    }
+    
+    // 4. Sufi Music
+    if (pn.includes('music') || pn.includes('sufi')) {
+      return [
+        createContributor('Shabnam Jan', '9', 'Srinagar, Kashmir', 'Historical Archival Preservation', 'Cultural music archivist with 9 years of experience in devotional repertoire documentation, oral tradition preservation, and heritage media coordination.', 'Preserving devotional and philosophical musical traditions through structured documentation, careful recording, and responsible digital dissemination.', 'Devotional Music Documentation Session', '2024-03-07', 'Srinagar', 'Kashmir', 24, 'Led a documentation session preserving devotional vocals, lyrical meanings, and performance notes for future digital archiving.', 'Supported careful preservation of oral devotional tradition and strengthened intergenerational continuity in musical heritage.', 8),
+        createContributor('Muzaffar Mir', '8', 'Ganderbal, Kashmir', 'Digital Preservation & Media Restoration', 'Skilled audio documentation practitioner with over 8 years of experience in recording restoration, metadata organization, and heritage media support.', 'Building reliable digital pathways for preserving Sufi music through restoration, structured indexing, and ethically managed media archives.', 'Sufi Audio Restoration and Metadata Workshop', '2024-02-19', 'Ganderbal', 'Kashmir', 18, 'Conducted a session on restoring old devotional recordings, organizing metadata, and preparing media assets for preservation.', 'Improved archival quality of legacy recordings and enabled more responsible long-term preservation workflows.', 7),
+        createContributor('Ruqaiya Shah', '7', 'Anantnag, Kashmir', 'Digital Spiritual Media Education', 'Dedicated and experienced cultural educator with over 7 years of experience in lyrical interpretation, youth arts engagement, and spiritual heritage facilitation.', 'Reconnecting younger generations with devotional and philosophical musical traditions through guided participation and ethical cultural education.', 'Youth Devotional Lyrics and Expression Circle', '2024-01-26', 'Anantnag', 'Kashmir', 27, 'Facilitated a youth-focused session on devotional lyrics, reflective singing, and cultural continuity through guided musical engagement.', 'Encouraged youth participation in sacred artistic practice and deepened appreciation of lyrical meaning.', 6),
+      ];
+    }
+    
+    // 5. Sufi Commerce
+    if (pn.includes('commerce') || pn.includes('ethical') || pn.includes('craft')) {
+      return [
+        createContributor('Firdousa Bano', '10', 'Srinagar, Kashmir', 'Artisan Documentation', 'Ethical craft coordinator with 10 years of experience in artisan documentation, heritage product systems, and responsible commerce facilitation.', 'Strengthening heritage craft continuity through structured artisan records, responsible digital presentation, and transparent economic participation.', 'Artisan Documentation and Heritage Craft Orientation', '2024-03-12', 'Srinagar', 'Kashmir', 32, 'Led an artisan orientation on craft documentation, transparent production records, and responsible digital presentation of heritage products.', 'Improved documentation discipline and supported trust-based artisan visibility.', 9),
+        createContributor('Adil Karim', '8', 'Budgam, Kashmir', 'Traceability & Fair Value Systems', 'Responsible commerce practitioner with 8 years of experience in traceability systems, transparent market workflows, and craft-sector coordination.', 'Building transparent and fair-value pathways for artisans through traceability design, ethical trade principles, and structured buyer confidence.', 'Traceability and Ethical Trade Readiness Workshop', '2024-02-17', 'Budgam', 'Kashmir', 26, 'Facilitated a training session on traceability methods, pricing clarity, supply transparency, and mutual responsibility in artisan-centered trade systems.', 'Improved traceability awareness and encouraged more structured producer-buyer trust frameworks.', 8),
+        createContributor('Nida Shafi', '7', 'Baramulla, Kashmir', 'Digital Integration & Craft Storytelling', 'Craft communications specialist with 7 years of experience in product narrative development, digital cataloging, and heritage storytelling.', 'Enabling heritage artisans to enter digital marketplaces with stronger product narratives, clearer cultural context, and more responsible presentation standards.', 'Craft Digitization and Product Storytelling Session', '2024-01-30', 'Baramulla', 'Kashmir', 21, 'Conducted a session on digital cataloging, product storytelling, cultural context writing, and responsible online presentation.', 'Improved product storytelling quality and supported better heritage visibility in digital spaces.', 6),
+      ];
+    }
+    
+    // 6. Sufi Science
+    if (pn.includes('science') || pn.includes('consciousness')) {
+      return [
+        createContributor('Dr. Rayees Qadri', '11', 'Srinagar, Kashmir', 'Philosophical Analysis', 'Interdisciplinary researcher with 11 years of experience in philosophical analysis, textual interpretation, and structured academic documentation.', 'Advancing rigorous inquiry into Sufi philosophical traditions through disciplined analysis, scholarly documentation, and academically credible publication pathways.', 'Philosophical Analysis and Research Documentation Seminar', '2024-03-09', 'Srinagar', 'Kashmir', 19, 'Led a seminar on Sufi philosophical texts, disciplined observation, research documentation, and publication-oriented analytical framing.', 'Strengthened research discipline and encouraged more rigorous philosophical inquiry grounded in tradition.', 8),
+        createContributor('Sana Yousuf', '8', 'Ganderbal, Kashmir', 'Consciousness Studies', 'Research facilitator with 8 years of experience in consciousness studies, reflective learning, and interdisciplinary learning design.', 'Supporting structured inquiry into awareness, self-observation, and human development through careful interdisciplinary exploration and learning design.', 'Consciousness Studies and Self-Observation Workshop', '2024-02-22', 'Ganderbal', 'Kashmir', 23, 'Facilitated a workshop exploring awareness, self-observation, states of consciousness, and disciplined reflection.', 'Deepened participant engagement with consciousness studies and improved clarity around reflective research methods.', 7),
+        createContributor('Dr. Irfan Ashraf', '9', 'Pulwama, Kashmir', 'Environmental Research & Spiritual Ecology', 'Environmental humanities researcher with 9 years of experience in ethics, sustainability discourse, and spiritual-philosophical analysis.', 'Linking ecological ethics, philosophical reflection, and research publication to build stronger interdisciplinary understanding of sustainability and responsibility.', 'Environmental Ethics and Spiritual Ecology Colloquium', '2024-01-25', 'Pulwama', 'Kashmir', 17, 'Convened a colloquium examining ecological ethics from spiritual traditions and their relevance to contemporary sustainability challenges.', 'Connected environmental concerns with spiritual ethics and expanded interest in policy-relevant ecological inquiry.', 6),
+      ];
+    }
+    
+    // 7. Interfaith Program
+    if (pn.includes('interfaith')) {
+      return [
+        createContributor('Dr. Adnan Shah', '10', 'Srinagar, Kashmir', 'Structured Dialogue Platforms', 'Dialogue scholar with 10 years of experience in interfaith facilitation, ethical discourse, and institutional engagement frameworks.', 'Building stable platforms for principled interfaith exchange through rigorous facilitation, documentation, and institutionally grounded dialogue design.', 'Structured Interfaith Dialogue Forum', '2024-03-11', 'Srinagar', 'Kashmir', 28, 'Facilitated a principled dialogue forum bringing together participants from different religious and civic backgrounds for structured exchange and documented reflection.', 'Improved mutual understanding and reinforced the value of sustained dialogue over reactive engagement.', 8),
+        createContributor('Samina Qadri', '9', 'Anantnag, Kashmir', 'Ethical & Theological Scholarship', 'Theological researcher with 9 years of experience in comparative ethics, civic dialogue, and scholarly documentation of interfaith engagement.', 'Deepening interfaith engagement through research-based ethical discourse, documented scholarship, and principled civilizational dialogue.', 'Ethical  Theological Scholarship Session', '2024-02-15', 'Anantnag', 'Kashmir', 22, 'Led a discussion session on theological frameworks for coexistence, ethical scholarship, and the role of documentation in cross-community understanding.', 'Strengthened scholarly depth in dialogue settings and supported long-term inter-community trust building.', 7),
+        createContributor('Bilal Rashid', '8', 'Baramulla, Kashmir', 'Digital Civic & Policy Interface', 'Civic engagement practitioner with 8 years of experience in community mediation,  and policy-oriented dialogue facilitation.', 'Translating dialogue into civic cooperation through structured roundtables, documentation discipline, and policy-aware community engagement pathways.', 'Civic Interface & Community Roundtable', '2024-01-28', 'Baramulla', 'Kashmir', 20, 'Organized a roundtable connecting educators, community representatives, and civic voices around ethical coexistence, policy awareness, and local stabilization approaches.', 'Encouraged cross-community cooperation and clarified shared civic responsibilities.', 6),
+      ];
+    }
+    
+    // Default fallback
+    return [];
+  };
+
+  const dummyContributors = getDummyContributors();
+  const displayContributors = contributors && contributors.length > 0 ? contributors : dummyContributors;
+
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
@@ -52,21 +135,9 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
     );
   }
 
-  if (!contributors || contributors.length === 0) {
-    return (
-      <div className="text-center py-12 bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl">
-        <svg className="w-16 h-16 text-[#C5A85C]/20 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-        <p className="text-[#AAB3CF] text-lg">No contributors yet for {programName}</p>
-        <p className="text-[#6B7299] text-sm mt-2">Be the first to contribute!</p>
-      </div>
-    );
-  }
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {contributors.map((contributor, index) => (
+      {displayContributors.map((contributor, index) => (
         <motion.div
           key={contributor.user.id}
           initial={{ opacity: 0, y: 20 }}
@@ -83,8 +154,8 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
           {index < 3 && (
             <div className={`absolute -top-3 -right-3 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
               index === 0 ? 'bg-[#C5A85C] text-[#1C2340]' :
-              index === 1 ? 'bg-gray-400 text-white' :
-              'bg-orange-600 text-white'
+              index === 1 ? 'bg-[#C5A85C] text-[#1C2340]' :
+              'bg-[#C5A85C] text-[#1C2340]'
             }`}>
               #{index + 1}
             </div>
@@ -92,9 +163,12 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
 
           {/* User Avatar & Info */}
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#C5A85C] to-[#D4BE90] rounded-full flex items-center justify-center text-[#1C2340] font-serif text-2xl font-bold">
-              {contributor.user.full_name.charAt(0).toUpperCase()}
-            </div>
+            {contributor.user.avatar_url ? (<Image src={contributor.user.avatar_url} alt={contributor.user.full_name} width={64} height={64} className="rounded-full" />) : (
+             <div className="w-16 h-16 bg-gradient-to-br from-[#C5A85C] to-[#D4BE90] rounded-full flex items-center justify-center text-[#1C2340] font-serif text-2xl font-bold">
+             {contributor.user.full_name.charAt(0).toUpperCase()}
+           </div>
+            )}
+            
             <div className="flex-1">
               <h3 className="font-serif text-lg text-white mb-1">
                 {contributor.user.full_name}
@@ -112,18 +186,18 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
             </div>
           </div>
 
-          {/* Collaboration Info from Engagement Form */}
+          {/* Collaboration Info */}
           {contributor.collaboration_info && (
             <div className="mb-6 p-4 bg-[#1C2340] rounded-lg border border-[#C5A85C]/10">
               <p className="text-[#C5A85C] text-xs uppercase tracking-wider mb-3">Collaboration Details</p>
-              
+
               {contributor.collaboration_info.professionalBackground && (
                 <div className="mb-3">
                   <p className="text-[#6B7299] text-xs mb-1">Professional Background</p>
                   <p className="text-white text-sm">{contributor.collaboration_info.professionalBackground}</p>
                 </div>
               )}
-              
+
               <div className="grid grid-cols-2 gap-3 mb-3">
                 {contributor.collaboration_info.yearsExperience && (
                   <div>
@@ -152,51 +226,49 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
 
           {/* Latest Contribution */}
           {contributor.latest_contribution && (
-            <>
-              <div className="pt-4 border-t border-[#C5A85C]/10">
-                <p className="text-[#C5A85C] text-xs uppercase tracking-wider mb-2">Latest Activity</p>
-                <h4 className="text-white font-medium mb-3 line-clamp-2">
-                  {contributor.latest_contribution.title}
-                </h4>
-                
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
-                    <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{new Date(contributor.latest_contribution.activity_date).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
-                    <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span>{contributor.latest_contribution.venue_city}, {contributor.latest_contribution.venue_country}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
-                    <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span>{contributor.latest_contribution.participant_count} participants</span>
-                  </div>
-                </div>
+            <div className="pt-4 border-t border-[#C5A85C]/10">
+              <p className="text-[#C5A85C] text-xs uppercase tracking-wider mb-2">Latest Activity</p>
+              <h4 className="text-white font-medium mb-3 line-clamp-2">
+                {contributor.latest_contribution.title}
+              </h4>
 
-                <div className="pt-3 border-t border-[#C5A85C]/10">
-                  <p className="text-[#AAB3CF] text-sm line-clamp-3">
-                    {contributor.latest_contribution.task_conducted}
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
+                  <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{new Date(contributor.latest_contribution.activity_date).toLocaleDateString()}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
+                  <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{contributor.latest_contribution.venue_city}, {contributor.latest_contribution.venue_country}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
+                  <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <span>{contributor.latest_contribution.participant_count} participants</span>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-[#C5A85C]/10">
+                <p className="text-[#AAB3CF] text-sm line-clamp-3">
+                  {contributor.latest_contribution.task_conducted}
+                </p>
+              </div>
+
+              {contributor.latest_contribution.results && (
+                <div className="mt-3 pt-3 border-t border-[#C5A85C]/10">
+                  <p className="text-[#C5A85C] text-xs font-medium mb-1">Impact:</p>
+                  <p className="text-[#AAB3CF] text-sm line-clamp-2">
+                    {contributor.latest_contribution.results}
                   </p>
                 </div>
-
-                {contributor.latest_contribution.results && (
-                  <div className="mt-3 pt-3 border-t border-[#C5A85C]/10">
-                    <p className="text-[#C5A85C] text-xs font-medium mb-1">Impact:</p>
-                    <p className="text-[#AAB3CF] text-sm line-clamp-2">
-                      {contributor.latest_contribution.results}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </>
+              )}
+            </div>
           )}
         </motion.div>
       ))}

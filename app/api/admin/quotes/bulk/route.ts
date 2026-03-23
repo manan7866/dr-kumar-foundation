@@ -13,17 +13,36 @@ export async function POST(request: NextRequest) {
     let successCount = 0;
     let failedCount = 0;
 
-    for (const quote of quotes) {
+    for (const quoteData of quotes) {
       try {
-        await prisma.quote.create({
+        // Generate slug
+        const slugBase = (quoteData.title || quoteData.text).split(' ').slice(0, 5).join('-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+        const slug = `${slugBase}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+
+        const quote = await prisma.quote.create({
           data: {
-            text: quote.text,
-            category: quote.category || 'Compassion',
-            is_featured: quote.is_featured || false,
-            display_order: quote.display_order || 0,
-            is_active: quote.is_active !== false,
+            slug,
+            title: quoteData.title || null,
+            text: quoteData.text,
+            excerpt: quoteData.excerpt || (quoteData.text.length > 150 ? quoteData.text.slice(0, 150) + '...' : null),
+            primaryCategory: quoteData.primaryCategory || quoteData.category || 'Self Awareness',
+            isFeatured: quoteData.isFeatured || quoteData.is_featured || false,
+            displayOrder: quoteData.displayOrder || quoteData.display_order || 0,
+            isActive: quoteData.isActive !== undefined ? quoteData.isActive : (quoteData.is_active !== false),
+            author: 'Dr. Kumar',
           },
         });
+
+        // Create category mapping
+        if (quote.primaryCategory) {
+          const category = await prisma.quoteCategory.findFirst({ where: { name: quote.primaryCategory } });
+          if (category) {
+            await prisma.quoteCategoryMap.create({
+              data: { quoteId: quote.id, categoryId: category.id },
+            });
+          }
+        }
+
         successCount++;
       } catch (error) {
         console.error('Failed to create quote:', error);

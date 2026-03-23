@@ -465,10 +465,10 @@ export default function InterfaithProgramPage() {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-10">
                 <Link
-                  href="/interfaith/dialogue-center"
+                  href="/legacy-projects/interfaith-program/framework"
                   className="group inline-flex items-center px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
                 >
-                  <span>Visit Interfaith Dialogue Center</span>
+                  <span>Interfaith Dialogue Center</span>
                   <svg
                     className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-2"
                     fill="none"
@@ -485,7 +485,7 @@ export default function InterfaithProgramPage() {
                 </Link>
 
                 <Link
-                  href="/interfaith/dialogue-programs"
+                  href="/legacy-projects/interfaith-program/programs"
                   className="px-8 py-4 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
                 >
                   Explore Dialogue Programs

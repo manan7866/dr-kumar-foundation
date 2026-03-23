@@ -159,7 +159,7 @@ export default function PremiumHeader() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1">
+            <nav className="hidden lg:flex text-[16px] items-center space-x-1">
               {navItems.map((item) => (
                 <div
                   key={item.label}
@@ -169,7 +169,7 @@ export default function PremiumHeader() {
                 >
                   {item.children ? (
                     <>
-                      <button className="flex items-center space-x-1 px-4 py-2 text-sm text-[#F1F3F8] hover:text-[#C5A85C] transition-colors">
+                      <button className="flex items-center space-x-1 px-4 py-2 text-[16px] text-[#F1F3F8] hover:text-[#C5A85C] transition-colors">
                         <span>{item.label}</span>
                         <svg
                           className={`w-4 h-4 transition-transform duration-300 ${
@@ -202,7 +202,7 @@ export default function PremiumHeader() {
                                 <Link
                                   key={child.label}
                                   href={child.href}
-                                  className="block px-5 py-3 text-sm text-[#F1F3F8] hover:bg-[#C5A85C]/10 hover:text-[#C5A85C] transition-all border-l-2 border-transparent hover:border-[#C5A85C]"
+                                  className="block px-5 py-3 text-[16px] text-[#F1F3F8] hover:bg-[#C5A85C]/10 hover:text-[#C5A85C] transition-all border-l-2 border-transparent hover:border-[#C5A85C]"
                                 >
                                   {child.label}
                                 </Link>
@@ -215,7 +215,7 @@ export default function PremiumHeader() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="px-4 py-2 text-sm text-[#F1F3F8] hover:text-[#C5A85C] transition-colors relative group"
+                      className="px-4 py-2 text-[16px] text-[#F1F3F8] hover:text-[#C5A85C] transition-colors relative group"
                     >
                       <span>{item.label}</span>
                       <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-[#C5A85C] w-0 group-hover:w-3/4 transition-all duration-300" />

@@ -402,7 +402,7 @@ export default function HealingInitiativesPage() {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-10">
                 <Link
-                  href="/healing/pathways"
+                  href="/legacy-projects/healing/pathways"
                   className="group inline-flex items-center px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
                 >
                   <span>Explore Healing Pathways</span>
@@ -422,7 +422,7 @@ export default function HealingInitiativesPage() {
                 </Link>
 
                 <Link
-                  href="/healing/framework"
+                  href="/legacy-projects/healing/framework"
                   className="px-8 py-4 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
                 >
                   View Support Framework

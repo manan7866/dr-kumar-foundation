@@ -10,10 +10,15 @@ interface MetricCardProps {
   delay: number;
 }
 
+const startYear = 1957;
+const currentYear = new Date().getFullYear();
+const years = currentYear - startYear;
+
 function MetricCard({ value, label, suffix = "", delay }: MetricCardProps) {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,6 +52,7 @@ function MetricCard({ value, label, suffix = "", delay }: MetricCardProps) {
     }
 
     return () => observer.disconnect();
+    
   }, [value, hasAnimated]);
 
   return (
@@ -105,7 +111,7 @@ export default function FoundationSnapshot() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
-            value={69}
+            value={years}
             label="Years of Legacy"
             suffix="+"
             delay={0.1}

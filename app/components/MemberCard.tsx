@@ -7,12 +7,13 @@ interface MemberCardProps {
   id: string;
   name: string;
   country: string;
+  city? : string;
   profession: string;
   yearConnected: number;
   delay: number;
 }
 
-export default function MemberCard({ id, name, country, profession, yearConnected, delay }: MemberCardProps) {
+export default function MemberCard({ id, name, country, profession, yearConnected, delay ,city }: MemberCardProps) {
   return (
     <motion.div className=""
       initial={{ opacity: 0, y: 40 }}
@@ -26,13 +27,13 @@ export default function MemberCard({ id, name, country, profession, yearConnecte
         className="group block bg-[#232B52] border  border-[#C5A85C]/15 rounded-2xl p-6 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)]"
       >
         {/* Name */}
-        <h3 className="font-serif text-xl text-white mb-3 group-hover:text-[#C5A85C] transition-colors duration-300">
+        <h4 className="font-serif text-xl text-white mb-3 group-hover:text-[#C5A85C] transition-colors duration-300">
           {name}
-        </h3>
+        </h4>
 
         {/* Info */}
         <div className="space-y-2 text-[#AAB3CF] text-sm">
-          <p>{country}</p>
+          <p>{country}{city ? `: ${city}` : "" }</p>
           <p>{profession}</p>
         </div>
 
@@ -44,7 +45,7 @@ export default function MemberCard({ id, name, country, profession, yearConnecte
         </div>
 
         {/* Corner Accent */}
-        <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-[#C5A85C]/10 rounded-tr-2xl group-hover:border-[#C5A85C]/30 transition-colors duration-500" />
+        <div className="absolute top-3 right-0 w-16 h-16 border-t border-r border-[#C5A85C]/10 rounded-tr-2xl  transition-colors duration-500" />
       </Link>
     </motion.div>
   );

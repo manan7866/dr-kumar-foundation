@@ -35,7 +35,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { text, category, is_featured, display_order, is_active } = body;
+    const { title, text, excerpt, primaryCategory, isFeatured, displayOrder, isActive } = body;
 
     // Check if quote exists
     const existingQuote = await prisma.quote.findUnique({
@@ -49,13 +49,29 @@ export async function PUT(
     const quote = await prisma.quote.update({
       where: { id },
       data: {
+        title: title !== undefined ? title : existingQuote.title,
         text: text ?? existingQuote.text,
-        category: category ?? existingQuote.category,
-        is_featured: is_featured !== undefined ? is_featured : existingQuote.is_featured,
-        display_order: display_order !== undefined ? display_order : existingQuote.display_order,
-        is_active: is_active !== undefined ? is_active : existingQuote.is_active,
+        excerpt: excerpt !== undefined ? excerpt : existingQuote.excerpt,
+        primaryCategory: primaryCategory !== undefined ? primaryCategory : existingQuote.primaryCategory,
+        isFeatured: isFeatured !== undefined ? isFeatured : existingQuote.isFeatured,
+        displayOrder: displayOrder !== undefined ? displayOrder : existingQuote.displayOrder,
+        isActive: isActive !== undefined ? isActive : existingQuote.isActive,
       },
     });
+
+    // Update category mapping if category changed
+    if (primaryCategory !== undefined && primaryCategory !== existingQuote.primaryCategory) {
+      // Delete old mapping
+      await prisma.quoteCategoryMap.deleteMany({ where: { quoteId: id } });
+      
+      // Create new mapping
+      const category = await prisma.quoteCategory.findFirst({ where: { name: primaryCategory } });
+      if (category) {
+        await prisma.quoteCategoryMap.create({
+          data: { quoteId: id, categoryId: category.id },
+        });
+      }
+    }
 
     return NextResponse.json(quote);
   } catch (error) {
