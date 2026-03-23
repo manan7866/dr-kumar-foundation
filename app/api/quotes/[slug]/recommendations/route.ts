@@ -36,7 +36,6 @@ export async function GET(
       orderBy: { weight: 'desc' },
       include: {
         relatedQuote: {
-          where: { isActive: true },
           include: {
             categories: { include: { category: true } },
             tags: { include: { tag: true } },
@@ -47,7 +46,8 @@ export async function GET(
 
     for (const relation of manualRelations) {
       if (recommendedIds.size >= RECOMMENDATION_COUNT) break;
-      if (!recommendedIds.has(relation.relatedQuoteId)) {
+      // Filter by isActive manually
+      if (relation.relatedQuote.isActive && !recommendedIds.has(relation.relatedQuoteId)) {
         recommendedIds.add(relation.relatedQuoteId);
         recommendations.push(relation.relatedQuote);
       }

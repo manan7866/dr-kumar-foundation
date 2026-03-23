@@ -198,7 +198,7 @@ export default function AdminQuotesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quotes: transformedQuotes }),
       });
-      
+
       if (response.ok) {
         const result = await response.json();
         setBulkUploadResult(result);
@@ -206,7 +206,7 @@ export default function AdminQuotesPage() {
       }
     } catch (error) {
       console.error("Bulk upload failed:", error);
-      setBulkUploadResult({ success: 0, failed: quotesData?.length || 0 });
+      setBulkUploadResult({ success: 0, failed: 0 });
     } finally {
       setIsBulkUploading(false);
     }
@@ -245,7 +245,7 @@ export default function AdminQuotesPage() {
             </svg>
             Bulk Upload
           </button>
-          <button onClick={() => { setEditingQuote(null); setFormData({ text: "", category: "Compassion", is_featured: false, display_order: 0, is_active: true }); setIsModalOpen(true); }}
+          <button onClick={() => { setEditingQuote(null); setFormData({ title: "", text: "", primaryCategory: "Self Awareness", isFeatured: false, displayOrder: 0, isActive: true }); setIsModalOpen(true); }}
             className="px-4 py-2.5 bg-[#C5A85C] text-[#1C2340] text-xs sm:text-sm uppercase tracking-wider font-medium hover:bg-[#C5A85C]/80 transition-colors rounded-lg whitespace-nowrap">
             Add Quote
           </button>

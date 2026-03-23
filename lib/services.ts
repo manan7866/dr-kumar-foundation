@@ -154,7 +154,6 @@ export const registrationService = {
         where,
         skip,
         take: limit,
-        include: { country_ref: true },
         orderBy: { created_at: 'desc' },
       }),
       prisma.registration.count({ where }),
@@ -175,7 +174,6 @@ export const registrationService = {
   async findPending() {
     return prisma.registration.findMany({
       where: { review_status: 'pending' },
-      include: { country_ref: true },
       orderBy: { created_at: 'desc' },
     });
   },
@@ -184,7 +182,6 @@ export const registrationService = {
   async findById(id: string) {
     return prisma.registration.findUnique({
       where: { id },
-      include: { country_ref: true },
     });
   },
 
