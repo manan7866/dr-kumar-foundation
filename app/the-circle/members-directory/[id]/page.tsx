@@ -98,12 +98,12 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="bg-[#1C2340] min-h-screen">
+    <div className="bg-gradient-to-b from-[#1C2340] via-[#1C2340] to-[#151A30] py-40 min-h-screen">
       <PremiumHeader />
 
       {/* Hero Section */}
-      <section className="relative min-h-[30vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340] to-[#151A30]" />
+      <section className="relative min-h-[15vh]  flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 " />
 
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -144,8 +144,8 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
       </section>
 
       {/* Content Sections */}
-      <section className="section-spacing flex justify-center bg-[#151A30]  ">
-        <div className="container-premium  max-w-4xl">
+      <section className="py-20 pt-4   flex justify-center   ">
+        <div className="container-premium   max-w-4xl">
           <div className="space-y-4   ">
 
 
@@ -203,7 +203,7 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
 
       {/* Back to Directory */}
       <section className="py-12 bg-[#151A30]">
-        <div className="container-premium text-center">
+        <div className="container-premium ">
           <Link
             href="/the-circle/members-directory"
             className="inline-flex items-center text-[#C5A85C] hover:text-white transition-colors"
@@ -211,7 +211,7 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span>Back to Members Directory</span>
+            <span>Back</span>
           </Link>
         </div>
       </section>
