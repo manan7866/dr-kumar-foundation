@@ -214,7 +214,7 @@ export default function AdminGlobalPresencePage() {
   if (!user) return null;
 
   return (
-    <AdminLayout userRole={user.role} userName={user.full_name} userEmail={user.email}>
+    <AdminLayout>
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h1 className="font-serif text-xl sm:text-2xl lg:text-3xl text-white mb-2">Global Presence Management</h1>

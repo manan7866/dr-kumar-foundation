@@ -139,7 +139,7 @@ export default function AdminEngagementPage() {
   };
 
   return (
-    <AdminLayout userRole={user.role} userName={user.full_name} userEmail={user.email}>
+    <AdminLayout>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 lg:mb-8">
         <div>

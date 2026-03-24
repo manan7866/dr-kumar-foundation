@@ -75,7 +75,7 @@ export default function AdminProgramsPage() {
   };
 
   return (
-    <AdminLayout userRole={user.role} userName={user.full_name} userEmail={user.email}>
+    <AdminLayout>
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h2 className="text-xl sm:text-2xl font-serif text-white mb-2">Programs</h2>

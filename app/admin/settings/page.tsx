@@ -78,7 +78,7 @@ export default function SystemSettingsPage() {
   };
 
   return (
-    <AdminLayout userRole="super_admin" userName="Admin" userEmail="admin@drkumarfoundation.org">
+    <AdminLayout>
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h2 className="text-xl sm:text-2xl font-serif text-white mb-2">System Settings</h2>

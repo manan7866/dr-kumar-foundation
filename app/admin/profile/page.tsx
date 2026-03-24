@@ -12,7 +12,6 @@ interface User {
   email: string;
   full_name: string;
   avatar_url?: string;
-  role: string;
 }
 
 export default function AdminProfilePage() {
@@ -201,12 +200,7 @@ export default function AdminProfilePage() {
   }
 
   return (
-    <AdminLayout
-      userRole={user.role}
-      userName={user.full_name}
-      userEmail={user.email}
-      avatar_url={user.avatar_url}
-    >
+    <AdminLayout>
       <div className="max-w-4xl mx-auto">
         {/* Page Header */}
         <motion.div

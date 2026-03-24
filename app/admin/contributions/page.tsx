@@ -207,7 +207,7 @@ export default function AdminContributionsPage() {
   });
 
   return (
-    <AdminLayout userRole={user.role} userName={user.full_name} userEmail={user.email}>
+    <AdminLayout>
       {/* Header */}
       <div className="mb-6 lg:mb-8">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif text-white mb-2">Contribution Reviews</h2>
