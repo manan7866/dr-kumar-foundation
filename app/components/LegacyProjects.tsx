@@ -28,10 +28,10 @@ function ProjectCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay }}
       whileHover={{ y: -8 }}
-      className="group relative overflow-hidden rounded-2xl aspect-[4/5] cursor-pointer flex-shrink-0 w-full md:w-[calc(33.333%-1rem)]"
+      className="group relative overflow-hidden  rounded-2xl aspect-[4/5] cursor-pointer flex-shrink-0 w-full md:w-[calc(33.333%-1rem)]"
     >
       {/* Background Image Placeholder with Gradient */}
-      <div className={`absolute inset-0 ${imageGradient} transition-transform duration-700 group-hover:scale-105`} />
+      <div style={{ backgroundImage: `url(${imageGradient})` }} className={`absolute inset-0 bg-cover bg-center  transition-transform duration-700 group-hover:scale-105`} />
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340] via-[#1C2340]/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
@@ -39,10 +39,10 @@ function ProjectCard({
       {/* Content */}
       <div className="absolute inset-0 p-8 flex flex-col justify-end">
         {/* Gold Line Accent */}
-        <div className="absolute top-8 left-8 right-8 h-[1px] bg-gradient-to-r from-[#C5A85C]/0 via-[#C5A85C]/40 to-[#C5A85C]/0 group-hover:via-[#C5A85C]/60 transition-colors duration-500" />
+        <div className="absolute top-8 left-8 right-8 h-[1px] bg-gradient-to-r from-[#C5A85C]/0 via-[#C5A85C]/40 to-[#C5A85C]/0 group-hover:via-[#C5A85C]/200 transition-colors duration-500" />
 
         {/* Icon */}
-        <div className="absolute top-8 right-8 w-10 h-10 border border-[#C5A85C]/30 rounded-full flex items-center justify-center group-hover:border-[#C5A85C]/60 group-hover:bg-[#C5A85C]/10 transition-all duration-500">
+        <div className="absolute top-8 right-8 w-10 h-10 border border-[#C5A85C]/30 rounded-full flex items-center justify-center group-hover:border-[#C5A85C]/200 group-hover:bg-[#C5A85C]/10 transition-all duration-500">
           <svg
             className="w-4 h-4 text-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             fill="none"
@@ -99,48 +99,48 @@ function ProjectCard({
 export default function LegacyProjects() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-
+// bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#151A30]
   const projects = [
     {
-      title: "Healing Initiatives",
+      title: "Healing & Spiritual Care",
       description: "Supporting holistic wellness programs that integrate traditional wisdom with contemporary understanding of health and wellbeing.",
-      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#151A30]",
+      imageGradient: "/programs/healing-image.jpeg",
       href: "/legacy-projects/healing",
     },
     {
-      title: "Environmental & Water Protection",
+      title: "Environment & Water Care",
       description: "Preserving natural resources through community-led conservation efforts and sustainable practices rooted in ethical responsibility.",
-      imageGradient: "bg-gradient-to-br from-[#1C2340] via-[#232B52] to-[#151A30]",
+      imageGradient: "/programs/envirement-image.jpeg",
       href: "/legacy-projects/environment",
     },
     {
-      title: "Youth & Cultural Engagement",
+      title: "Youth & Culture Programs",
       description: "Nurturing the next generation through educational programs that emphasize ethical development and cultural continuity.",
-      imageGradient: "bg-gradient-to-br from-[#151A30] via-[#1C2340] to-[#232B52]",
+      imageGradient: "/programs/youth-image.jpeg",
       href: "/legacy-projects/youth",
     },
     {
-      title: "Sufi Music & Spiritual Media",
+      title: "Sufi Music & Sacred Media",
       description: "Preservation and dissemination of devotional and philosophical musical traditions through responsible digital media production.",
-      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#151A30] to-[#1C2340]",
+      imageGradient: "/programs/sufimusic-image.jpeg",
       href: "/legacy-projects/sufi-music",
     },
     {
-      title: "Sufi Commerce & Ethical Craft",
+      title: "Ethical Craft & Commerce",
       description: "Structured economic pathways supporting heritage crafts through transparency, traceability, and digital integration.",
-      imageGradient: "bg-gradient-to-br from-[#1C2340] via-[#151A30] to-[#232B52]",
+      imageGradient: "/programs/ecommerce-image.jpeg",
       href: "/legacy-projects/sufi-ecommerce",
     },
     {
-      title: "Sufi Science & Consciousness Research",
+      title: "Sufi Science & Mind Study",
       description: "Interdisciplinary exploration connecting spiritual philosophy with structured inquiry and analytical documentation.",
-      imageGradient: "bg-gradient-to-br from-[#151A30] via-[#232B52] to-[#1C2340]",
+      imageGradient: "/programs/sufiscience-image.jpeg",
       href: "/legacy-projects/sufi-science",
     },
     {
-      title: "Interfaith Program",
+      title: "Interfaith Peace Forum",
       description: "Fostering dialogue and understanding across religious traditions through shared spiritual principles and collaborative engagement.",
-      imageGradient: "bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#232B52]",
+      imageGradient: "/programs/interfaith-image.jpeg",
       href: "/legacy-projects/interfaith-program",
     },
   ];

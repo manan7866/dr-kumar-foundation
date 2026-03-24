@@ -43,7 +43,7 @@ export default function EcosystemConnection() {
                   <span className="text-[#C5A85C] font-serif text-2xl font-bold">D</span>
                 </div>
                 <h3 className="font-serif text-xl text-white mb-2">
-                  Dr. Ghulam Mohammad Kumar Foundation
+                  Dr. Kumar Foundation
                 </h3>
                 <p className="text-[#AAB3CF] text-sm">
                   Core institutional body for preservation and governance
