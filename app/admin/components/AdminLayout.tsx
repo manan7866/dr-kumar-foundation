@@ -6,43 +6,45 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-interface NavItem {
-  label: string;
-  href: string;
-  icon: React.ReactNode;
-  roles?: string[];
-  children?: NavItem[];
+interface User {
+  id: string;
+  email: string;
+  full_name: string;
+  role: string;
+  avatar_url?: string | null;
 }
 
-interface AdminLayoutProps {
-  children: React.ReactNode;
-  userRole: string;
-  userName: string;
-  userEmail: string;
-}
-
-export default function AdminLayout({ children, userRole, userName, userEmail }: AdminLayoutProps) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  // Detect mobile and handle resize
+  // Get user data from localStorage
   useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 1024;
-      setIsMobile(mobile);
-      if (!mobile) {
-        setIsSidebarOpen(false);
+    const session = localStorage.getItem("admin_session");
+    if (session) {
+      try {
+        setUser(JSON.parse(session));
+      } catch (error) {
+        console.error("Failed to parse session:", error);
       }
-    };
-    
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    }
   }, []);
 
-  const navItems: NavItem[] = [
+  const handleLogout = () => {
+    localStorage.removeItem("admin_session");
+    localStorage.removeItem("user_session");
+    window.location.href = "/admin/login";
+  };
+
+  const userRole = user?.role || "";
+  const userName = user?.full_name || "";
+  const userEmail = user?.email || "";
+  const avatar_url = user?.avatar_url;
+
+  const navItems = [
     {
       label: "Overview",
       href: "/admin",
@@ -193,6 +195,16 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
       ),
       roles: ["super_admin"],
     },
+    {
+      label: "Profile Settings",
+      href: "/admin/profile",
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      ),
+      roles: ["super_admin", "moderator", "contributor"],
+    },
   ];
 
   const filteredNavItems = navItems.filter((item) => {
@@ -224,7 +236,7 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full bg-[#161B33] border-r border-[#C5A85C]/20 transition-all duration-300 z-50 ${
-          isMobile 
+          isMobile
             ? isSidebarOpen ? "w-72 translate-x-0" : "w-72 -translate-x-full"
             : isCollapsed ? "w-20" : "w-64"
         }`}
@@ -236,7 +248,7 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
             <Image alt="LOGO" height={50} width={50} src="/dkf_logo_21.png" className="pt-2" />
             </div>
             {(!isCollapsed || isMobile) && (
-              <span className="text-[#C5A85C] font-serif text-base lg:text-lg font-bold truncate">
+              <span className="text-[#C5A85C] font-serif text-base lg:text-lg font-bold truncate">        
                 Admin
               </span>
             )}
@@ -259,7 +271,7 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
         </div>
 
         {/* Navigation */}
-        <nav className="p-3 lg:p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)] lg:max-h-[calc(100vh-180px)]">
+        <nav className="p-3 lg:p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-140px)] lg:max-h-[calc(100vh-180px)] scrollbar-hide">
           {filteredNavItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -289,15 +301,12 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
         {(!isCollapsed || isMobile) && (
           <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-4 border-t border-[#C5A85C]/20 bg-[#161B33]">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#C5A85C]/20 flex items-center justify-center flex-shrink-0">
-                <span className="text-[#C5A85C] font-serif text-xs lg:text-sm font-bold">
-                  {userName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-white text-xs lg:text-sm font-medium truncate">{userName}</p>
-                <p className="text-[#AAB3CF] text-[10px] lg:text-xs truncate capitalize">{userRole.replace("_", " ")}</p>
-              </div>
+              <button onClick={handleLogout} className="px-3 py-2 bg-red-500/10 border border-red-500/40 text-red-400 hover:bg-red-500/20 rounded-lg transition-colors flex items-center gap-2" aria-label="Logout">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                <span className="text-sm">Logout</span>
+              </button>
             </div>
           </div>
         )}
@@ -320,7 +329,7 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            
+
             {/* Page Title */}
             <div>
               <h1 className="text-white font-serif text-lg lg:text-2xl truncate max-w-[200px] sm:max-w-none">
@@ -328,20 +337,30 @@ export default function AdminLayout({ children, userRole, userName, userEmail }:
               </h1>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2 lg:gap-4">
             <Link
               href="/"
-              className="hidden sm:inline-flex text-[#AAB3CF] hover:text-white transition-colors text-xs lg:text-sm"
+              className="hidden sm:inline-flex py-2 px-2 bg-[#C5A85C] text-black rounded-xl hover:text-white transition-colors text-xs lg:text-sm"
             >
-              View Site →
+             ← View Site
             </Link>
-            <Link
-              href="/api/auth/logout"
-              className="text-[#AAB3CF] hover:text-red-400 transition-colors text-xs lg:text-sm font-medium px-3 py-2 rounded-lg hover:bg-white/5"
-            >
-              Logout
-            </Link>
+            <div className=" p-3 lg:p-4 border-t border-[#C5A85C]/20 bg-[#161B33]">
+            <div className="flex items-center gap-3">
+              {avatar_url ? (<Image alt="user image" height={50} width={50} src={avatar_url} className="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center flex-shrink-0"  />) : (
+                <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-[#C5A85C]/20 flex items-center justify-center flex-shrink-0">
+                <span className="text-[#C5A85C] font-serif text-xs lg:text-sm font-bold">
+                  {userName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                </span>
+              </div>
+              )}
+
+              <div className="flex-1 min-w-0">
+                <p className="text-white text-xs lg:text-sm font-medium truncate">{userName}</p>
+                <p className="text-[#AAB3CF] text-[10px] lg:text-xs truncate capitalize">{(userRole || "").replace("_", " ")}</p>
+              </div>
+            </div>
+          </div>
           </div>
         </header>
 
