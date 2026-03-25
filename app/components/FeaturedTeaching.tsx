@@ -101,7 +101,7 @@ export default function FeaturedTeaching() {
               ) : quotes.length > 0 ? (
                 <div className="max-h-[500px] overflow-hidden">
                   <motion.div
-                    animate={{ y: -currentIndex * 280 }}
+                    animate={{ y: -currentIndex * 300 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="space-y-12"
                   >

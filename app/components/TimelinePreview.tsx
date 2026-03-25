@@ -53,17 +53,17 @@ export default function TimelinePreview() {
             className="hidden lg:block relative"
           >
             {/* Vertical Gold Line */}
-            <div className="absolute left-[390px] top-4 bottom-0 w-[2px] h-full bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
+            <div className="absolute left-[390px] top-28 bottom-0 w-[2px] h-full bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
             
             {/* Decorative Elements */}
-            <div className="space-y-40 pl-[371px] pt-4 ">
+            <div className="space-y-40 pl-[371px] pt-24 ">
               <div className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-[#C5A85C]/40 rounded-full" />
               </div>
-              <div className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 border -mt-4 border-[#C5A85C]/20 rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-[#C5A85C]/40 rounded-full" />
               </div>
-              <div className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 border -mt-4 border-[#C5A85C]/20 rounded-full flex items-center justify-center">
                 <div className="w-2 h-2 bg-[#C5A85C]/40 rounded-full" />
               </div>
               {/* <div className="w-10 h-10 border border-[#C5A85C]/20 rounded-full flex items-center justify-center">
