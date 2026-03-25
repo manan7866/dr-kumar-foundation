@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import AdminLayout from "../components/AdminLayout";
+import { set } from "zod";
 
 interface User {
   role: string;
@@ -31,6 +32,11 @@ export default function AdminProfilePage() {
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
+  // name edit
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [isNameSaving, setIsNameSaving] = useState(false);
+
   // Load user data
   useEffect(() => {
     const session = localStorage.getItem("admin_session");
@@ -42,6 +48,7 @@ export default function AdminProfilePage() {
     try {
       const userData = JSON.parse(session);
       setUser(userData);
+      setFullName(userData.full_name);
     } catch (error) {
       console.error("Failed to parse session:", error);
       localStorage.removeItem("admin_session");
@@ -50,6 +57,52 @@ export default function AdminProfilePage() {
       setIsLoading(false);
     }
   }, [router]);
+
+  const handleNameUpdate = async () => {
+
+    if (!user) return;
+  
+    setIsSaving(true);
+    setIsNameSaving(true);
+  
+    try {
+      
+      const response = await fetch("/api/admin/profile/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          full_name: fullName, // 👈 important
+        }),
+      });
+  
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Update failed");
+      }
+  
+      const data = await response.json();
+  
+      const updatedUser = {
+        id: user.id,
+        email: user.email,
+        avatar_url: user.avatar_url,
+        role: user.role,
+        full_name: data.user.full_name,
+      };
+  
+      setUser(updatedUser);
+      localStorage.setItem("admin_session", JSON.stringify(updatedUser));
+       // 👈 reset button state
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update name");
+    } finally {
+      setIsSaving(false);
+      setIsNameEditing(false);
+      setIsNameSaving(false);
+    }
+  };
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -251,8 +304,18 @@ export default function AdminProfilePage() {
 
             {/* Upload Info */}
             <div className="flex-1">
-              <h3 className="text-white font-medium mb-2">{user.full_name}</h3>
-              <p className="text-[#AAB3CF] text-sm mb-4">{user.email}</p>
+              <p className="pl-[2px]">Full Name</p>
+            <input
+       type="text"
+      value={fullName}
+       onChange={(e) => {
+        setFullName(e.target.value);
+         setIsNameEditing(true); // 👈 jab bhi edit ho
+  }}
+  className="w-full bg-[#1C2340] mb-3 border border-white/20 px-4 py-3 text-white rounded-lg"
+  placeholder="Enter your name"
+/>
+              
 
               <input
                 ref={fileInputRef}
@@ -262,13 +325,19 @@ export default function AdminProfilePage() {
                 className="hidden"
               />
 
-              <button
-                onClick={handleAvatarClick}
-                disabled={isUploading}
-                className="px-6 py-2.5 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg hover:bg-[#C5A85C]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isUploading ? "Uploading..." : "Change Avatar"}
-              </button>
+<button
+  onClick={isNameEditing ? handleNameUpdate : handleAvatarClick}
+  disabled={isUploading || isNameSaving}
+  className="px-6 py-2.5 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg hover:bg-[#C5A85C]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {isUploading
+    ? "Uploading..."
+    : isNameSaving
+    ? "Saving..."
+    : isNameEditing
+    ? "Save Name"
+    : "Change Avatar"}
+</button>
 
               {isUploading && (
                 <div className="mt-4">

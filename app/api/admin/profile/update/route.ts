@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, avatarUrl, currentPassword, newPassword } = body;
+    const { userId, avatarUrl, currentPassword, newPassword , full_name } = body;
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID required' }, { status: 400 });
@@ -37,6 +37,10 @@ export async function PUT(request: NextRequest) {
 
       // Hash new password
       updateData.password_hash = await bcrypt.hash(newPassword, 12);
+    }
+
+    if(full_name !== undefined) {
+      updateData.full_name = full_name;
     }
 
     // If no updates, return current user
