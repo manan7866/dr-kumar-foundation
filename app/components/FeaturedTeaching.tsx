@@ -142,7 +142,7 @@ export default function FeaturedTeaching() {
                           <div className="flex items-center gap-4 mb-8">
                             <div className="gold-divider" />
                             <span className="text-[#C5A85C] uppercase tracking-widest text-sm">
-                              Dr. Ghulam Mohammad Kumar
+                              Dr.Kumar
                             </span>
                             {quote.category && (
                               <>

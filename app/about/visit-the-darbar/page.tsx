@@ -247,7 +247,7 @@ export default function VisitTheDarbarPage() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <p className="text-[#AAB3CF] text-lg leading-relaxed">
+            <p className="text-[#AAB3CF] text-left md:text-center lg:text-center xl:text-center text-lg leading-relaxed">
               Dr. Kumar Faqeeri Darbar is maintained as a place of dignity, reflection, spiritual presence, and respectful human encounter. This page provides official guidance for visitors regarding location, timings, visitor arrangements, hospitality, and practical coordination before planning a visit.
             </p>
           </motion.div>
@@ -487,7 +487,7 @@ export default function VisitTheDarbarPage() {
                 <h3 className="text-[#C5A85C] text-sm uppercase tracking-wider mb-4">General Visitor Timings</h3>
                 <div className="space-y-3">
                   <div className="py-2 ">
-                    <span className="text-[#AAB3CF]">Days:</span>
+                    <span className="text-[#AAB3CF]">Best Days To Visit:</span>
                     {/* <span className="text-white font-medium">Monday, Wednesday, Friday, Sunday</span> */}
                     <div className="space-y-2 text-white font-medium">
                       <div className="flex items-center gap-2">

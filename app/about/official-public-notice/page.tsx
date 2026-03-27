@@ -133,7 +133,7 @@ export default function OfficialPublicNoticePage() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <p className="text-[#AAB3CF] text-lg leading-relaxed">
+            <p className="text-[#AAB3CF] text-left md:text-center lg:text-center xl:text-center text-lg leading-relaxed">
               This notice has been issued for clarity, trust, and public protection. It explains the Foundation's position regarding donations, financial requests, and any claim of authority made in the name of Dr. Kumar, Dr. Kumar Faqeeri Darbar, the Foundation, or associated platforms.
             </p>
           </motion.div>
