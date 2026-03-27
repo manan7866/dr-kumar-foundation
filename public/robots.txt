@@ -11,6 +11,7 @@ Disallow: /admin/
 Disallow: /api/
 
 # Allow sitemap specifically
+Allow: /sitemap.xml
 Allow: /api/sitemap
 
 # Auth pages
@@ -22,7 +23,7 @@ Disallow: /dashboard/
 # Engagement forms (prevent duplicate indexing)
 Disallow: /engage/
 
-# Sitemap locations
+# Sitemap locations (primary and backup)
 Sitemap: https://dkf.sufisciencecenter.info/sitemap.xml
 Sitemap: https://dkf.sufisciencecenter.info/api/sitemap
 
@@ -32,6 +33,7 @@ Crawl-delay: 1
 # Specific bot settings
 User-agent: Googlebot
 Crawl-delay: 0.5
+Allow: /sitemap.xml
 
 User-agent: Bingbot
 Crawl-delay: 1
