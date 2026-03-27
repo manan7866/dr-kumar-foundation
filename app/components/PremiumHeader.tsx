@@ -28,7 +28,6 @@ const navItems: NavItem[] = [
       { label: "About the Foundation", href: "/foundation" },
       { label: "Dr. Kumar's Life & Work", href: "/life-and-work" },
       { label: "Governance", href: "/about/governance" },
-      { label: "The Circle", href: "/the-circle" },
       { label: "Visit the Darbar", href: "/about/visit-the-darbar" },
       { label: "Official Public Notice", href: "/about/official-public-notice" },
     ],
