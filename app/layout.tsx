@@ -18,10 +18,7 @@ export const metadata: Metadata = {
   title: "Dr. Ghulam Mohammad Kumar Foundation | Cultural Research & Spiritual Legacy",
   description: "Preserving spiritual legacy through structured knowledge. The life, teachings, and enduring vision of Dr. Ghulam Mohammad Kumar presented through research, documentation, and institutional stewardship.",
   keywords: ["spiritual legacy", "cultural foundation", "research institute", "Dr. Ghulam Mohammad Kumar", "Sufi studies", "ethical conduct", "inner discipline"],
-  icons: {
-    icon: "/dkf_logo_21.png", // browser tab me ye dikhayega
-    shortcut: "/favicon.ico",  // Windows / pinned tab ke liye
-  },
+  icons: "/dkf_logo_21.png"
 };
 
 export default function RootLayout({

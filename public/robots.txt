@@ -7,8 +7,11 @@ Allow: /
 # Admin areas - allow authenticated access only
 Disallow: /admin/
 
-# API endpoints - not for indexing
+# API endpoints - not for indexing (except sitemap)
 Disallow: /api/
+
+# Allow sitemap specifically
+Allow: /api/sitemap
 
 # Auth pages
 Disallow: /auth/
@@ -19,8 +22,19 @@ Disallow: /dashboard/
 # Engagement forms (prevent duplicate indexing)
 Disallow: /engage/
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://dkf.sufisciencecenter.info/sitemap.xml
+Sitemap: https://dkf.sufisciencecenter.info/api/sitemap
 
 # Crawl delay (polite crawling)
 Crawl-delay: 1
+
+# Specific bot settings
+User-agent: Googlebot
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Crawl-delay: 2
