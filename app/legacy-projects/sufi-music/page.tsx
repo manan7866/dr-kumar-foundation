@@ -434,9 +434,9 @@ export default function SufiMusicPage() {
 
                       {/* Video Info */}
                       <div className="p-6">
-                        <h3 className="font-serif text-lg text-white mb-3 line-clamp-2">
+                        <h4 className="font-serif text-lg text-white mb-3 line-clamp-2">
                           {video.title || 'Untitled Video'}
-                        </h3>
+                        </h4>
                         {video.views && (
                           <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
