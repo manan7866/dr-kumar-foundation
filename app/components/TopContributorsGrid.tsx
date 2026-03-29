@@ -96,18 +96,70 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
     // 5. Sufi Commerce
     if (pn.includes('ecommerce') || pn.includes('ethical') || pn.includes('craft')) {
       return [
-        createContributor('Shabnam Jan', '8', 'Srinagar, Kashmir', 'Ethical Craft Documentation', 'Heritage craft researcher  experience in artisan documentation, oral histories, production mapping, and cultural continuity support.', 'Strengthening heritage craft continuity through structured artisan records, responsible digital presentation, and transparent economic participation.', 'Artisan Documentation and Heritage Craft Orientation', '2024-03-12', 'Srinagar', 'Kashmir', 32, 'Led an artisan orientation on craft documentation, transparent production records, and responsible digital presentation of heritage products.', 'Improved documentation discipline and supported trust-based artisan visibility.', 9),
+        createContributor('Shabnam Jan', '9', 'Srinagar, Kashmir', 'Ethical Craft Documentation', 'Heritage craft researcher  experience in artisan documentation, oral histories, production mapping, and cultural continuity support.', 'Documenting artisan knowledge, production methods, and intergenerational craft practices through structured field research and verified records.', 'Artisan Process Mapping and Documentation Session', '2024-06-03', 'Srinagar', 'Kashmir', 24, 'Led a documentation session focused on recording traditional craft workflows, artisan narratives, and material knowledge for long-term preservation.', 'Strengthened the preservation of traditional knowledge and improved the quality of structured craft documentation for future access.', 8),
         createContributor('Adil Karim', '8', 'Budgam, Kashmir', 'Traceability & Fair Value Systems', 'Responsible commerce practitioner  in traceability systems, transparent market workflows, and craft-sector coordination.', 'Building transparent and fair-value pathways for artisans through traceability design, ethical trade principles, and structured buyer confidence.', 'Traceability and Ethical Trade Readiness Workshop', '2024-02-17', 'Budgam', 'Kashmir', 26, 'Facilitated a training session on traceability methods, pricing clarity, supply transparency, and mutual responsibility in artisan-centered trade systems.', 'Improved traceability awareness and encouraged more structured producer-buyer trust frameworks.', 8),
         createContributor('Nida Shafi', '7', 'Baramulla, Kashmir', 'Digital Integration & Craft Storytelling', 'Craft communications specialist  in product narrative development, digital cataloging, and heritage storytelling.', 'Enabling heritage artisans to enter digital marketplaces with stronger product narratives, clearer cultural context, and more responsible presentation standards.', 'Craft Digitization and Product Storytelling Session', '2024-01-30', 'Baramulla', 'Kashmir', 21, 'Conducted a session on digital cataloging, product storytelling, cultural context writing, and responsible online presentation.', 'Improved product storytelling quality and supported better heritage visibility in digital spaces.', 6),
       ];
     }
     
     // 6. Sufi Science
+    // if (pn.includes('science') || pn.includes('consciousness')) {
+    //   return [
+    //     createContributor('Dr. Rayees Qadri', '11', 'Srinagar, Kashmir', 'Philosophical Analysis', 'Interdisciplinary researcher  in philosophical analysis, textual interpretation, and structured academic documentation.', 'Advancing rigorous inquiry into Sufi philosophical traditions through disciplined analysis, scholarly documentation, and academically credible publication pathways.', 'Philosophical Analysis and Research Documentation Seminar', '2024-03-09', 'Srinagar', 'Kashmir', 19, 'Led a seminar on Sufi philosophical texts, disciplined observation, research documentation, and publication-oriented analytical framing.', 'Strengthened research discipline and encouraged more rigorous philosophical inquiry grounded in tradition.', 8),
+    //     createContributor('Sana Yousuf', '8', 'Ganderbal, Kashmir', 'Consciousness Studies', 'Research facilitator  in consciousness studies, reflective learning, and interdisciplinary learning design.', 'Supporting structured inquiry into awareness, self-observation, and human development through careful interdisciplinary exploration and learning design.', 'Consciousness Studies and Self-Observation Workshop', '2024-02-22', 'Ganderbal', 'Kashmir', 23, 'Facilitated a workshop exploring awareness, self-observation, states of consciousness, and disciplined reflection.', 'Deepened participant engagement with consciousness studies and improved clarity around reflective research methods.', 7),
+    //     createContributor('Dr. Irfan Ashraf', '9', 'Pulwama, Kashmir', 'Environmental Research & Spiritual Ecology', 'Environmental humanities researcher  in ethics, sustainability discourse, and spiritual-philosophical analysis.', 'Linking ecological ethics, philosophical reflection, and research publication to build stronger interdisciplinary understanding of sustainability and responsibility.', 'Environmental Ethics and Spiritual Ecology Colloquium', '2024-01-25', 'Pulwama', 'Kashmir', 17, 'Convened a colloquium examining ecological ethics from spiritual traditions and their relevance to contemporary sustainability challenges.', 'Connected environmental concerns with spiritual ethics and expanded interest in policy-relevant ecological inquiry.', 6),
+    //   ];
+    // }
     if (pn.includes('science') || pn.includes('consciousness')) {
       return [
-        createContributor('Dr. Rayees Qadri', '11', 'Srinagar, Kashmir', 'Philosophical Analysis', 'Interdisciplinary researcher  in philosophical analysis, textual interpretation, and structured academic documentation.', 'Advancing rigorous inquiry into Sufi philosophical traditions through disciplined analysis, scholarly documentation, and academically credible publication pathways.', 'Philosophical Analysis and Research Documentation Seminar', '2024-03-09', 'Srinagar', 'Kashmir', 19, 'Led a seminar on Sufi philosophical texts, disciplined observation, research documentation, and publication-oriented analytical framing.', 'Strengthened research discipline and encouraged more rigorous philosophical inquiry grounded in tradition.', 8),
-        createContributor('Sana Yousuf', '8', 'Ganderbal, Kashmir', 'Consciousness Studies', 'Research facilitator  in consciousness studies, reflective learning, and interdisciplinary learning design.', 'Supporting structured inquiry into awareness, self-observation, and human development through careful interdisciplinary exploration and learning design.', 'Consciousness Studies and Self-Observation Workshop', '2024-02-22', 'Ganderbal', 'Kashmir', 23, 'Facilitated a workshop exploring awareness, self-observation, states of consciousness, and disciplined reflection.', 'Deepened participant engagement with consciousness studies and improved clarity around reflective research methods.', 7),
-        createContributor('Dr. Irfan Ashraf', '9', 'Pulwama, Kashmir', 'Environmental Research & Spiritual Ecology', 'Environmental humanities researcher  in ethics, sustainability discourse, and spiritual-philosophical analysis.', 'Linking ecological ethics, philosophical reflection, and research publication to build stronger interdisciplinary understanding of sustainability and responsibility.', 'Environmental Ethics and Spiritual Ecology Colloquium', '2024-01-25', 'Pulwama', 'Kashmir', 17, 'Convened a colloquium examining ecological ethics from spiritual traditions and their relevance to contemporary sustainability challenges.', 'Connected environmental concerns with spiritual ethics and expanded interest in policy-relevant ecological inquiry.', 6),
+        createContributor(
+          'Shabnam Jan',
+          '8',
+          'Kashmir',
+          'Advanced Philosophical Text Analysis',
+          'Interdisciplinary research scholar with 9 years of experience in philosophical literature review, comparative inquiry, source interpretation, and structured academic documentation.',
+          'Developing structured research notes and analytical summaries on Sufi philosophical texts, core concepts of consciousness, epistemology, and ethical inquiry.',
+          'Comparative Sufi Epistemology Research Session',
+          '2024-03-06',
+          'Srinagar',
+          'Kashmir',
+          24,
+          'Led a focused research session examining classical Sufi concepts of knowledge, self-observation, and inner perception through comparative analytical frameworks.',
+          'Strengthened the program’s philosophical research base by improving structured interpretation, thematic mapping, and documentation quality.',
+          8
+        ),
+        createContributor(
+          'Muzaffar Mir',
+          '7',
+          'Kashmir',
+          'Consciousness Studies Documentation',
+          'Research documentation practitioner with over 8 years of experience in qualitative recording, metadata structuring, archival organization, and interdisciplinary knowledge support.',
+          'Building reliable research documentation pathways for consciousness studies, self-observation records, interview materials, and interdisciplinary inquiry archives.',
+          'Consciousness  Documentation Workshop',
+          '2024-02-18',
+          'Ganderbal',
+          'Kashmir',
+          18,
+          'Conducted a workshop on documenting reflective observation, organizing research records, and creating structured metadata for long-term academic use.',
+          'Improved the consistency, traceability, and usability of research records supporting interdisciplinary inquiry into consciousness and human development.',
+          7
+        ),
+        createContributor(
+          'Ruqaiya Shah',
+          '6',
+          'Kashmir',
+          'Social Ethics and Human Development',
+          'Ethics and education facilitator with over 7 years of experience in social thought, reflective learning, youth engagement, and value-centered program development.',
+          'Supporting inquiry into social ethics, human development, and applied philosophical reflection through structured discussion and educational engagement models.',
+          'Social Ethics and Reflective Inquiry Circle',
+          '2024-01-25',
+          'Anantnag',
+          'Kashmir',
+          27,
+          'Facilitated a discussion circle on ethical responsibility, self-awareness, and the role of philosophical reflection in shaping social conduct and community life.',
+          'Expanded participant engagement with ethical inquiry and strengthened the program’s applied dimension linking philosophy, reflection, and social understanding.',
+          6
+        ),
       ];
     }
     
@@ -193,7 +245,7 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
 
               {contributor.collaboration_info.professionalBackground && (
                 <div className="mb-3">
-                  <p className="text-[#6B7299] text-xs mb-1">Professional Background</p>
+                  <p className="text-[#C5A85C]! text-xs mb-1">Professional Background</p>
                   <p className="text-white text-sm">{contributor.collaboration_info.professionalBackground}</p>
                 </div>
               )}
@@ -262,7 +314,7 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
 
               {contributor.latest_contribution.results && (
                 <div className="mt-3 pt-3 border-t border-[#C5A85C]/10">
-                  <p className="text-[#C5A85C] text-xs font-medium mb-1">Impact:</p>
+                  <p className="text-[#C5A85C]! text-xs font-medium mb-1">Impact:</p>
                   <p className="text-[#AAB3CF] text-sm line-clamp-2">
                     {contributor.latest_contribution.results}
                   </p>
