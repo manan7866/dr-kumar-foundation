@@ -7,11 +7,11 @@ import PremiumFooter from "../components/PremiumFooter";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="bg-[#1C2340] min-h-screen">
+    <div className="bg-[#1C2340]  min-h-screen">
       <PremiumHeader />
 
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[40vh]  flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340] to-[#151A30]" />
 
         <motion.div
@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
 
       {/* Content */}
       <section className="section-spacing bg-[#151A30]">
-        <div className="max-w-3xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

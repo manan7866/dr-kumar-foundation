@@ -124,54 +124,70 @@ export default function VisitTheDarbarPage() {
     },
   ];
 
-  const visitorServices = [
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-      ),
-      title: "Spiritual Visit",
-      description: "A respectful visit to spend time in the spiritually grounded environment of Dr. Kumar Faqeeri Darbar.",
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      ),
-      title: "Guidance and Presence",
-      description: "Some visitors may come seeking guidance, respectful presence, or quiet sitting, subject to timing and availability.",
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-        </svg>
-      ),
-      title: "Reflective Visit",
-      description: "Visitors may also come simply to sit quietly, observe respectfully, and remain within a disciplined atmosphere.",
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
-      title: "Family Visit",
-      description: "Families may visit according to the Darbar's visitor arrangements and timings.",
-    },
-    {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: "Outstation Visitor Support",
-      description: "Visitors traveling from distant locations may receive guidance regarding travel planning and available arrangements.",
-    },
-  ];
+  
 
+  const visitorServices = [
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    ),
+    title: "Spiritual Visit",
+    description:
+      "A respectful visit to spend time within the spiritually grounded environment of Dr. Kumar Faqeeri Darbar.",
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+      </svg>
+    ),
+    title: "Guided Presence",
+    description:
+      "Some visitors may come for guidance, quiet presence, or respectful sitting, subject to timing and availability.",
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+      </svg>
+    ),
+    title: "Reflective Visit",
+    description:
+      "Visitors may also come to sit quietly, observe respectfully, and remain within a disciplined atmosphere.",
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" />
+      </svg>
+    ),
+    title: "Family Visit",
+    description:
+      "Family members may visit according to the Darbar’s visitor arrangements, available timings, and internal schedule.",
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    title: "Distant Visitors",
+    description:
+      "Visitors arriving from outside the area may receive guidance regarding timing, access, and basic arrangements.",
+  },
+  {
+    icon: (
+      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10m-11 8h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+    ),
+    title: "Program Visit",
+    description:
+      "On certain days, visitors may come in relation to gatherings, observances, or scheduled foundation activities.",
+  },
+];
   const conductItems = [
     "Dress modestly and respectfully",
     "Maintain calm and respectful conduct",
@@ -180,6 +196,7 @@ export default function VisitTheDarbarPage() {
     "Seek permission before photography, filming, or public posting",
     "Respect the privacy of Dr. Kumar, residents, staff, and fellow visitors",
     "Treat the Darbar as a place of dignity and reflection, not casual social activity",
+    "Keep mobile phones silent during the visit",
   ];
 
   return (
@@ -535,32 +552,39 @@ export default function VisitTheDarbarPage() {
                 <p className="text-[#AAB3CF] text-sm leading-relaxed mb-4">
                   Visitor timings may vary depending on:
                 </p>
+                
                 <ul className="space-y-2 text-[#AAB3CF] text-sm">
-                  <li className="flex items-start gap-2">
-                    <svg className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Spiritual gatherings</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Commemorative days</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Internal Foundation programs</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <svg className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>Health, travel, or administrative circumstances</span>
-                  </li>
-                </ul>
+  {[
+    "Spiritual gathering schedules",
+    "Commemorative observance days",
+    "Internal foundation programs",
+    "Special guest visit hours",
+    "Prayer and reflection periods",
+    "Travel and weather conditions",
+    "Health-related circumstances",
+    "Administrative coordination needs",
+    "Seasonal access limitations",
+    "Reserved family interaction hours",
+    "Site management requirements"
+  ].map((item, index) => (
+    <li key={index} className="flex items-start gap-2">
+      <svg
+        className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>
               </div>
             </div>
 
@@ -642,7 +666,7 @@ export default function VisitTheDarbarPage() {
                   Basic hospitality may be available depending on the day and nature of the visit.
                 </p>
                 <p className="text-[#AAB3CF] text-sm mb-4">This may include:</p>
-                <ul className="space-y-2 text-[#AAB3CF] text-sm">
+                {/* <ul className="space-y-2 text-[#AAB3CF] text-sm">
                   <li className="flex items-start gap-2">
                     <svg className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" />
@@ -661,7 +685,34 @@ export default function VisitTheDarbarPage() {
                     </svg>
                     <span>Meal arrangements on selected days or during designated gatherings</span>
                   </li>
-                </ul>
+                </ul> */}
+
+                <ul className="space-y-2 text-[#AAB3CF] text-sm">
+  {[
+    "Tea or light refreshment",
+    "Simple shared food",
+    "Meal service on selected days",
+    "Gathering-based food arrangements",
+    "Basic visitor hospitality support"
+  ].map((item, index) => (
+    <li key={index} className="flex items-start gap-2">
+      <svg
+        className="w-4 h-4 text-[#C5A85C] mt-0.5 flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M5 13l4 4L19 7"
+        />
+      </svg>
+      <span>{item}</span>
+    </li>
+  ))}
+</ul>
               </div>
             </motion.div>
 
@@ -671,9 +722,9 @@ export default function VisitTheDarbarPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h2 className="font-serif text-2xl text-white mb-4">Short-Stay Accommodation</h2>
+              <h2 className="font-serif text-2xl  text-white mb-4">Short-Stay Accommodation</h2>
               <div className="gold-divider mb-6" />
-              <div className="bg-[#232B52] border border-[#C5A85C]/15 rounded-xl p-6">
+              <div className="bg-[#232B52] border border-[#C5A85C]/15 pb-9 rounded-xl p-6">
                 <p className="text-[#AAB3CF] leading-relaxed mb-4">
                   Limited short-stay accommodation may be available for sincere visitors, outstation guests, or those attending specific gatherings at Dr. Kumar Faqeeri Darbar, depending on available space and prior coordination.
                 </p>
@@ -853,11 +904,12 @@ export default function VisitTheDarbarPage() {
                   <p className="text-[#AAB3CF] leading-relaxed">
                     Timings, visitor arrangements, hospitality availability, and accommodation status may change depending on internal schedule, gatherings, health, travel, or administrative circumstances.
                   </p>
+                  <p className="text-[#AAB3CF] leading-relaxed">
+                    Visitors are strongly encouraged to confirm details before travel.
+                  </p>
                 </div>
               </div>
-              <p className="text-white font-medium">
-                Visitors are strongly encouraged to confirm details before travel.
-              </p>
+              
             </div>
           </motion.div>
         </div>

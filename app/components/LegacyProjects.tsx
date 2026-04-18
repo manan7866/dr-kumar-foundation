@@ -64,7 +64,7 @@ function ProjectCard({
         </h3>
 
         {/* Description */}
-        <p className="text-[#AAB3CF] text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+        <p className="text-[#AAB3CF] text-sm leading-relaxed mb-4 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
           {description}
         </p>
 

@@ -50,7 +50,7 @@ export default function TermsOfUsePage() {
 
       {/* Content */}
       <section className="section-spacing bg-[#151A30]">
-        <div className="max-w-3xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

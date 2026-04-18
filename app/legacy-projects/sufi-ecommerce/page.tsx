@@ -510,7 +510,7 @@ export default function SufiEcommercePage() {
             transition={{ duration: 0.8 }}
             className="sm:text-center mb-16"
           >
-            <p className="text-[#C5A85C] text-xs uppercase tracking-widest mb-3">
+            {/* <p className="text-[#C5A85C] text-xs uppercase tracking-widest mb-3">
               Pre-Launch Introduction
             </p>
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
@@ -518,11 +518,11 @@ export default function SufiEcommercePage() {
             </h2>
             <p className="text-[#AAB3CF] max-w-3xl mx-auto leading-relaxed">
               Purple Soul USA is an upcoming ethical commerce platform initiative within the wider Sufi Commerce & Ethical Craft vision of Dr. Kumar Foundation USA, offering an early view of its purpose, direction, and evolving role in supporting heritage artisans and transparent trade pathways.
-            </p>
+            </p> */}
           </motion.div>
 
           {/* Pre-Launch Video */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -531,7 +531,7 @@ export default function SufiEcommercePage() {
           >
             <div className="w-full">
               <div className="relative">
-                {/* Video Container - 16:9 Aspect Ratio */}
+               
                 <div className="relative w-full pb-[56.25%] bg-[#232B52] rounded-xl overflow-hidden border border-[#C5A85C]/15">
                   <iframe
                     className="absolute inset-0 w-full h-full"
@@ -558,7 +558,7 @@ export default function SufiEcommercePage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
 
           {/* Website Objective */}
           <motion.div
