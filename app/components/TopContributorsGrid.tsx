@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
+import { BsChevronCompactDown } from "react-icons/bs";
 
 interface User {
   id: string;
@@ -46,6 +48,8 @@ interface TopContributorsGridProps {
 
 export default function TopContributorsGrid({ contributors, programName, isLoading }: TopContributorsGridProps) {
   // Helper to create contributor
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const createContributor = (name: string, exp: string, location: string, spec: string, bg: string, contribution: string, title: string, date: string, city: string, country: string, participants: number, task: string, results: string, count: number , avatar?: string): TopContributor => ({
     user: { id: `dummy-${name}`, email: `${name.toLowerCase().replace(' ', '.')}@example.com`, full_name: name, avatar_url: avatar },
     contribution_count: count,
@@ -191,15 +195,18 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {displayContributors.map((contributor, index) => (
+    <div className="grid h-[800px] grid-cols-1 md:grid-cols-3 gap-6">
+      {displayContributors.map((contributor, index) => {
+        const isOpen = openIndex === index;
+        return(
+        
         <motion.div
           key={contributor.user.id}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.15 }}
-          className={`relative bg-[#232B52] border-2 rounded-2xl p-6 ${
+          className={`relative bg-[#232B52] h-max border-2 rounded-2xl p-6 ${
             index === 0 ? 'border-[#C5A85C] shadow-[0_0_30px_rgba(197,168,92,0.2)]' :
             index === 1 ? 'border-[#C5A85C]/40' :
             'border-[#C5A85C]/20'
@@ -278,22 +285,30 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
               )}
             </div>
           )}
-
+            {/* toggle */}
           {/* Latest Contribution */}
-          {contributor.latest_contribution && (
-            <div className="pt-4 border-t border-[#C5A85C]/10">
+          
+
+          <div
+              className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                isOpen ? "max-h-[1000px] mt-4" : "max-h-0"
+              }`}
+            >
+              {contributor.latest_contribution && (
+
+                <div className="pt-4 border-t border-[#C5A85C]/10">
               <p className="text-[#C5A85C] text-xs uppercase tracking-wider mb-2">Latest Activity</p>
               <h4 className="text-white font-medium mb-3 line-clamp-2">
                 {contributor.latest_contribution.title}
               </h4>
 
               <div className="space-y-2 mb-4">
-                <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
+                {/* <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
                   <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                   <span>{new Date(contributor.latest_contribution.activity_date).toLocaleDateString()}</span>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-2 text-[#AAB3CF] text-sm">
                   <svg className="w-4 h-4 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -324,9 +339,26 @@ export default function TopContributorsGrid({ contributors, programName, isLoadi
                 </div>
               )}
             </div>
+
+              )}
+              
+            </div>
+          {contributor.latest_contribution && (
+
+            <button
+                onClick={() => setOpenIndex(isOpen ? null : index)}
+                className="w-full flex justify-between text-[#C5A85C] text-sm border-t  border-[#C5A85C]/10 pt-3"
+              >
+                <span>{isOpen ? "Hide Activity" : "View Activity"}</span>
+                <span className={`${isOpen ? "rotate-180" : ""}`}>▼</span>
+              </button>
+
+              
+            
           )}
         </motion.div>
-      ))}
+      )})}
     </div>
   );
 }
+

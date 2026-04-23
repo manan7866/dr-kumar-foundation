@@ -223,7 +223,7 @@ export default function PremiumFooter() {
             
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mx-auto">
             {/* Sufi Science Center USA */}
             <a
               href="https://sufisciencecenter.info"
@@ -232,11 +232,7 @@ export default function PremiumFooter() {
               className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                  </svg>
-                </div>
+                <Image alt="LOGO" height={24} width={24} src="/SSC_LOGO.png" className="pb-1 w-12 h-12" />
                 <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
                 Sufi Science Center USA 
               </h5>
@@ -256,11 +252,7 @@ export default function PremiumFooter() {
               className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                  </svg>
-                </div>
+                <Image alt="LOGO" height={100} width={500} src="/sufi_pulse_logo.png" className="pb-1 w-12 h-12" />
                 <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
                 SufiPulse 
               </h5>
@@ -279,11 +271,7 @@ export default function PremiumFooter() {
               className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-12 h-12 bg-[#C5A85C]/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[#C5A85C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                  </svg>
-                </div>
+                <Image alt="LOGO" height={100} width={500} src="/purpule_soul_logo.png" className="pb-1 w-12 h-12" />
                 <h5 className="text-white font-serif text-base mb-2 group-hover:text-[#C5A85C] transition-colors">
                 Purple Soul Collective 
               </h5>

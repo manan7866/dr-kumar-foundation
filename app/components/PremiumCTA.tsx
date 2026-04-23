@@ -10,7 +10,7 @@ export default function PremiumCTA() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] to-[#151A30]" />
 
       {/* Subtle Glow Effects */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C5A85C]/5 rounded-full blur-[120px]" />
+      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C5A85C]/5 rounded-full blur-[120px]" /> */}
 
       <div className="container-premium relative z-10">
         <div className="max-w-3xl mx-auto sm:text-center">
@@ -42,22 +42,22 @@ export default function PremiumCTA() {
           >
             <Link
               href="/contact"
-              className="group px-8 py-4 text-center bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
+              className=" px-8 py-4 text-center bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
             >
               <span className="relative z-10">Contact the Foundation</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#C5A85C] via-[#D4BE90] to-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-600 rounded-lg" />
+              {/* <div className="absolute inset-0 bg-gradient-to-r from-[#C5A85C] via-[#D4BE90] to-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-600 rounded-lg" /> */}
             </Link>
 
             <Link
               href="/foundation"
-              className="group px-8 py-4 border text-center border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C] hover:-translate-y-1"
+              className=" px-8 py-4 border text-center border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C] hover:-translate-y-1"
             >
               Institutional Collaboration
             </Link>
 
             <Link
               href="/contact"
-              className="group px-8 py-4 border text-center border-white/20 text-[#F1F3F8] font-medium rounded-lg transition-all duration-300 hover:bg-white/5 hover:border-white/40 hover:-translate-y-1"
+              className=" px-8 py-4 border text-center border-white/20 text-[#F1F3F8] font-medium rounded-lg transition-all duration-300 hover:bg-white/5 hover:border-white/40 hover:-translate-y-1"
             >
               Media Inquiry
             </Link>
