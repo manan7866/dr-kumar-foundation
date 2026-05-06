@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import AuthModal from "./auth/AuthModal";
@@ -71,11 +71,19 @@ export default function PremiumHeader() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [notifications, setNotifications] = useState(0);
 
+  const scrollRef = useRef(false);
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!scrollRef.current) {
+        scrollRef.current = true;
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          scrollRef.current = false;
+        });
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -421,8 +429,8 @@ export default function PremiumHeader() {
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-[85%] max-w-md bg-[#1C2340] z-50 overflow-y-auto"
+              transition={{ type: "tween", duration: 0.25 }}
+              className="fixed top-0 right-0 h-full w-[85%] max-w-sm bg-[#1C2340] z-50 overflow-y-auto"
             >
               <div className="flex items-center justify-between p-6 border-b border-[#C5A85C]/20">
                 <span className="text-white font-serif text-xl">Menu</span>

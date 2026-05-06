@@ -1,8 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-
+import AnimatedSection from "./AnimatedSection";
 
 interface ProjectCardProps {
   title: string;
@@ -21,85 +20,72 @@ function ProjectCard({
 }: ProjectCardProps) {
   const router = useRouter();
   return (
-    <motion.div tabIndex={1} onClick={() => router.push(href)}
-    style={{ cursor: 'pointer' }}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay }}
-      whileHover={{ y: -8 }}
-      className="group relative overflow-hidden  rounded-2xl aspect-[4/5] cursor-pointer flex-shrink-0 w-full md:w-[calc(33.333%-1rem)]"
-    >
-      {/* Background Image Placeholder with Gradient */}
-      <div style={{ backgroundImage: `url(${imageGradient})` }} className={`absolute inset-0 bg-cover bg-center  transition-transform duration-700 group-hover:scale-105`} />
+    <AnimatedSection delay={delay} className="flex-shrink-0 w-full md:w-[calc(33.333%-1rem)]">
+      <div
+        tabIndex={1}
+        onClick={() => router.push(href)}
+        style={{ cursor: 'pointer' }}
+        className="group relative  overflow-hidden rounded-2xl aspect-[4/5] cursor-pointer flex-shrink-0 w-full"
+      >
+        <div style={{ backgroundImage: `url(${imageGradient})` }} className={`absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105`} />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340] via-[#1C2340]/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340] via-[#1C2340]/60 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500" />
 
-      {/* Content */}
-      <div className="absolute inset-0 p-8 flex flex-col justify-end">
-        {/* Gold Line Accent */}
-        <div className="absolute top-8 left-8 right-8 h-[1px] bg-gradient-to-r from-[#C5A85C]/0 via-[#C5A85C]/40 to-[#C5A85C]/0 group-hover:via-[#C5A85C]/200 transition-colors duration-500" />
+        <div className="absolute inset-0 p-8 flex flex-col justify-end">
+          <div className="absolute top-8 left-8 right-8 h-[1px] bg-gradient-to-r from-[#C5A85C]/0 via-[#C5A85C]/40 to-[#C5A85C]/0 group-hover:via-[#C5A85C]/200 transition-colors duration-500" />
 
-        {/* Icon */}
-        <div className="absolute top-8 right-8 w-10 h-10 border border-[#C5A85C]/30 rounded-full flex items-center justify-center group-hover:border-[#C5A85C]/200 group-hover:bg-[#C5A85C]/10 transition-all duration-500">
-          <svg
-            className="w-4 h-4 text-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
+          <div className="absolute top-8 right-8 w-10 h-10 border border-[#C5A85C]/30 rounded-full flex items-center justify-center group-hover:border-[#C5A85C]/200 group-hover:bg-[#C5A85C]/10 transition-all duration-500">
+            <svg
+              className="w-4 h-4 text-[#C5A85C] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
+
+          <h3 className="font-serif text-2xl text-white mb-3 group-hover:text-[#C5A85C] transition-colors duration-300">
+            {title}
+          </h3>
+
+          <p className="text-[#AAB3CF] text-sm leading-relaxed mb-4 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
+            {description}
+          </p>
+          
+          <div className="flex items-center text-[#C5A85C] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+            <span>Learn More</span>
+            <svg
+              className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
         </div>
 
-        {/* Title */}
-        <h3 className="font-serif text-2xl text-white mb-3 group-hover:text-[#C5A85C] transition-colors duration-300">
-          {title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-[#AAB3CF] text-sm leading-relaxed mb-4 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0">
-          {description}
-        </p>
-
-        {/* Link */}
-        
-        <div 
-         className="flex items-center text-[#C5A85C] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-        <span>Learn More</span>
-          <svg
-            className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </div>
-        
+        <div className="absolute inset-0 border border-[#C5A85C]/0 group-hover:border-[#C5A85C]/30 rounded-2xl transition-colors duration-500" />
       </div>
-
-      {/* Border Glow on Hover */}
-      <div className="absolute inset-0 border border-[#C5A85C]/0 group-hover:border-[#C5A85C]/30 rounded-2xl transition-colors duration-500" />
-    </motion.div>
+    </AnimatedSection>
   );
 }
 
 export default function LegacyProjects() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-// bg-gradient-to-br from-[#232B52] via-[#1C2340] to-[#151A30]
+
   const projects = [
     {
       title: "Community Healing & Spiritual Restoration",
@@ -167,14 +153,7 @@ export default function LegacyProjects() {
   return (
     <section className="section-spacing bg-[#1C2340] relative">
       <div className="container-premium">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="sm:text-center mb-16"
-        >
+        <AnimatedSection className="sm:text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
             Legacy Projects
           </h2>
@@ -183,9 +162,8 @@ export default function LegacyProjects() {
             Initiatives that extend the Foundation&apos;s mission into practical
             engagement with community, environment, and cultural preservation.
           </p>
-        </motion.div>
+        </AnimatedSection>
 
-        {/* Navigation Arrows */}
         <div className="flex items-center justify-end gap-4 mb-8">
           <button
             onClick={scrollLeft}
@@ -208,7 +186,6 @@ export default function LegacyProjects() {
           </button>
         </div>
 
-        {/* Projects Scroll Container */}
         <div
           ref={scrollRef}
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 mb-16"
@@ -225,17 +202,6 @@ export default function LegacyProjects() {
             />
           ))}
         </div>
-
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          
-        </motion.div>
       </div>
     </section>
   );

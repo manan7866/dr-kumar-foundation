@@ -1,7 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
+import AnimatedSection from "./AnimatedSection";
 
 interface PrincipleLink {
   title: string;
@@ -17,13 +15,7 @@ export default function Interconnection({ principles }: InterconnectionProps) {
   return (
     <section className="section-spacing bg-[#1C2340] relative">
       <div className="container-premium">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="sm:text-center mb-16"
-        >
+        <AnimatedSection className="sm:text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
             Interconnected Principles
           </h2>
@@ -32,16 +24,9 @@ export default function Interconnection({ principles }: InterconnectionProps) {
             These principles form a unified framework—each informing and
             reinforcing the others in sustained practice.
           </p>
-        </motion.div>
+        </AnimatedSection>
 
-        {/* Connection Diagram */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto"
-        >
+        <AnimatedSection className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {principles.map((principle, index) => (
               <Link
@@ -61,14 +46,13 @@ export default function Interconnection({ principles }: InterconnectionProps) {
                   </p>
                 </div>
 
-                {/* Connector Line */}
                 {index < principles.length - 1 && (
                   <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-[1px] bg-gradient-to-r from-[#C5A85C]/50 to-[#C5A85C]/20" />
                 )}
               </Link>
             ))}
           </div>
-        </motion.div>
+        </AnimatedSection>
       </div>
     </section>
   );

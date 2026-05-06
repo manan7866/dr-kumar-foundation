@@ -1,24 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig : NextConfig  = {
-  // Enable standalone output for Docker deployment
   output: 'standalone',
 
-  // Skip TypeScript type checking during build (use separate type check)
   typescript: {
     ignoreBuildErrors: true,
   },
 
-  // Enable experimental features if needed
-  experimental: {
-    // serverActions: {
-    //   bodySizeLimit: '2mb',
-    // },
-  },
+  experimental: {},
 
-
-  // Image optimization configuration
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -29,9 +21,10 @@ const nextConfig : NextConfig  = {
         hostname: 'lh3.googleusercontent.com',
       },
     ],
+    minimumCacheTTL: 31536000,
+    deviceSizes: [320, 420, 768, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
-
-  // Environment variables
 
 };
 

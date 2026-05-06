@@ -1,10 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
 import Image from "next/image";
+import AnimatedSection from "../components/AnimatedSection";
 
 interface MilestoneCardProps {
   period: string;
@@ -14,30 +12,19 @@ interface MilestoneCardProps {
   delay: number;
 }
 
-function MilestoneCard({ period, title, description, details, delay }: MilestoneCardProps) {
+function MilestoneCard({ period, title, description, details }: MilestoneCardProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -30 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay }}
-      className="relative pl-12 pb-16 last:pb-0"
-    >
-      {/* Timeline Dot */}
+    <AnimatedSection animation="slide-left" className="relative pl-12 pb-16 last:pb-0">
       <div className="absolute left-0 top-3 w-4 h-4 bg-[#C5A85C] rounded-full shadow-[0_0_20px_rgba(197,168,92,0.6)]" />
       
-      {/* Period Label */}
       <div className="text-[#C5A85C] text-sm uppercase tracking-widest mb-3 font-medium">
         {period}
       </div>
       
-      {/* Title */}
       <h3 className="font-serif text-2xl md:text-3xl text-white mb-4">{title}</h3>
       
-      {/* Description */}
       <p className="text-[#AAB3CF] leading-relaxed mb-6">{description}</p>
       
-      {/* Details */}
       {details.length > 0 && (
         <ul className="space-y-2">
           {details.map((detail, index) => (
@@ -48,7 +35,7 @@ function MilestoneCard({ period, title, description, details, delay }: Milestone
           ))}
         </ul>
       )}
-    </motion.div>
+    </AnimatedSection>
   );
 }
 
@@ -57,61 +44,38 @@ export default function HisLifePage() {
     <div className="bg-[#1C2340] min-h-screen">
       <PremiumHeader />
       
-      {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340] to-[#151A30]" />
         
-        {/* Radial Gold Glow */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        <AnimatedSection
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#C5A85C]/10 rounded-full blur-[140px]"
+          animation="fade-in"
+          duration={2}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:text-left sm:text-center">
-          {/* Animated Gold Line */}
           
-          <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "6rem" }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent sm:mx-auto xl:mx-0 lg:mx-0 mb-8"
-            />
+          <AnimatedSection animation="fade-in" delay={0.3}>
+            <div className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent sm:mx-auto xl:mx-0 lg:mx-0 mb-8" style={{ width: "6rem" }} />
+          </AnimatedSection>
           
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="font-serif text-4xl md:text-5xl lg:text-7xl text-white leading-tight mb-6"
-          >
-            The Life & Formation of
-            <br />
-            <span className="gradient-gold">Dr. G. M. Kumar</span>
-          </motion.h1>
+          <AnimatedSection animation="fade-up" delay={0.5}>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl text-white leading-tight mb-6">
+              The Life & Formation of
+              <br />
+              <span className="gradient-gold">Dr. G. M. Kumar</span>
+            </h1>
+          </AnimatedSection>
           
-          {/* Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="text-[#AAB3CF] text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12"
-          >
-            A documented journey of intellectual refinement, spiritual discipline,
-            and institutional vision.
-          </motion.p>
+          <AnimatedSection animation="fade-up" delay={0.8}>
+            <p className="text-[#AAB3CF] text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12">
+              A documented journey of intellectual refinement, spiritual discipline,
+              and institutional vision.
+            </p>
+          </AnimatedSection>
           
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.1 }}
-          >
+          <AnimatedSection animation="fade-up" delay={1.1}>
             <Link
               href="#timeline"
               className="group inline-flex items-center px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
@@ -131,61 +95,40 @@ export default function HisLifePage() {
                 />
               </svg>
             </Link>
-          </motion.div>
+          </AnimatedSection>
         </div>
-        <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="relative w-full max-w-md lg:max-w-full mx-auto lg:mx-0"
-          >
-            {/* Video Container with Responsive Aspect Ratio */}
-            <div className="relative w-full aspect-video  rounded-2xl overflow-hidden shadow-2xl shadow-[#C5A85C]/20 border border-[#C5A85C]/20">
-              {/* Video with optimized attributes */}
-              <Image
-                src="/dr_kumar_image.png"
-                width={700}
-                height={450}
-                
-                alt="Dr kumar image"
-                className="absolute inset-0 w-full  h-full object-cover"
-                
-              
-              />
+        <AnimatedSection animation="fade-up" delay={0.6}>
+            <div className="relative w-full max-w-md lg:max-w-full mx-auto lg:mx-0">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl shadow-[#C5A85C]/20 border border-[#C5A85C]/20">
+                <Image
+                  src="/dr_kumar_image.png"
+                  width={700}
+                  height={450}
+                  alt="Dr kumar image"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
 
-              {/* Overlay Gradient for Better Text Contrast (if needed) */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340]/20 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1C2340]/20 via-transparent to-transparent pointer-events-none" />
 
-              {/* Gold Border Glow Effect */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-[#C5A85C]/30 pointer-events-none" />
+                <div className="absolute inset-0 rounded-2xl border-2 border-[#C5A85C]/30 pointer-events-none" />
+              </div>
+
+              <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-[#C5A85C]/30 rounded-tr-3xl" />
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-[#C5A85C]/30 rounded-bl-3xl" />
             </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-[#C5A85C]/30 rounded-tr-3xl" />
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-[#C5A85C]/30 rounded-bl-3xl" />
-          </motion.div>
+          </AnimatedSection>
         </div>
         </div>
-        {/* Content */}
         
       </section>
 
-      {/* SECTION 1: EARLY FORMATION */}
       <section id="timeline" className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            {/* Left: Timeline Line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="hidden lg:block relative"
-            >
-              {/* Vertical Timeline Line - aligned with card dots */}
+            <AnimatedSection className="hidden lg:block relative">
               <div className="absolute left-[340px] top-[14.75rem] bottom-0 w-[2px] h-full bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              {/* Timeline Dots - Aligned with each period card dot */}
               <div className="space-y-[275px] pl-[321px] pt-[12.75rem]">
                 {[1, 2, 3, 4].map((i) => (
                   <div
@@ -196,17 +139,10 @@ export default function HisLifePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </AnimatedSection>
 
-            {/* Right: Milestone Cards */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="mb-12"
-              >
+              <AnimatedSection className="mb-12">
                 <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
                   Early Formation
                 </h2>
@@ -215,7 +151,7 @@ export default function HisLifePage() {
                   The foundational years shaped by family environment, traditional
                   education, and early sensitivity to questions beyond routine experience.
                 </p>
-              </motion.div>
+              </AnimatedSection>
 
               <MilestoneCard
                 period="1957"
@@ -269,22 +205,12 @@ export default function HisLifePage() {
         </div>
       </section>
 
-      {/* SECTION 2: WITHDRAWAL & SILENCE */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            {/* Left: Timeline Line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="hidden lg:block relative"
-            >
-              {/* Vertical Timeline Line - aligned with card dots */}
+            <AnimatedSection className="hidden lg:block relative">
               <div className="absolute left-[340px] top-[14.75rem] bottom-0 w-[2px] h-full bg-gradient-to-b from-[#C5A85C]/50 via-[#C5A85C]/30 to-transparent" />
 
-              {/* Timeline Dots - Aligned with each period card dot */}
               <div className="space-y-[270px] pl-[321px] pt-[12.75rem]">
                 {[1, 2 ].map((i) => (
                   <div
@@ -295,17 +221,10 @@ export default function HisLifePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </AnimatedSection>
 
-            {/* Right: Milestone Cards */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="mb-12"
-              >
+              <AnimatedSection className="mb-12">
                 <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
                   Withdrawal & Silence
                 </h2>
@@ -314,7 +233,7 @@ export default function HisLifePage() {
                   Fourteen years of disciplined solitude dedicated to inner consolidation
                   and spiritual maturation.
                 </p>
-              </motion.div>
+              </AnimatedSection>
 
               <MilestoneCard
                 period="1983-97"
@@ -344,22 +263,12 @@ export default function HisLifePage() {
         </div>
       </section>
 
-      {/* SECTION 3: TEACHING & INSTITUTIONAL ESTABLISHMENT */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            {/* Left: Timeline Line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="hidden lg:block relative"
-            >
-              {/* Vertical Timeline Line - aligned with card dots */}
+            <AnimatedSection className="hidden lg:block relative">
               <div className="absolute left-[340px] top-[17.75rem] bottom-0 w-[2px] bg-gradient-to-b h-full from-[#C5A85C]/50  via-[#C5A85C]/30  to-transparent" />
 
-              {/* Timeline Dots - Aligned with each period card dot */}
               <div className="space-y-[270px] pl-[321px] pt-[16.75rem]">
                 {[1, 2, 3, 4].map((i) => (
                   <div
@@ -370,17 +279,10 @@ export default function HisLifePage() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </AnimatedSection>
 
-            {/* Right: Milestone Cards */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="mb-12"
-              >
+              <AnimatedSection className="mb-12">
                 <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
                   Teaching & Institutional Establishment
                 </h2>
@@ -389,7 +291,7 @@ export default function HisLifePage() {
                   From individual guidance to structured frameworks for long-term
                   continuity and responsible participation.
                 </p>
-              </motion.div>
+              </AnimatedSection>
 
               <MilestoneCard
                 period="1999-2026"
@@ -443,17 +345,9 @@ export default function HisLifePage() {
         </div>
       </section>
 
-      {/* SECTION 3: INSTITUTIONAL ESTABLISHMENT */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
-          {/* Section Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="sm:text-center mb-16"
-          >
+          <AnimatedSection className="sm:text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
               Institutional Establishment
             </h2>
@@ -462,101 +356,84 @@ export default function HisLifePage() {
               The formation of structured frameworks to preserve continuity and
               support responsible participation across generations.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
-          {/* Three Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="group bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2"
-            >
-              {/* Icon */}
-              <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-              
-              <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
-                Vision
-              </h3>
-              <p className="text-[#AAB3CF] leading-relaxed mb-6">
-                Establishment of institutional framework to document continuity,
-                preserve disciplined orientation, and support responsible participation.
-              </p>
-              <Link href="/foundation" className="text-[#C5A85C] font-medium inline-flex items-center group/link">
-                <span className="transition-all duration-300 group-hover/link:translate-x-2">Learn More</span>
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                </svg>
+            <AnimatedSection delay={0.2}>
+              <Link href="/foundation" className="group block bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2">
+                <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                
+                <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
+                  Vision
+                </h3>
+                <p className="text-[#AAB3CF] leading-relaxed mb-6">
+                  Establishment of institutional framework to document continuity,
+                  preserve disciplined orientation, and support responsible participation.
+                </p>
+                <span className="text-[#C5A85C] font-medium inline-flex items-center group/link">
+                  <span className="transition-all duration-300 group-hover/link:translate-x-2">Learn More</span>
+                  <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </Link>
-            </motion.div>
+            </AnimatedSection>
 
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="group bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2"
-            >
-              {/* Icon */}
-              <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              
-              <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
-                Public Engagement
-              </h3>
-              <p className="text-[#AAB3CF] leading-relaxed mb-6">
-                Return to community with clarity of purpose, engaging through
-                structured documentation and ethical example.
-              </p>
-              <Link href="/the-circle" className="text-[#C5A85C] font-medium inline-flex items-center group/link">
-                <span className="transition-all duration-300 group-hover/link:translate-x-2">View The Circle</span>
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                </svg>
+            <AnimatedSection delay={0.4}>
+              <Link href="/the-circle" className="group block bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2">
+                <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                
+                <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
+                  Public Engagement
+                </h3>
+                <p className="text-[#AAB3CF] leading-relaxed mb-6">
+                  Return to community with clarity of purpose, engaging through
+                  structured documentation and ethical example.
+                </p>
+                <span className="text-[#C5A85C] font-medium inline-flex items-center group/link">
+                  <span className="transition-all duration-300 group-hover/link:translate-x-2">View The Circle</span>
+                  <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </Link>
-            </motion.div>
+            </AnimatedSection>
 
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="group bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2"
-            >
-              {/* Icon */}
-              <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-              </div>
-              
-              <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
-                Institutional Structuring
-              </h3>
-              <p className="text-[#AAB3CF] leading-relaxed mb-6">
-                Formation of governance structures, legal frameworks, and
-                documentation systems for long-term continuity.
-              </p>
-              <Link href="/foundation#governance" className="text-[#C5A85C] font-medium inline-flex items-center group/link">
-                <span className="transition-all duration-300 group-hover/link:translate-x-2">View Governance</span>
-                <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-                </svg>
+            <AnimatedSection delay={0.6}>
+              <Link href="/foundation#governance" className="group block bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)] hover:-translate-y-2">
+                <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                
+                <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
+                  Institutional Structuring
+                </h3>
+                <p className="text-[#AAB3CF] leading-relaxed mb-6">
+                  Formation of governance structures, legal frameworks, and
+                  documentation systems for long-term continuity.
+                </p>
+                <span className="text-[#C5A85C] font-medium inline-flex items-center group/link">
+                  <span className="transition-all duration-300 group-hover/link:translate-x-2">View Governance</span>
+                  <svg className="w-4 h-4 ml-2 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
               </Link>
-            </motion.div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* Navigation CTA */}
       <section className="py-16 bg-[#151A30] border-t border-[#C5A85C]/10">
         <div className="container-premium">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">

@@ -1,159 +1,46 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
-import { useEffect, useState, useRef } from "react";
-
-interface StatCardProps {
-  value: number;
-  label: string;
-  suffix?: string;
-  delay: number;
-}
-
-function StatCard({ value, label, suffix = "", delay }: StatCardProps) {
-  const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-
-          const duration = 2000;
-          const steps = 60;
-          const increment = value / steps;
-          let current = 0;
-
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= value) {
-              setCount(value);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(current));
-            }
-          }, duration / steps);
-
-          return () => clearInterval(timer);
-        }
-      },
-      { threshold: 0.3 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [value, hasAnimated]);
-
-  return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay }}
-      className="group relative bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(197,168,92,0.15)] hover:-translate-y-2"
-    >
-      <div className="text-5xl md:text-6xl font-serif text-[#C5A85C] mb-4 font-light">
-        {count}
-        {suffix && <span className="text-2xl ml-1">{suffix}</span>}
-      </div>
-      <div className="text-[#AAB3CF] text-sm uppercase tracking-widest leading-relaxed">
-        {label}
-      </div>
-      <div className="absolute bottom-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-[#C5A85C]/20 to-transparent group-hover:via-[#C5A85C]/40 transition-colors duration-500" />
-    </motion.div>
-  );
-}
-
-interface PillarCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay: number;
-}
-
-function PillarCard({ icon, title, description, delay }: PillarCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay }}
-      whileHover={{ y: -8 }}
-      className="group relative bg-[#232B52] border border-[#C5A85C]/15 rounded-2xl p-8 hover:border-[#C5A85C]/40 transition-all duration-500 hover:shadow-[0_0_50px_rgba(197,168,92,0.12)]"
-    >
-      <div className="w-14 h-14 mb-6 flex items-center justify-center text-[#C5A85C] group-hover:scale-110 transition-transform duration-500">
-        {icon}
-      </div>
-      <h3 className="font-serif text-xl text-white mb-4 group-hover:text-[#C5A85C] transition-colors duration-300">
-        {title}
-      </h3>
-      <p className="text-[#AAB3CF] leading-relaxed">{description}</p>
-      <div className="absolute bottom-0 right-0 w-20 h-20 border-r border-b border-[#C5A85C]/0 group-hover:border-[#C5A85C]/20 rounded-br-2xl transition-colors duration-500" />
-    </motion.div>
-  );
-}
+import StatCard from "../components/StatCard";
+import PillarCard from "../components/PillarCard";
+import AnimatedSection from "../components/AnimatedSection";
 
 export default function FoundationOverviewPage() {
   return (
     <div className="bg-[#1C2340] min-h-screen">
       <PremiumHeader />
 
-      {/* HERO SECTION */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340] to-[#151A30]" />
 
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#C5A85C]/10 rounded-full blur-[140px]"
+          style={{
+            animation: "float 10s ease-in-out infinite",
+          }}
         />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 sm:text-center">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: "8rem" }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent sm:mx-auto mb-8"
-          />
+          <AnimatedSection animation="fade-in" delay={0.3}>
+            <div className="h-[2px] bg-gradient-to-r from-transparent via-[#C5A85C] to-transparent sm:mx-auto mb-8" style={{ width: "8rem" }} />
+          </AnimatedSection>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="font-serif text-4xl md:text-5xl lg:text-7xl text-white leading-tight mb-6"
-          >
-            Foundation
-            <br />
-            <span className="gradient-gold">Architecture & Purpose</span>
-          </motion.h1>
+          <AnimatedSection animation="fade-up" delay={0.5}>
+            <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl text-white leading-tight mb-6">
+              Foundation
+              <br />
+              <span className="gradient-gold">Architecture & Purpose</span>
+            </h1>
+          </AnimatedSection>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="text-[#AAB3CF] text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12"
-          >
-            A structured institution preserving legacy through research,
-            documentation, and cultural stewardship.
-          </motion.p>
+          <AnimatedSection animation="fade-up" delay={0.8}>
+            <p className="text-[#AAB3CF] text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-12">
+              A structured institution preserving legacy through research,
+              documentation, and cultural stewardship.
+            </p>
+          </AnimatedSection>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.1 }}
-          >
+          <AnimatedSection animation="fade-up" delay={1.1}>
             <Link
               href="#mission"
               className="group inline-flex items-center px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1"
@@ -173,21 +60,14 @@ export default function FoundationOverviewPage() {
                 />
               </svg>
             </Link>
-          </motion.div>
+          </AnimatedSection>
         </div>
       </section>
 
-      {/* SECTION 1: MISSION & CHARTER */}
       <section id="mission" className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
+            <AnimatedSection animation="slide-left">
               <h2 className="font-serif text-3xl md:text-4xl text-white mb-6">
                 Mission & Charter
               </h2>
@@ -235,56 +115,43 @@ export default function FoundationOverviewPage() {
                   </svg>
                 </Link>
               </div>
-            </motion.div>
+            </AnimatedSection>
 
-            {/* Right: Institutional Statement Block */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-10 relative">
-                {/* Gold Corner Accents */}
-                <div className="absolute top-0 left-0 w-24 h-24 border-t border-l border-[#C5A85C]/30 rounded-tl-2xl" />
-                <div className="absolute bottom-0 right-0 w-24 h-24 border-b border-r border-[#C5A85C]/30 rounded-br-2xl" />
+            <AnimatedSection animation="slide-right" delay={0.2}>
+              <div className="relative">
+                <div className="bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-10 relative">
+                  <div className="absolute top-0 left-0 w-24 h-24 border-t border-l border-[#C5A85C]/30 rounded-tl-2xl" />
+                  <div className="absolute bottom-0 right-0 w-24 h-24 border-b border-r border-[#C5A85C]/30 rounded-br-2xl" />
 
-                <div className="relative z-10">
-                  <div className="text-[#C5A85C] text-sm uppercase tracking-widest mb-4">
-                    Institutional Statement
-                  </div>
+                  <div className="relative z-10">
+                    <div className="text-[#C5A85C] text-sm uppercase tracking-widest mb-4">
+                      Institutional Statement
+                    </div>
 
-                  <blockquote className="font-serif text-xl text-white leading-relaxed mb-8">
-                    "Continuity is preserved not through proclamation, but through
-                    disciplined documentation and responsible participation."
-                  </blockquote>
+                    <blockquote className="font-serif text-xl text-white leading-relaxed mb-8">
+                      "Continuity is preserved not through proclamation, but through
+                      disciplined documentation and responsible participation."
+                    </blockquote>
 
-                  <div className="flex items-center gap-4">
-                    <div className="gold-divider hidden sm:block " />
-                    <span className="text-[#C5A85C] uppercase  tracking-widest text-sm">
-                      Founding Principle
-                    </span>
+                    <div className="flex items-center gap-4">
+                      <div className="gold-divider hidden sm:block " />
+                      <span className="text-[#C5A85C] uppercase tracking-widest text-sm">
+                        Founding Principle
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* SECTION 2: INSTITUTIONAL PILLARS */}
       <section className="section-spacing bg-[#151A30] relative overflow-hidden">
         <div className="absolute inset-0 pattern-subtle opacity-20" />
 
         <div className="container-premium relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="sm:text-center mb-16"
-          >
+          <AnimatedSection className="sm:text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
               Institutional Pillars
             </h2>
@@ -293,7 +160,7 @@ export default function FoundationOverviewPage() {
               Five foundational areas of work that guide the Foundation's mission
               and activities.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <PillarCard
@@ -365,16 +232,9 @@ export default function FoundationOverviewPage() {
         </div>
       </section>
 
-      {/* SECTION 3: IMPACT DASHBOARD */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="sm:text-center mb-16"
-          >
+          <AnimatedSection className="sm:text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
               Impact Dashboard
             </h2>
@@ -382,38 +242,17 @@ export default function FoundationOverviewPage() {
             <p className="text-[#AAB3CF] max-w-2xl mx-auto leading-relaxed">
               Quantified overview of the Foundation's reach and activities.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard
-              value={50}
-              label="Years Active"
-              suffix="+"
-              delay={0.1}
-            />
-            <StatCard
-              value={25}
-              label="Projects Initiated"
-              suffix="+"
-              delay={0.2}
-            />
-            <StatCard
-              value={150}
-              label="Research Outputs"
-              suffix="+"
-              delay={0.3}
-            />
-            <StatCard
-              value={30}
-              label="Countries Reached"
-              suffix="+"
-              delay={0.4}
-            />
+            <StatCard value={50} label="Years Active" suffix="+" delay={0.1} />
+            <StatCard value={25} label="Projects Initiated" suffix="+" delay={0.2} />
+            <StatCard value={150} label="Research Outputs" suffix="+" delay={0.3} />
+            <StatCard value={30} label="Countries Reached" suffix="+" delay={0.4} />
           </div>
         </div>
       </section>
 
-      {/* Navigation CTA */}
       <section className="py-16 bg-[#151A30] border-t border-[#C5A85C]/10">
         <div className="container-premium">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">

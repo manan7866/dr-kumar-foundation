@@ -6,7 +6,7 @@
     "seed": "node --import tsx prisma/seed.ts"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -25,6 +25,8 @@
     "cloudinary": "^2.9.0",
     "framer-motion": "^12.34.3",
     "jsonwebtoken": "^9.0.3",
+    "motion-dom": "^12.38.0",
+    "motion-utils": "^12.36.0",
     "next": "16.1.6",
     "pg": "^8.19.0",
     "prisma": "^7.5.0",

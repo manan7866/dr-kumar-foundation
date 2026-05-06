@@ -1,22 +1,12 @@
-"use client";
-
-import { motion } from "framer-motion";
+import AnimatedSection from "./AnimatedSection";
 
 export default function EcosystemConnection() {
   return (
     <section className="section-spacing bg-[#151A30] relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#1C2340] via-[#1C2340]/95 to-[#151A30]" />
 
       <div className="container-premium relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="sm:text-center mb-16"
-        >
+        <AnimatedSection className="sm:text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
             Institutional Ecosystem
           </h2>
@@ -25,18 +15,10 @@ export default function EcosystemConnection() {
             The Foundation operates within a network of complementary initiatives,
             each contributing to the preservation and dissemination of spiritual wisdom.
           </p>
-        </motion.div>
+        </AnimatedSection>
 
-        {/* Connection Diagram */}
         <div className="max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            {/* Central Node - DKF */}
+          <AnimatedSection className="relative">
             <div className="relative z-10">
               <div className="bg-[#232B52] border border-[#C5A85C]/30 rounded-2xl p-8 text-center glow-gold">
                 <div className="w-16 h-16 border border-[#C5A85C]/40 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -51,10 +33,8 @@ export default function EcosystemConnection() {
               </div>
             </div>
 
-            {/* Connecting Lines */}
             <div className="absolute top-full left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-[#C5A85C]/50 to-[#C5A85C]/20" />
 
-            {/* Second Node - Sufi Science Center */}
             <div className="relative z-10 mt-16">
               <div className="bg-[#232B52]/80 border border-[#C5A85C]/20 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 border border-[#C5A85C]/30 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -71,10 +51,8 @@ export default function EcosystemConnection() {
               </div>
             </div>
 
-            {/* Connecting Lines */}
             <div className="absolute top-[calc(100%+4rem)] left-1/2 -translate-x-1/2 w-[1px] h-16 bg-gradient-to-b from-[#C5A85C]/30 to-[#C5A85C]/10" />
 
-            {/* Third Node - SufiPulse Media */}
             <div className="relative z-10 mt-16">
               <div className="bg-[#232B52]/60 border border-[#C5A85C]/15 rounded-2xl p-6 text-center">
                 <div className="w-12 h-12 border border-[#C5A85C]/25 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -91,23 +69,16 @@ export default function EcosystemConnection() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </AnimatedSection>
 
-          {/* Explanatory Text */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-16 sm:text-center"
-          >
+          <AnimatedSection className="mt-16 sm:text-center" delay={0.4}>
             <p className="text-[#AAB3CF] leading-relaxed max-w-2xl mx-auto">
               This interconnected structure allows for specialized focus while
               maintaining alignment with core principles. Each entity operates
               with autonomy while contributing to the shared mission of preserving
               and disseminating spiritual wisdom through structured engagement.
             </p>
-          </motion.div>
+          </AnimatedSection>
         </div>
       </div>
     </section>

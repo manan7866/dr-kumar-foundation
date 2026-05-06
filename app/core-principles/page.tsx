@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import PremiumHeader from "../components/PremiumHeader";
 import PremiumFooter from "../components/PremiumFooter";
@@ -8,6 +5,7 @@ import TeachingHero from "../components/TeachingHero";
 import TeachingCard from "../components/TeachingCard";
 import QuoteBlock from "../components/QuoteBlock";
 import Interconnection from "../components/Interconnection";
+import AnimatedSection from "../components/AnimatedSection";
 
 export default function CorePrinciplesPage() {
   const principles = [
@@ -78,7 +76,6 @@ export default function CorePrinciplesPage() {
     <div className="bg-[#1C2340] min-h-screen">
       <PremiumHeader />
 
-      {/* Hero Section */}
       <TeachingHero
         title={
           <>
@@ -92,18 +89,11 @@ export default function CorePrinciplesPage() {
         ctaText="Explore Principles"
       />
 
-      {/* Principles Grid Section */}
       <section id="principles" className="section-spacing bg-[#151A30] relative overflow-hidden">
         <div className="absolute inset-0 pattern-subtle opacity-20" />
 
         <div className="container-premium relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="sm:text-center mb-16"
-          >
+          <AnimatedSection className="sm:text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
               Core Principles
             </h2>
@@ -113,7 +103,7 @@ export default function CorePrinciplesPage() {
               beliefs to adopt but qualities to be understood through direct
               observation and sustained practice.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {principles.map((principle, index) => (
@@ -130,16 +120,9 @@ export default function CorePrinciplesPage() {
         </div>
       </section>
 
-      {/* Framework Diagram Section */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="sm:text-center mb-16"
-          >
+          <AnimatedSection className="sm:text-center mb-16">
             <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
               The Path of Development
             </h2>
@@ -148,7 +131,7 @@ export default function CorePrinciplesPage() {
               These principles unfold in sequence, each building upon the
               foundation of the previous.
             </p>
-          </motion.div>
+          </AnimatedSection>
 
           <div className="max-w-2xl mx-auto">
             {[
@@ -177,12 +160,10 @@ export default function CorePrinciplesPage() {
                 description: "Awareness expressed through empathy and respect for the shared human condition.",
               },
             ].map((step, index, arr) => (
-              <motion.div
+              <AnimatedSection
                 key={step.title}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.1 * (index + 1) }}
+                animation="slide-left"
+                delay={0.1 * (index + 1)}
                 className="relative"
               >
                 <div className="bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-6 mb-4">
@@ -194,13 +175,12 @@ export default function CorePrinciplesPage() {
                     <div className="w-[1px] h-10 bg-gradient-to-b from-[#C5A85C]/50 to-[#C5A85C]/20" />
                   </div>
                 )}
-              </motion.div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Quote Section */}
       <section className="section-spacing bg-[#151A30] relative">
         <div className="container-premium">
           <QuoteBlock
@@ -210,16 +190,10 @@ export default function CorePrinciplesPage() {
         </div>
       </section>
 
-      {/* Practical Application Section */}
       <section className="section-spacing bg-[#1C2340] relative">
         <div className="container-premium">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
+            <AnimatedSection animation="slide-left">
               <h2 className="font-serif text-3xl text-white mb-6">
                 Practical Application
               </h2>
@@ -246,14 +220,9 @@ export default function CorePrinciplesPage() {
                   into community engagement.
                 </p>
               </div>
-            </motion.div>
+            </AnimatedSection>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
+            <AnimatedSection animation="slide-right" delay={0.2}>
               <div className="bg-[#232B52] border border-[#C5A85C]/20 rounded-2xl p-8 relative">
                 <div className="absolute top-0 left-0 w-20 h-20 border-t border-l border-[#C5A85C]/30 rounded-tl-2xl" />
                 <div className="absolute bottom-0 right-0 w-20 h-20 border-b border-r border-[#C5A85C]/30 rounded-br-2xl" />
@@ -278,12 +247,11 @@ export default function CorePrinciplesPage() {
                   ))}
                 </ul>
               </div>
-            </motion.div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* Interconnection Section */}
       <Interconnection
         principles={[
           {
@@ -310,7 +278,6 @@ export default function CorePrinciplesPage() {
         ]}
       />
 
-      {/* Navigation CTA */}
       <section className="py-16 bg-[#151A30] border-t border-[#C5A85C]/10">
         <div className="container-premium">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
