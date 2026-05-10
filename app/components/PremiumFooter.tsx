@@ -265,7 +265,7 @@ export default function PremiumFooter() {
 
             {/* Purple Soul Collective */}
             <a
-              href="https://purplesoul.shop/"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="group  border border-[#C5A85C]/15 rounded-xl p-6 hover:border-[#C5A85C]/40 transition-all duration-300 hover:-translate-y-1"

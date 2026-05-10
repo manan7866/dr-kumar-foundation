@@ -394,14 +394,15 @@ export default function SufiEcommercePage() {
         ]}
         primaryButton={{
           text: "Visit Purple Soul Collective",
-          href: "https://purplesoul.shop/",
+          href: "#",
         }}
         secondaryButton={{
           text: "Explore Ethical Commerce",
-          href: "https://purplesoul.shop/",
+          href: "#",
         }}
         delay={0.2}
       />
+      {/* https://purplesoul.shop/ */}
 
       {/* Call to Engage */}
       <section className="py-24 bg-[#151A30] relative">
