@@ -394,11 +394,11 @@ export default function SufiEcommercePage() {
         ]}
         primaryButton={{
           text: "Visit Purple Soul Collective",
-          href: "https://purplesoul.com",
+          href: "https://purplesoul.shop/",
         }}
         secondaryButton={{
           text: "Explore Ethical Commerce",
-          href: "https://purplesoul.com",
+          href: "https://purplesoul.shop/",
         }}
         delay={0.2}
       />
