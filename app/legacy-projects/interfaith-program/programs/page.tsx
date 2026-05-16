@@ -61,6 +61,12 @@ export default function InterfaithProgramsPage() {
             <div className="gold-divider long sm:mx-auto mb-8" />
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/engage/interfaith-program/collaboration" className="px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1">Collaborate</Link>
+              <Link
+                href="https://ifpb.sufisciencecenter.info"
+                className="px-8 py-4 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
+              >
+                View Site
+              </Link>
               <Link href="/legacy-projects/interfaith-program" className="px-8 py-4 border border-white/20 text-[#F1F3F8] font-medium rounded-lg transition-all duration-300 hover:bg-white/5 hover:border-white/40">Back to Interfaith</Link>
             </div>
           </motion.div>
