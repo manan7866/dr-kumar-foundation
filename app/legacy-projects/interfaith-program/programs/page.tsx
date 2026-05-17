@@ -65,7 +65,7 @@ export default function InterfaithProgramsPage() {
                 href="https://ifpb.sufisciencecenter.info"
                 className="px-8 py-4 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
               >
-                View Site
+                View website
               </Link>
               <Link href="/legacy-projects/interfaith-program" className="px-8 py-4 border border-white/20 text-[#F1F3F8] font-medium rounded-lg transition-all duration-300 hover:bg-white/5 hover:border-white/40">Back to Interfaith</Link>
             </div>

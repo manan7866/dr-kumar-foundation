@@ -490,6 +490,12 @@ export default function InterfaithProgramPage() {
                 >
                   Explore Dialogue Programs
                 </Link>
+                <Link
+                                href="https://ifpb.sufisciencecenter.info"
+                                className="px-8 py-4 border border-white/40 text-white font-medium rounded-lg transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-white"
+                              >
+                                View Website
+                </Link>
               </div>
             </motion.div>
 

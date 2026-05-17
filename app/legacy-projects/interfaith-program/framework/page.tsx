@@ -97,6 +97,12 @@ export default function InterfaithFrameworkPage() {
             <h2 className="font-serif text-3xl text-white mb-4">Explore Interfaith Programs</h2>
             <div className="gold-divider long sm:mx-auto mb-8" />
             <Link href="/legacy-projects/interfaith-program/programs" className="inline-flex px-8 py-4 bg-[#C5A85C] text-[#1C2340] font-medium rounded-lg transition-all duration-300 hover:shadow-[0_10px_40px_rgba(197,168,92,0.3)] hover:-translate-y-1">View Programs</Link>
+            <Link
+                            href="https://ifpb.sufisciencecenter.info"
+                            className="px-8 py-5 border border-[#C5A85C]/40 text-[#C5A85C] font-medium rounded-lg ml-2 transition-all duration-300 hover:bg-[#C5A85C]/10 hover:border-[#C5A85C]"
+                          >
+                            View website
+                          </Link>
           </motion.div>
         </div>
       </section>
